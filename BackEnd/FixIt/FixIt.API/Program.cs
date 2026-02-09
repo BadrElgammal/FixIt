@@ -1,3 +1,6 @@
+using FixIt.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace FixIt.API
 {
@@ -12,6 +15,9 @@ namespace FixIt.API
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<FIXITDbContext>(options =>
+                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 

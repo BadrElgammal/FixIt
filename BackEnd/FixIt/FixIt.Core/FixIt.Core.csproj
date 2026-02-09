@@ -15,4 +15,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FixIt.Domain\FixIt.Domain.csproj" />
+    <ProjectReference Include="..\FixIt.Infrastructure\FixIt.Infrastructure.csproj" />
+    <ProjectReference Include="..\FixIt.Service\FixIt.Service.csproj" />
+  </ItemGroup>
+
 </Project>

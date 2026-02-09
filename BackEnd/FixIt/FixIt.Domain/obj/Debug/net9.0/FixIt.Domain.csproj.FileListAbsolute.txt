@@ -1,0 +1,15 @@
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\bin\Debug\net9.0\FixIt.Domain.deps.json
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\bin\Debug\net9.0\FixIt.Domain.runtimeconfig.json
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\bin\Debug\net9.0\FixIt.Domain.dll
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\bin\Debug\net9.0\FixIt.Domain.pdb
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.csproj.AssemblyReference.cache
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.AssemblyInfoInputs.cache
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.AssemblyInfo.cs
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.sourcelink.json
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.dll
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\refint\FixIt.Domain.dll
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.pdb
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\FixIt.Domain.genruntimeconfig.cache
+C:\Users\Eng-Badr Elgammal\Desktop\FixIt\BackEnd\FixIt\FixIt.Domain\obj\Debug\net9.0\ref\FixIt.Domain.dll

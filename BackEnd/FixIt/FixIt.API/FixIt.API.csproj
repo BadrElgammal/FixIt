@@ -20,4 +20,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FixIt.Core\FixIt.Core.csproj" />
+  </ItemGroup>
+
 </Project>
