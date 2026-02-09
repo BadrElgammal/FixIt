@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FixIt.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e202ca2bfdad9f7913693ff3d0c4447bb99de2d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d472a825a2587d52ca5edf1ca68578c9c5fcf65")]
 [assembly: System.Reflection.AssemblyProductAttribute("FixIt.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FixIt.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
