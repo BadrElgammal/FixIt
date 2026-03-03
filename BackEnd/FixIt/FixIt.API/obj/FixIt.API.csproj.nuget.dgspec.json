@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj": {}
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj": {
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj",
+        "projectUniqueName": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj",
         "projectName": "FixIt.API",
-        "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj",
-        "packagesPath": "C:\\Users\\Eng-Badr Elgammal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\obj\\",
+        "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\FixIt.API.csproj",
+        "packagesPath": "C:\\Users\\Softlaptop\\.nuget\\packages\\",
+        "outputPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Eng-Badr Elgammal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Softlaptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj"
               }
             }
           }
@@ -92,24 +92,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj": {
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj",
+        "projectUniqueName": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj",
         "projectName": "FixIt.Core",
-        "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj",
-        "packagesPath": "C:\\Users\\Eng-Badr Elgammal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\obj\\",
+        "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\FixIt.Core.csproj",
+        "packagesPath": "C:\\Users\\Softlaptop\\.nuget\\packages\\",
+        "outputPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Eng-Badr Elgammal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Softlaptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -124,14 +124,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
               },
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj"
               },
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj"
               }
             }
           }
@@ -183,24 +183,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj",
+        "projectUniqueName": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj",
         "projectName": "FixIt.Domain",
-        "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj",
-        "packagesPath": "C:\\Users\\Eng-Badr Elgammal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\obj\\",
+        "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj",
+        "packagesPath": "C:\\Users\\Softlaptop\\.nuget\\packages\\",
+        "outputPath": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Eng-Badr Elgammal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Softlaptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -264,24 +264,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
+        "projectUniqueName": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
         "projectName": "FixIt.Infrastructure",
-        "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Eng-Badr Elgammal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\obj\\",
+        "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Softlaptop\\.nuget\\packages\\",
+        "outputPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Eng-Badr Elgammal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Softlaptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -296,8 +296,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
               }
             }
           }
@@ -353,24 +353,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj": {
+    "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj",
+        "projectUniqueName": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj",
         "projectName": "FixIt.Service",
-        "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj",
-        "packagesPath": "C:\\Users\\Eng-Badr Elgammal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\obj\\",
+        "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj",
+        "packagesPath": "C:\\Users\\Softlaptop\\.nuget\\packages\\",
+        "outputPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Eng-Badr Elgammal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Softlaptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -385,11 +385,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Domain\\FixIt.Domain.csproj"
               },
-              "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj"
+              "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj": {
+                "projectPath": "D:\\FixIt Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj"
               }
             }
           }
@@ -441,7 +441,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

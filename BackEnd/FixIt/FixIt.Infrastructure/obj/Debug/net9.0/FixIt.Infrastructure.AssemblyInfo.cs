@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FixIt.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d472a825a2587d52ca5edf1ca68578c9c5fcf65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdbe4bf35c61620cf913ac9c81e0588ab3d04165")]
 [assembly: System.Reflection.AssemblyProductAttribute("FixIt.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FixIt.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

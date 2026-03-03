@@ -10,6 +10,8 @@ namespace FixIt.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            #region Service Container
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -18,8 +20,16 @@ namespace FixIt.API
 
             builder.Services.AddDbContext<FIXITDbContext>(options =>
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddDbContext<FIXITDbContext>();
+
+
+
+            #endregion
 
             var app = builder.Build();
+
+            #region Request Piplines
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -32,7 +42,8 @@ namespace FixIt.API
 
             app.MapControllers();
 
-            app.Run();
+            app.Run(); 
+            #endregion
         }
     }
 }
