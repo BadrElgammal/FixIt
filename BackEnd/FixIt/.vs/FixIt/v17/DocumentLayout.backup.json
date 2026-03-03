@@ -1,18 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\",
+  "WorkspaceRootPath": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|d:\\fixit project\\fixit\\backend\\fixit\\fixit.infrastructure\\infrabases\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\infrabases\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|d:\\fixit project\\fixit\\backend\\fixit\\fixit.infrastructure\\infrabases\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\infrabases\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5AAC06E7-BE8C-4DB9-9281-EDF7DA9B885A}|FixIt.API\\FixIt.API.csproj|d:\\fixit project\\fixit\\backend\\fixit\\fixit.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5AAC06E7-BE8C-4DB9-9281-EDF7DA9B885A}|FixIt.API\\FixIt.API.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5AAC06E7-BE8C-4DB9-9281-EDF7DA9B885A}|FixIt.API\\FixIt.API.csproj|solutionrelative:fixit.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.service\\modelservicedependencies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|solutionrelative:fixit.service\\modelservicedependencies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.infrastructure\\modelinfrastructuredependencies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\modelinfrastructuredependencies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.service\\services\\genericservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|solutionrelative:fixit.service\\services\\genericservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.service\\abstracts\\iservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|solutionrelative:fixit.service\\abstracts\\iservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.infrastructure\\abstracts\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\abstracts\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.infrastructure\\fixit.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{35B21455-A59B-4C2E-98A2-59FE872183CA}|FixIt.Infrastructure\\FixIt.Infrastructure.csproj|solutionrelative:fixit.infrastructure\\fixit.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|c:\\users\\eng-badr elgammal\\desktop\\fixit\\backend\\fixit\\fixit.service\\fixit.service.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{32A5BE42-6496-4948-B948-019B63CD25E9}|FixIt.Service\\FixIt.Service.csproj|solutionrelative:fixit.service\\fixit.service.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,19 +46,59 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModelServiceDependencies.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\ModelServiceDependencies.cs",
+              "RelativeDocumentMoniker": "FixIt.Service\\ModelServiceDependencies.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\ModelServiceDependencies.cs*",
+              "RelativeToolTip": "FixIt.Service\\ModelServiceDependencies.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T20:05:45.718Z",
+              "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModelInfrastructureDependencies.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\ModelInfrastructureDependencies.cs",
+              "RelativeDocumentMoniker": "FixIt.Infrastructure\\ModelInfrastructureDependencies.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\ModelInfrastructureDependencies.cs*",
+              "RelativeToolTip": "FixIt.Infrastructure\\ModelInfrastructureDependencies.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T19:59:03.33Z",
+              "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GenericService.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\Services\\GenericService.cs",
+              "RelativeDocumentMoniker": "FixIt.Service\\Services\\GenericService.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\Services\\GenericService.cs*",
+              "RelativeToolTip": "FixIt.Service\\Services\\GenericService.cs*",
+              "ViewState": "AgIAACUAAABgzczMzMwuwBcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T19:16:41.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IService.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\Abstracts\\IService.cs",
+              "RelativeDocumentMoniker": "FixIt.Service\\Abstracts\\IService.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\Abstracts\\IService.cs*",
+              "RelativeToolTip": "FixIt.Service\\Abstracts\\IService.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T19:16:04.332Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -42,25 +106,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\Program.cs",
-              "RelativeDocumentMoniker": "FixIt.API\\Program.cs",
-              "ToolTip": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.API\\Program.cs",
-              "RelativeToolTip": "FixIt.API\\Program.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAwAAAAMAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "FixIt.Infrastructure\\Repositories\\GenericRepository.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\Repositories\\GenericRepository.cs*",
+              "RelativeToolTip": "FixIt.Infrastructure\\Repositories\\GenericRepository.cs*",
+              "ViewState": "AgIAABQAAADgmZmZmZklwBwAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-03T14:32:20.46Z"
+              "WhenOpened": "2026-03-03T14:01:18.976Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "IGenericRepository.cs",
-              "DocumentMoniker": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\InfraBases\\IGenericRepository.cs",
-              "RelativeDocumentMoniker": "FixIt.Infrastructure\\InfraBases\\IGenericRepository.cs",
-              "ToolTip": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\InfraBases\\IGenericRepository.cs",
-              "RelativeToolTip": "FixIt.Infrastructure\\InfraBases\\IGenericRepository.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\Abstracts\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "FixIt.Infrastructure\\Abstracts\\IGenericRepository.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\Abstracts\\IGenericRepository.cs*",
+              "RelativeToolTip": "FixIt.Infrastructure\\Abstracts\\IGenericRepository.cs*",
+              "ViewState": "AgIAAAIAAADgZWZmZmYkwAwAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-03T14:01:30.804Z",
               "EditorCaption": ""
@@ -68,14 +133,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GenericRepository.cs",
-              "DocumentMoniker": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\InfraBases\\GenericRepository.cs",
-              "RelativeDocumentMoniker": "FixIt.Infrastructure\\InfraBases\\GenericRepository.cs",
-              "ToolTip": "D:\\Fixit Project\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\InfraBases\\GenericRepository.cs",
-              "RelativeToolTip": "FixIt.Infrastructure\\InfraBases\\GenericRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAkAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\Program.cs",
+              "RelativeDocumentMoniker": "FixIt.API\\Program.cs",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.API\\Program.cs*",
+              "RelativeToolTip": "FixIt.API\\Program.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-03T14:01:18.976Z",
+              "WhenOpened": "2026-03-03T14:32:20.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FixIt.Infrastructure",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "FixIt.Infrastructure\\FixIt.Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Infrastructure\\FixIt.Infrastructure.csproj*",
+              "RelativeToolTip": "FixIt.Infrastructure\\FixIt.Infrastructure.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-03T19:26:28.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FixIt.Service",
+              "DocumentMoniker": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj",
+              "RelativeDocumentMoniker": "FixIt.Service\\FixIt.Service.csproj",
+              "ToolTip": "C:\\Users\\Eng-Badr Elgammal\\Desktop\\FixIt\\BackEnd\\FixIt\\FixIt.Service\\FixIt.Service.csproj*",
+              "RelativeToolTip": "FixIt.Service\\FixIt.Service.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-03T19:14:52.818Z",
               "EditorCaption": ""
             }
           ]
