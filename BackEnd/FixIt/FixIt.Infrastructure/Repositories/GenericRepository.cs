@@ -1,4 +1,5 @@
-﻿using FixIt.Infrastructure.Context;
+﻿using FixIt.Infrastructure.Abstracts;
+using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Infrastructure.InfraBases
+namespace FixIt.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -25,7 +26,7 @@ namespace FixIt.Infrastructure.InfraBases
             return _db.Set<T>().ToList();
         }
 
-        public T GetById(int id)
+        public T GetById(object id)
         {
             return _db.Set<T>().Find(id);
         }

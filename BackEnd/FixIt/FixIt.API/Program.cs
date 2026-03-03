@@ -1,5 +1,12 @@
+using FixIt.Infrastructure;
+using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
+using FixIt.Infrastructure.Repositories;
+using FixIt.Service;
+using FixIt.Service.Abstracts;
+using FixIt.Service.Services;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using System;
 
 namespace FixIt.API
@@ -21,6 +28,12 @@ namespace FixIt.API
             builder.Services.AddDbContext<FIXITDbContext>(options =>
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddDbContext<FIXITDbContext>();
+
+
+
+            // Register repositories and business services
+            builder.Services.AddInfrastructureDependencies();
+            builder.Services.AddServiceDependencies();
 
 
 
