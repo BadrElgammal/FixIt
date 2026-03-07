@@ -20,7 +20,10 @@ namespace FixIt.Infrastructure.Repositories
             _db = db;
         }
 
-
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        {
+            return _db.Set<T>().Where(predicate).ToList();
+        }
         public List<T> GetAll()
         {
             return _db.Set<T>().ToList();

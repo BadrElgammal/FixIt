@@ -11,13 +11,13 @@ namespace FixIt.Domain.Entities
     public class WorkerProfile
     {
         [Key]
-        public int WorkerId { get; set; }
-        public string JobTitle { get; set; }
-        public string Description { get; set; }
-        public decimal ServiceBalance { get; set; }
-        public bool AvailabilityStatus { get; set; }
-        public double RatingAverage { get; set; }
-        public string Area { get; set; }
+        public Guid WorkerId { get; set; } = Guid.NewGuid();
+        public string? JobTitle { get; set; }
+        public string? Description { get; set; }
+        public decimal? ServiceBalance { get; set; }
+        public bool AvailabilityStatus { get; set; } = false;
+        public double? RatingAverage { get; set; }
+        public string? Area { get; set; }
 
 
         [ForeignKey("Category")]
@@ -25,7 +25,7 @@ namespace FixIt.Domain.Entities
         public Category? Category { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
 
         public ICollection<Portfolio>? Portfolios { get; set; } = new List<Portfolio>();

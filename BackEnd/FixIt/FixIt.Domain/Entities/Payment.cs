@@ -11,7 +11,7 @@ namespace FixIt.Domain.Entities
     public class Payment
     {
         [Key]
-        public int PaymentId { get; set; }
+        public Guid PaymentId { get; set; } = Guid.NewGuid();
         public decimal Amount { get; set; }
         public string Status { get; set; }
         public string Gateway { get; set; }
@@ -20,7 +20,7 @@ namespace FixIt.Domain.Entities
         public DateTime? ReleasedAt { get; set; }
 
         [ForeignKey("Wallet")]
-        public int WalletId { get; set; }
+        public Guid WalletId { get; set; }
         public Wallet Wallet { get; set; }
     }
 }

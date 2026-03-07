@@ -11,7 +11,7 @@ namespace FixIt.Domain.Entities
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; } = Guid.NewGuid();
         [Required(ErrorMessage = "الاسم مطلوب")]
         [StringLength(100)]
         [MinLength(3)]
@@ -33,9 +33,9 @@ namespace FixIt.Domain.Entities
         public DateTime? UpdatedAt { get; set; }
 
 
-        [ForeignKey("Wallet")]
-        public int WalletId { get; set; }
-        public Wallet Wallet { get; set; }
+        //[ForeignKey("Wallet")]
+        //public int WalletId { get; set; }
+        //public Wallet Wallet { get; set; }
 
         public ICollection<ServiceRequest>? SentRequests { get; set; } = new List<ServiceRequest>();
         public ICollection<Review>? Reviews { get; set; } = new List<Review>();
