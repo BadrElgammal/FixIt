@@ -11,14 +11,14 @@ namespace FixIt.Domain.Entities
     public class Wallet
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public decimal Balance { get; set; }
         public string OwnerType { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
 
         public ICollection<Transaction>? FromTransactions { get; set; } = new List<Transaction>();

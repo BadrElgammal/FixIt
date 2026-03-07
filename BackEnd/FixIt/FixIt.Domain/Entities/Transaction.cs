@@ -11,20 +11,20 @@ namespace FixIt.Domain.Entities
     public class Transaction
     {
         [Key]
-        public int TransactionId { get; set; }
+        public Guid TransactionId { get; set; } = Guid.NewGuid();
         public decimal Amount { get; set; }
         public string TransactionType { get; set; }
         public string RefType { get; set; }
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey("FromWallet")]
-        public int FromWalletId { get; set; }
+        public Guid FromWalletId { get; set; }
         public Wallet FromWallet { get; set; }
         [ForeignKey("ToWallet")]
-        public int ToWalletId { get; set; }
+        public Guid ToWalletId { get; set; }
         public Wallet ToWallet { get; set; }
         [ForeignKey("Request")]
-        public int? RequestId { get; set; }
+        public  Guid? RequestId { get; set; }
         public ServiceRequest? Request { get; set; }
     }
 }

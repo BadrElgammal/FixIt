@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(FIXITDbContext))]
-    [Migration("20260209134314_hostDatabase")]
-    partial class hostDatabase
+    [Migration("20260307075933_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,8 +67,8 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MessageId");
 
@@ -87,8 +87,8 @@ namespace FixIt.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -100,8 +100,8 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<DateTime?>("LastMessageAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WorkerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RoomId");
 
@@ -120,14 +120,14 @@ namespace FixIt.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WorkerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -140,11 +140,9 @@ namespace FixIt.Infrastructure.Migrations
 
             modelBuilder.Entity("FixIt.Domain.Entities.Payment", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<Guid>("PaymentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -167,8 +165,8 @@ namespace FixIt.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WalletId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PaymentId");
 
@@ -200,8 +198,8 @@ namespace FixIt.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WorkerProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WorkerProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PortfolioId");
 
@@ -228,14 +226,14 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ReviewedWorkerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ReviewedWorkerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ReviewerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ReviewerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReviewId");
 
@@ -251,14 +249,12 @@ namespace FixIt.Infrastructure.Migrations
 
             modelBuilder.Entity("FixIt.Domain.Entities.ServiceRequest", b =>
                 {
-                    b.Property<int>("RequestId")
+                    b.Property<Guid>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CompleteDate")
                         .HasColumnType("datetime2");
@@ -284,8 +280,8 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("WorkerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RequestId");
 
@@ -298,11 +294,9 @@ namespace FixIt.Infrastructure.Migrations
 
             modelBuilder.Entity("FixIt.Domain.Entities.Transaction", b =>
                 {
-                    b.Property<int>("TransactionId")
+                    b.Property<Guid>("TransactionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -310,18 +304,18 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FromWalletId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FromWalletId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RefType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RequestId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ToWalletId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ToWalletId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
@@ -340,11 +334,9 @@ namespace FixIt.Infrastructure.Migrations
 
             modelBuilder.Entity("FixIt.Domain.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -386,9 +378,6 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WalletId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("Email")
@@ -397,19 +386,14 @@ namespace FixIt.Infrastructure.Migrations
                     b.HasIndex("Phone")
                         .IsUnique();
 
-                    b.HasIndex("WalletId")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FixIt.Domain.Entities.Wallet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
@@ -424,21 +408,21 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("FixIt.Domain.Entities.WithdrawRequest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -457,8 +441,8 @@ namespace FixIt.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WalletId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -469,14 +453,11 @@ namespace FixIt.Infrastructure.Migrations
 
             modelBuilder.Entity("FixIt.Domain.Entities.WorkerProfile", b =>
                 {
-                    b.Property<int>("WorkerId")
+                    b.Property<Guid>("WorkerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkerId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Area")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("AvailabilityStatus")
@@ -486,21 +467,19 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("RatingAverage")
+                    b.Property<double?>("RatingAverage")
                         .HasColumnType("float");
 
-                    b.Property<decimal>("ServiceBalance")
+                    b.Property<decimal?>("ServiceBalance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("WorkerId");
 
@@ -661,15 +640,15 @@ namespace FixIt.Infrastructure.Migrations
                     b.Navigation("ToWallet");
                 });
 
-            modelBuilder.Entity("FixIt.Domain.Entities.User", b =>
+            modelBuilder.Entity("FixIt.Domain.Entities.Wallet", b =>
                 {
-                    b.HasOne("FixIt.Domain.Entities.Wallet", "Wallet")
-                        .WithOne("User")
-                        .HasForeignKey("FixIt.Domain.Entities.User", "WalletId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("FixIt.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Wallet");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FixIt.Domain.Entities.WithdrawRequest", b =>
@@ -739,9 +718,6 @@ namespace FixIt.Infrastructure.Migrations
                     b.Navigation("Payments");
 
                     b.Navigation("ToTransactions");
-
-                    b.Navigation("User")
-                        .IsRequired();
 
                     b.Navigation("WithdrawRequests");
                 });

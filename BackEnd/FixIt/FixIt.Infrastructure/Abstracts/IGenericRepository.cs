@@ -16,6 +16,6 @@ namespace FixIt.Infrastructure.Abstracts
         public void Delete(T entity);
         public void SaveToDB();
 
-
+        IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
     }
 }

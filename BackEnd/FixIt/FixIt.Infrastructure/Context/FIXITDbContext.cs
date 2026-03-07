@@ -110,11 +110,6 @@ namespace FixIt.Infrastructure.Context
 
 
 
-            modelBuilder.Entity<User>()
-    .HasOne(u => u.Wallet)
-    .WithOne(w => w.User)
-    .HasForeignKey<User>(u => u.WalletId)
-    .OnDelete(DeleteBehavior.Restrict);
 
         }
 

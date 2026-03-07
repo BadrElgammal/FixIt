@@ -11,7 +11,7 @@ namespace FixIt.Domain.Entities
     public class WithdrawRequest
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public decimal Amount { get; set; }
         public string Method { get; set; }
         public string Status { get; set; }
@@ -19,7 +19,7 @@ namespace FixIt.Domain.Entities
         public DateTime? PaidAt { get; set; }
 
         [ForeignKey("Wallet")]
-        public int WalletId { get; set; }
+        public Guid WalletId { get; set; }
         public Wallet Wallet { get; set; }
     }
 }

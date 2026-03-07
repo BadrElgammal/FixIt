@@ -17,13 +17,13 @@ namespace FixIt.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey("Reviewer")]
-        public int ReviewerId { get; set; }
+        public Guid ReviewerId { get; set; }
         public User Reviewer { get; set; }
         [ForeignKey("ReviewedWorker")]
-        public int ReviewedWorkerId { get; set; }
+        public Guid ReviewedWorkerId { get; set; }
         public WorkerProfile ReviewedWorker { get; set; }
         [ForeignKey("Request")]
-        public int RequestId { get; set; }
+        public Guid RequestId { get; set; }
         public ServiceRequest Request { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace FixIt.Domain.Entities
     public class ServiceRequest
     {
         [Key]
-        public int RequestId { get; set; }
+        public Guid RequestId { get; set; } = Guid.NewGuid();
         public string ServiceTitle { get; set; }
         public string ServiceDescription { get; set; }
         public decimal TotalPrice { get; set; }
@@ -21,10 +21,10 @@ namespace FixIt.Domain.Entities
         public DateTime? CompleteDate { get; set; }
 
         [ForeignKey("Client")]
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
         public User Client { get; set; }
         [ForeignKey("Worker")]
-        public int WorkerId { get; set; }
+        public Guid WorkerId { get; set; }
         public  WorkerProfile Worker { get; set; }
 
         public Review? Review { get; set; }

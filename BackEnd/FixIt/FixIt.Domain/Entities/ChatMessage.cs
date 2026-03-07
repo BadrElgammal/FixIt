@@ -20,7 +20,7 @@ namespace FixIt.Domain.Entities
         public int RoomId { get; set; }
         public ChatRoom Room { get; set; }
         [ForeignKey("sender")]
-        public int SenderId { get; set; }
+        public Guid SenderId { get; set; }
         public User Sender { get; set; }
     }
 }

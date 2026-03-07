@@ -15,11 +15,11 @@ namespace FixIt.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [ForeignKey("Client")]
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
         public virtual User Client { get; set; }
 
         [ForeignKey("Worker")]
-        public int WorkerId { get; set; }
+        public Guid WorkerId { get; set; }
         public virtual WorkerProfile Worker { get; set; }
     }
 }

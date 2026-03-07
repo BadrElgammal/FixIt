@@ -15,10 +15,10 @@ namespace FixIt.Domain.Entities
         public string LastMessage { get; set; }
         public DateTime? LastMessageAt { get; set; }
 
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
         public User Client { get; set; }
 
-        public int WorkerId { get; set; }
+        public Guid WorkerId { get; set; }
         public User Worker { get; set; }
 
         public ICollection<ChatMessage>? Messages { get; set; } = new List<ChatMessage>();

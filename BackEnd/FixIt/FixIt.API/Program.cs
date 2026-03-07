@@ -5,9 +5,15 @@ using FixIt.Infrastructure.Repositories;
 using FixIt.Service;
 using FixIt.Service.Abstracts;
 using FixIt.Service.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Nest;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Text;
 
 namespace FixIt.API
 {
@@ -22,8 +28,30 @@ namespace FixIt.API
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme  = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]));
+                    //validate function
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = secretKey,
+                        ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Jwt:IssuerIP"],
+                        ValidateAudience = true,
+                        ValidAudience= builder.Configuration["Jwt:AudienceIP"]
+                    };
+                });
+            // L
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<FIXITDbContext>(options =>
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -47,7 +75,8 @@ namespace FixIt.API
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseAuthorization();

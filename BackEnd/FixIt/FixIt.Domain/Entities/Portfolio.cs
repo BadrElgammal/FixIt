@@ -16,7 +16,7 @@ namespace FixIt.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [ForeignKey("WorkerProfile")]
-        public int WorkerProfileId { get; set; }
+        public Guid WorkerProfileId { get; set; }
         public WorkerProfile WorkerProfile { get; set; }
     }
 }

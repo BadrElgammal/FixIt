@@ -17,6 +17,11 @@ namespace FixIt.Service.Services
         {
             _repository = Repository;
         }
+
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        {
+            return _repository.Find(predicate);
+        }
         public void Delete(T entity)
         {
             _repository.Delete(entity);
