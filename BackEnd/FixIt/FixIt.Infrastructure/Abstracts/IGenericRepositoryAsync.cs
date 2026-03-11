@@ -6,13 +6,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Service.Abstracts
+namespace FixIt.Infrastructure.Abstracts
 {
-    public interface IService<T> where T : class
+    public interface IGenericRepositoryAsync<T> where T : class
     {
         Task<List<T>> GetAllAsync();
         Task DeleteRangeAsync(ICollection<T> entities);
         Task<T> GetByIdAsync(object id);
+        Task SaveChangesAsync();
         IDbContextTransaction BeginTransaction();
         void Commit();
         void RollBack();
@@ -24,6 +25,5 @@ namespace FixIt.Service.Abstracts
         Task UpdateRangeAsync(ICollection<T> entities);
         Task DeleteAsync(T entity);
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
-
     }
 }

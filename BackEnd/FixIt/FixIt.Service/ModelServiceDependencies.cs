@@ -9,6 +9,7 @@ namespace FixIt.Service
         public static IServiceCollection AddServiceDependencies(this IServiceCollection services)
         {
             services.AddScoped(typeof(IService<>), typeof(GenericService<>));
+            services.AddScoped<IClientService, ClientService>();
             return services;
         }
     }
