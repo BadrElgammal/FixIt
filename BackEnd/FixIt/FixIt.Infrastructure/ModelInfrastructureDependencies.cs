@@ -8,7 +8,8 @@ namespace FixIt.Infrastructure
     {
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
+           services.AddScoped<IClientRepository, ClientRepository>();
             return services;
         }
     }

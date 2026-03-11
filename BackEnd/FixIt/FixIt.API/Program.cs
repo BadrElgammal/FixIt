@@ -1,3 +1,5 @@
+using FixIt.Core;
+using FixIt.Core.MiddleWare;
 using FixIt.Infrastructure;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
@@ -28,6 +30,14 @@ namespace FixIt.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp",
+                    policy => policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
 
             builder.Services.AddAuthentication(options =>
             {
@@ -59,13 +69,15 @@ namespace FixIt.API
 
 
 
-            // Register repositories and business services
-            builder.Services.AddInfrastructureDependencies();
-            builder.Services.AddServiceDependencies();
 
 
 
             #endregion
+            // Register repositories and business services
+            builder.Services.AddInfrastructureDependencies();
+            builder.Services.AddServiceDependencies();
+            builder.Services.AddCoreDependances();
+            builder.Services.AddScoped<JWTService>();
 
             var app = builder.Build();
 
@@ -75,10 +87,13 @@ namespace FixIt.API
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+            }
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
+            app.UseCors("AllowAngularApp");
             app.UseAuthorization();
 
 

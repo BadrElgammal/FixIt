@@ -1,6 +1,7 @@
 ﻿using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Repositories;
 using FixIt.Service.Abstracts;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace FixIt.Service.Services
 {
     public class GenericService<T> : IService<T> where T : class
     {
-        protected readonly IGenericRepository<T> _repository; 
-        public GenericService(IGenericRepository<T> Repository)
+        protected readonly IGenericRepositoryAsync<T> _repository; 
+        public GenericService(IGenericRepositoryAsync<T> Repository)
         {
             _repository = Repository;
         }
@@ -22,34 +23,71 @@ namespace FixIt.Service.Services
         {
             return _repository.Find(predicate);
         }
-        public void Delete(T entity)
+
+        public async Task<List<T>> GetAllAsync()
         {
-            _repository.Delete(entity);
-            _repository.SaveToDB();
+            return await _repository.GetAllAsync();
+        }
+
+        public async Task DeleteRangeAsync(ICollection<T> entities)
+        {
+            await _repository.DeleteRangeAsync(entities);
+        }
+
+        public async Task<T> GetByIdAsync(object id)
+        {
+            return await _repository.GetByIdAsync(id);
         }
 
 
-        public List<T> GetAll()
+        public IDbContextTransaction BeginTransaction()
         {
-            return _repository.GetAll();
+            return _repository.BeginTransaction();
         }
 
-        public T GetById(object id)
+        public void Commit()
         {
-            return _repository.GetById(id);
+            _repository.Commit();
         }
 
-        public void Create(T entity)
+        public void RollBack()
         {
-            _repository.Create(entity);
-            _repository.SaveToDB();
+            _repository.RollBack();
         }
 
-
-        public void Update(T entity)
+        public IQueryable<T> GetTableNoTracking()
         {
-            _repository.Update(entity);
-            _repository.SaveToDB();
+            return _repository.GetTableNoTracking();
+        }
+
+        public IQueryable<T> GetTableAsTracking()
+        {
+            return _repository.GetTableAsTracking();
+        }
+
+        public async Task<T> AddAsync(T entity)
+        {
+            return await _repository.AddAsync(entity);
+        }
+
+        public async Task AddRangeAsync(ICollection<T> entities)
+        {
+            await _repository.AddRangeAsync(entities);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            await _repository.UpdateAsync(entity);
+        }
+
+        public async Task UpdateRangeAsync(ICollection<T> entities)
+        {
+            await _repository.UpdateRangeAsync(entities);
+        }
+
+        public async Task DeleteAsync(T entity)
+        {
+            await _repository.DeleteAsync(entity);
         }
     }
 }
