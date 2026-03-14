@@ -10,6 +10,8 @@ namespace FixIt.Infrastructure
         {
             services.AddScoped(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+
             return services;
         }
     }
