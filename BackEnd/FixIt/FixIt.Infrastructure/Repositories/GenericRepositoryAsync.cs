@@ -129,6 +129,12 @@ namespace FixIt.Infrastructure.Repositories
             return _dbContext.Set<T>().Where(predicate).ToList();
             
         }
+
+        public void Delete(T entity)
+        {
+            _dbContext.Set<T>().Remove(entity);
+            _dbContext.SaveChanges();   
+        }
         #endregion
     }
 

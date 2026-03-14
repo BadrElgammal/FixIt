@@ -11,6 +11,8 @@ namespace FixIt.Service
             services.AddScoped(typeof(IService<>), typeof(GenericService<>));
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IServiceRequestService, ServiceRequestService>();
+            services.AddScoped<IWorkerService, WorkerService>();
+
             return services;
         }
     }
