@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FixIt.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,10 +15,10 @@ namespace FixIt.Domain.Entities
         public Guid RequestId { get; set; } = Guid.NewGuid();
         public string ServiceTitle { get; set; }
         public string ServiceDescription { get; set; }
-        public decimal TotalPrice { get; set; }
-        public decimal DepositAmount { get; set; }
-        public string State { get; set; }
-        public DateTime RequestDate { get; set; }
+        public decimal TotalPrice { get; set; } = decimal.Zero;
+        public decimal DepositAmount { get; set; } = decimal.Zero;
+        public ServiceRequestState State { get; set; }
+        public DateTime RequestDate { get; set; } = DateTime.Now;
         public DateTime? CompleteDate { get; set; }
 
         [ForeignKey("Client")]

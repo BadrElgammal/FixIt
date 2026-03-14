@@ -1,8 +1,10 @@
-﻿using System;
+﻿using FixIt.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +15,10 @@ namespace FixIt.Domain.Entities
         [Key]
         public Guid TransactionId { get; set; } = Guid.NewGuid();
         public decimal Amount { get; set; }
-        public string TransactionType { get; set; }
+        public decimal? ServiceCommetion { get; set; } = decimal.Zero;
+        public TransactionType TransactionType { get; set; }
         public string RefType { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [ForeignKey("FromWallet")]
         public Guid FromWalletId { get; set; }

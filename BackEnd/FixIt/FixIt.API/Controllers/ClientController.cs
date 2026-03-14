@@ -68,5 +68,15 @@ namespace FixIt.API.Controllers
             var result = await _mediator.Send(command);
             return NewResult(result);
         }
+
+        [HttpGet("Favorites")]
+        [Authorize]
+        public async Task<IActionResult> ClientFavorites()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+            var respose = await _mediator.Send(new GetAllFavoritesQuery(Id));
+            return NewResult(respose);
+        }
     }
 }

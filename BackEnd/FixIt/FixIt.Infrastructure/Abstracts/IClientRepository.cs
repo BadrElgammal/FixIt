@@ -9,6 +9,6 @@ namespace FixIt.Infrastructure.Abstracts
 {
     public interface IClientRepository :IGenericRepositoryAsync<User>
     {
-
+        Task<List<Favorite>> GetAllFavoritesByClientId(object Clientid);
     }
 }

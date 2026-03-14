@@ -15,7 +15,8 @@ namespace FixIt.Core.Features.Clients.Queries.Handlers
 {
     public class ClientQueryHandler : ResponseHandler,
         IRequestHandler<GetClientProfileQuery, Response<ClientProfileDTO>>,
-        IRequestHandler<GetClientsListQuery, Response<List<User>>>
+        IRequestHandler<GetClientsListQuery, Response<List<User>>>,
+        IRequestHandler<GetAllFavoritesQuery, Response<List<ClientFavoritesWorkerDTO>>>
     {
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
@@ -42,6 +43,13 @@ namespace FixIt.Core.Features.Clients.Queries.Handlers
         {
             var clients = await _clientService.GetAllClientAsync();
             return Success(clients);
+        }
+
+        public async Task<Response<List<ClientFavoritesWorkerDTO>>> Handle(GetAllFavoritesQuery request, CancellationToken cancellationToken)
+        {
+            var Favorites = await _clientService.GetAllFavoritesByClientId(request.Id);
+            var FavoritesMapper = _mapper.Map<List<ClientFavoritesWorkerDTO>>(Favorites);
+            return Success(FavoritesMapper);
         }
     }
 }
