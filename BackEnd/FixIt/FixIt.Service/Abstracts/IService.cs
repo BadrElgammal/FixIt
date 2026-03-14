@@ -23,6 +23,7 @@ namespace FixIt.Service.Abstracts
         Task UpdateAsync(T entity);
         Task UpdateRangeAsync(ICollection<T> entities);
         Task DeleteAsync(T entity);
+        void Delete(T entity);
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
 
     }

@@ -66,17 +66,19 @@ namespace FixIt.API
             builder.Services.AddDbContext<FIXITDbContext>(options =>
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddDbContext<FIXITDbContext>();
-
-
-
-
-
+           
 
             #endregion
-            // Register repositories and business services
+
+
+
+            //DI
             builder.Services.AddInfrastructureDependencies();
-            builder.Services.AddServiceDependencies();
             builder.Services.AddCoreDependances();
+            builder.Services.AddServiceDependencies();
+
+
+            // Register repositories and business services
             builder.Services.AddScoped<JWTService>();
 
             var app = builder.Build();

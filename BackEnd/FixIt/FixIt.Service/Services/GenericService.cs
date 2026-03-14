@@ -89,5 +89,10 @@ namespace FixIt.Service.Services
         {
             await _repository.DeleteAsync(entity);
         }
+
+        public void Delete(T entity)
+        {
+           _repository?.Delete(entity);
+        }
     }
 }

@@ -46,6 +46,17 @@
             };
         }
 
+        public Response<T> UnProcessableEntity<T>(string Message = null)
+        {
+            return new Response<T>()
+            {
+                StatusCode = System.Net.HttpStatusCode.UnprocessableEntity,
+                Succeeded = false,
+                Message = Message == null ? "UnProcessable Entity" : Message
+            };
+        }
+
+
         public Response<T> NotFound<T>(string message = null)
         {
             return new Response<T>()
