@@ -14,9 +14,11 @@ namespace FixIt.API.Base
     [ApiController]
     public class AppController : ControllerBase
     {
-        private IMediator _mediatorInstance;
-        protected IMediator Mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>();
+        public IMediator _mediatorInstance;
+        protected IMediator _mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>();
 
+
+       
 
         #region Actions
         public ObjectResult NewResult<T>(Response<T> response)

@@ -12,6 +12,7 @@ namespace FixIt.Core
     {
         public static IServiceCollection AddCoreDependances(this IServiceCollection services)
         {
+            //Configuration of MediatR &AutoMapper
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 
