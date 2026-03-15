@@ -83,7 +83,7 @@ namespace FixIt.API.Controllers
 
 
 
-        [HttpGet("{serviceId}/reject")]
+        [HttpPut("{serviceId}/reject")]
         [Authorize]
         public async Task<IActionResult> RejectServiceRequest(Guid serviceId)
         {
@@ -94,7 +94,7 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        [HttpGet("recivedJobs/{serviceId}/pending")]
+        [HttpPut("recivedJobs/{serviceId}/pending")]
         [Authorize]
         [Authorize(Roles = "worker")]
         public async Task<IActionResult> AddPriceToServiceRequest(Guid serviceId,AddPriceToServiceRequestCommand command)
@@ -108,7 +108,7 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        [HttpGet("recivedJobs/{serviceId}/inprocess")]
+        [HttpPut("recivedJobs/{serviceId}/inprocess")]
         [Authorize]
         public async Task<IActionResult> AcceptPriceServiceRequest(Guid serviceId)
         {
@@ -119,5 +119,52 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
+        [HttpPut("recivedJobs/{serviceId}/canceled")]
+        [Authorize]
+        [Authorize(Roles = "worker")]
+        public async Task<IActionResult> CancelServiceRequest(Guid serviceId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId,Id));
+            return NewResult(result);
+        }
+
+        [HttpPut("recivedJobs/{serviceId}/submitted")]
+        [Authorize]
+        [Authorize(Roles = "worker")]
+        public async Task<IActionResult> SubmitServiceRequest(Guid serviceId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new SubmitServiceRequestCommand(serviceId,Id));
+            return NewResult(result);
+        }
+
+
+        [HttpPut("recivedJobs/{serviceId}/completed")]
+        [Authorize]
+        public async Task<IActionResult> AcceptSubmittedServiceRequest(Guid serviceId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new AcceptSubmittedServiceRequestCommand(serviceId, Id));
+            return NewResult(result);
+        }
+
+
+        [HttpPut("recivedJobs/{serviceId}/Disputed")]
+        [Authorize]
+        public async Task<IActionResult> DisputedServiceRequest(Guid serviceId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new DisputedServiceRequestCommand(serviceId, Id));
+            return NewResult(result);
+        }
     }
 }

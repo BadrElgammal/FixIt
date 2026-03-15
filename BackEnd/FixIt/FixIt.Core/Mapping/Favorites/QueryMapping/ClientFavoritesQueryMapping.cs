@@ -1,4 +1,4 @@
-﻿using FixIt.Core.Features.Clients.Queries.DTOs;
+﻿using FixIt.Core.Features.Favorites.Queries.DTOs;
 using FixIt.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Core.Mapping.Clients
+namespace FixIt.Core.Mapping.Favorites
 {
-    public partial class ClientProfileMapper
+    public partial class FavoritesMapper
     {
         public void GetClientFavoritesMapping()
         {

@@ -12,6 +12,9 @@ namespace FixIt.Infrastructure
             services.AddScoped(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
            services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+            services.AddScoped<IFavoritesRepository, FavoritesRepository>();
+            services.AddScoped<IReviewsRepository, ReviewsRepository>();
+
             //DI => For WorkerRepo
             services.AddTransient<IWorkerRepository, WorkerRepository>();
 

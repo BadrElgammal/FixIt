@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Core.Features.Clients.Queries.DTOs
+namespace FixIt.Core.Features.Favorites.Queries.DTOs
 {
-    public class ClientFavoritesWorkerDTO
+    public  class ClientFavoritesWorkerDTO
     {
         public Guid WorkerId { get; set; }
 

@@ -109,7 +109,13 @@ namespace FixIt.Infrastructure.Context
 
 
 
+            modelBuilder.Entity<ServiceRequest>()
+                .Property(s => s.State)
+                .HasConversion<string>();
 
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.TransactionType)
+                .HasConversion<string>();
 
         }
 

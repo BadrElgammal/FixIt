@@ -50,6 +50,11 @@ namespace FixIt.Service.Services
             return await _serviceRequestRepository.GetWalletByClientId(clientId);
         }
 
+        public async Task<Wallet> GetWalletByWorkerId(Guid workerId)
+        {
+            return await _serviceRequestRepository.GetWalletByWorkerId(workerId);
+        }
+
         public Guid GetWorkerIdByUserId(Guid userId)
         {
             return  _serviceRequestRepository.GetWorkerIdByUserId(userId);

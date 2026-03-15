@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Abstracts
 {
-    public interface IClientRepository :IGenericRepositoryAsync<User>
+    public interface IReviewsRepository : IGenericRepositoryAsync<Review>
     {
-        
     }
 }
