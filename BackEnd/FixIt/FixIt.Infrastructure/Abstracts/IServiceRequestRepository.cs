@@ -11,6 +11,8 @@ namespace FixIt.Infrastructure.Abstracts
     {
        Guid GetWorkerIdByUserId(Guid userId);
         Task<Wallet> GetWalletByClientId(Guid clientId);
+        Task<Wallet> GetWalletByWorkerId(Guid workerId);
+
         Task<string> EditWallet(Wallet wallet);
         Task<string> CreateTransaction(Transaction transaction);
 

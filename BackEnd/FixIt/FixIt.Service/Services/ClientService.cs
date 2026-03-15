@@ -46,9 +46,5 @@ namespace FixIt.Service.Services
             return "success";
         }
 
-        public async Task<List<Favorite>> GetAllFavoritesByClientId(object Clientid)
-        {
-            return await _clientRepository.GetAllFavoritesByClientId(Clientid);
-        }
     }
 }

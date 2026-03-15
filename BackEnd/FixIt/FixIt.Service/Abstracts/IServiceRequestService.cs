@@ -15,6 +15,7 @@ namespace FixIt.Service.Abstracts
         Guid GetWorkerIdByUserId(Guid userId);
         Task<String> EditServiceRequestAsync(ServiceRequest serviceRequest);
         Task<Wallet> GetWalletByClientId(Guid clientId);
+        Task<Wallet> GetWalletByWorkerId(Guid workerId);
         Task<string> EditWallet(Wallet wallet);
         Task<string> CreateTransaction(Transaction transaction);
 

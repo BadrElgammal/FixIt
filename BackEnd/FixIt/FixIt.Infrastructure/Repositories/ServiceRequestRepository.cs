@@ -1,6 +1,7 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,13 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<Wallet> GetWalletByClientId(Guid clientId)
         {
-            return  _dbContext.Wallets.Where(w => w.Id == clientId).FirstOrDefault();
+            return  _dbContext.Wallets.Where(w => w.UserId == clientId).FirstOrDefault();
+        }
+
+        public async Task<Wallet> GetWalletByWorkerId(Guid workerId)
+        {
+            var worker = _dbContext.WorkerProfiles.Include(w => w.User).Where(w => w.WorkerId == workerId).FirstOrDefault();
+            return  _dbContext.Wallets.Where(w => w.UserId == worker.UserId).FirstOrDefault();
         }
 
         public Guid GetWorkerIdByUserId(Guid userId)

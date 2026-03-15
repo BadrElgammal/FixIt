@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Abstracts
 {
-    public interface IClientRepository :IGenericRepositoryAsync<User>
+    public interface IFavoritesRepository : IGenericRepositoryAsync<Favorite>
     {
-        
+        Task<List<Favorite>> GetAllFavoritesByUserId(object userId);
     }
 }

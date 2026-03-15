@@ -1,7 +1,6 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Repositories
 {
-    public class ClientRepository : GenericRepositoryAsync<User>, IClientRepository
+    public class ReviewsRepository : GenericRepositoryAsync<Review>, IReviewsRepository
     {
         private readonly FIXITDbContext _context;
-
-        public ClientRepository(FIXITDbContext context) : base(context)
+        public ReviewsRepository(FIXITDbContext dbContext) : base(dbContext)
         {
-            _context = context;
+            _context = dbContext;
         }
-
     }
 }

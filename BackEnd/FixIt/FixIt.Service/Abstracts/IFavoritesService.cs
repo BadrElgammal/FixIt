@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Infrastructure.Abstracts
+namespace FixIt.Service.Abstracts
 {
-    public interface IClientRepository :IGenericRepositoryAsync<User>
+    public interface IFavoritesService
     {
-        
+        Task<List<Favorite>> GetAllFavoritesByUserId(object userId);
+
     }
 }

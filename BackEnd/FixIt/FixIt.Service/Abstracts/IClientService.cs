@@ -14,6 +14,5 @@ namespace FixIt.Service.Abstracts
         Task<String> EditClinetAsync(User user);
         Task<String> DeleteClientAsync(User user);
         Task<String> ChangeClinetPasswordAsync(User user, string passward);
-        Task<List<Favorite>> GetAllFavoritesByClientId(object Clientid);
     }
 }
