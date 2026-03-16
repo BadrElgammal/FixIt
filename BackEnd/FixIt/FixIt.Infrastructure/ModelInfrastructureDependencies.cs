@@ -10,13 +10,12 @@ namespace FixIt.Infrastructure
         {
             //config
             services.AddScoped(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
-           services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
             services.AddScoped<IFavoritesRepository, FavoritesRepository>();
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
-
-            //DI => For WorkerRepo
-            services.AddTransient<IWorkerRepository, WorkerRepository>();
+            services.AddScoped<IWorkerRepository, WorkerRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             return services;
         }
