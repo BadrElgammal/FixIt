@@ -26,12 +26,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Categories\Command\Validatiors\" />
+    <Folder Include="Features\Categories\Query\DTOs\" />
     <Folder Include="Features\Clients\Queries\Validatiors\" />
     <Folder Include="Bases\" />
     <Folder Include="Features\Favorites\Command\" />
     <Folder Include="Features\Favorites\Queries\Validator\" />
     <Folder Include="Features\Reviews\" />
     <Folder Include="Features\Service\Queries\Validatiors\" />
+    <Folder Include="Mapping\Categories\QueryMapping\" />
     <Folder Include="Mapping\Favorites\CommandMapping\" />
   </ItemGroup>
 
