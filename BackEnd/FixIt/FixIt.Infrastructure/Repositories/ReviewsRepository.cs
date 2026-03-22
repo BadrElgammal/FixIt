@@ -1,11 +1,7 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixIt.Infrastructure.Repositories
 {
@@ -15,6 +11,14 @@ namespace FixIt.Infrastructure.Repositories
         public ReviewsRepository(FIXITDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
+        }
+
+        public Task<List<Review>> GetAllReviewsAsync()
+        {
+            return _dbContext.Reviews.Include(r => r.Reviewer)
+                                     .Include(r => r.Request)
+                                     .Include(r => r.ReviewedWorker)
+                                     .ToListAsync();
         }
     }
 }

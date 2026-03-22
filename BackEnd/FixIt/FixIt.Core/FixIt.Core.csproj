@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Favorites\Command\**" />
+    <EmbeddedResource Remove="Features\Favorites\Command\**" />
+    <None Remove="Features\Favorites\Command\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
@@ -30,9 +36,10 @@
     <Folder Include="Features\Categories\Query\DTOs\" />
     <Folder Include="Features\Clients\Queries\Validatiors\" />
     <Folder Include="Bases\" />
-    <Folder Include="Features\Favorites\Command\" />
+    <Folder Include="Features\Favorites\Commands\Validatiors\" />
     <Folder Include="Features\Favorites\Queries\Validator\" />
-    <Folder Include="Features\Reviews\" />
+    <Folder Include="Features\Portfolios\Command\Validatiors\" />
+    <Folder Include="Features\Reviews\Command\Validatiors\" />
     <Folder Include="Features\Service\Queries\Validatiors\" />
     <Folder Include="Mapping\Categories\QueryMapping\" />
     <Folder Include="Mapping\Favorites\CommandMapping\" />
