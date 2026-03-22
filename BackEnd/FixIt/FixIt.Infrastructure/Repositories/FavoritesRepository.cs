@@ -2,15 +2,10 @@
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Repositories
 {
-    public class FavoritesRepository : GenericRepositoryAsync<Favorite> , IFavoritesRepository
+    public class FavoritesRepository : GenericRepositoryAsync<Favorite>, IFavoritesRepository
     {
         private readonly FIXITDbContext _context;
         public FavoritesRepository(FIXITDbContext dbContext) : base(dbContext)
@@ -26,5 +21,13 @@ namespace FixIt.Infrastructure.Repositories
                                             ThenInclude(w => w.Category)
                                           .Where(f => f.ClientId == (Guid)userId).ToListAsync();
         }
+
+        public async Task<Favorite> GetFavoriteByClientIdAndWorkerId(Guid clientId, Guid WorkerId)
+        {
+            return await _context.Favorites
+                         .FirstOrDefaultAsync(f => f.WorkerId == WorkerId && f.ClientId == clientId);
+        }
+
+
     }
 }

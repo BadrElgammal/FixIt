@@ -16,6 +16,7 @@ namespace FixIt.Infrastructure
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
             services.AddScoped<IWorkerRepository, WorkerRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IPortfoliosRepository, PortfoliosRepository>();
 
             return services;
         }

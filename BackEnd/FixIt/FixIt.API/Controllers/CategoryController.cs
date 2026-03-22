@@ -16,8 +16,8 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            var WorksList = await _mediator.Send(new GetCategoriesListQuery());
-            return Ok(WorksList);
+            var respose = await _mediator.Send(new GetCategoriesListQuery());
+            return Ok(respose);
         }
 
         //AddCategory
@@ -25,8 +25,8 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> Add([FromBody] AddCategoryCommand command)
         {
-            var WorksList = await _mediator.Send(command);
-            return Ok(WorksList);
+            var respose = await _mediator.Send(command);
+            return Ok(respose);
         }
 
         //update
@@ -34,8 +34,8 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> Edite([FromRoute] int id)
         {
-            var WorksList = await _mediator.Send(new EditeCategoryCommand(id));
-            return Ok(WorksList);
+            var respose = await _mediator.Send(new EditeCategoryCommand(id));
+            return Ok(respose);
         }
 
         //Delete
@@ -44,8 +44,8 @@ namespace FixIt.API.Controllers
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
-            var WorksList = await _mediator.Send(new DeleteCategoryCommand(id));
-            return Ok(WorksList);
+            var respose = await _mediator.Send(new DeleteCategoryCommand(id));
+            return Ok(respose);
         }
 
     }

@@ -20,7 +20,7 @@ namespace FixIt.API.Controllers
             return Ok(WorksList);
 
         }
-        //2.worker => workerId
+        //2.worker => workerId + {WorkerId}
 
         //GetById
         [HttpGet("Profile")]
@@ -75,19 +75,9 @@ namespace FixIt.API.Controllers
         }
 
 
-        //add protofolio     => اعمال 
-        //edite protofolio
-        //delete protofolio
-
-
-
-
-
-
 
 
     }
-
 
 }
 

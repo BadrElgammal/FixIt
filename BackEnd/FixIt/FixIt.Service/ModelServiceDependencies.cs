@@ -15,6 +15,7 @@ namespace FixIt.Service
             services.AddScoped<IFavoritesService, FavoritesService>();
             services.AddScoped<IReviewsService, ReviewsService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IPortfolioService, PortfoliosService>();
 
             return services;
         }
