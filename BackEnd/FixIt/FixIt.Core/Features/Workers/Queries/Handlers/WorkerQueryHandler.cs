@@ -1,25 +1,17 @@
 ﻿using AutoMapper;
-using Azure;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Workers.Queries.DTOs;
 using FixIt.Core.Features.Workers.Queries.Models;
 using FixIt.Core.Features.Workers.Queries.Results;
-using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
-using FixIt.Service.Services;
 using MediatR;
-using Microsoft.Azure.Documents.SystemFunctions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Workers.Queries.Handlers
 {
-    public class WorkerQueryHandler : ResponseHandler, 
+    public class WorkerQueryHandler : ResponseHandler,
                  IRequestHandler<GetWorkersListQuery, Bases.Response<List<GetWorkersResponce>>>, // WorkerProfile
-                 IRequestHandler<GetWorkerByIdQuery, Bases.Response<GetSingleWorkerResponce>>
+                 IRequestHandler<GetWorkerByIdQuery, Bases.Response<GetSingleWorkerResponce>>,
+                 IRequestHandler<GetWorkerProfileByWorkerIdQuery, Bases.Response<WorkerProfileDTO>>
     {
 
         #region Fields
@@ -58,6 +50,17 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
             if (user == null) return NotFound<GetSingleWorkerResponce>();
             var result = _mapper.Map<GetSingleWorkerResponce>(user);
             return Success(result);
+        }
+
+        public async Task<Bases.Response<WorkerProfileDTO>> Handle(GetWorkerProfileByWorkerIdQuery request, CancellationToken cancellationToken)
+        {
+
+            var workerProfile = await _WorkerService.GetWorkerByWorkerId(request.WorkerId);
+            if (workerProfile == null) return NotFound<WorkerProfileDTO>();
+
+            var workerProfileMapper = _mapper.Map<WorkerProfileDTO>(workerProfile);
+            return Success(workerProfileMapper);
+
         }
 
 

@@ -2,12 +2,7 @@
 using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Repositories
 {
@@ -127,13 +122,13 @@ namespace FixIt.Infrastructure.Repositories
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
             return _dbContext.Set<T>().Where(predicate).ToList();
-            
+
         }
 
         public void Delete(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            _dbContext.SaveChanges();   
+            _dbContext.SaveChanges();
         }
         #endregion
     }

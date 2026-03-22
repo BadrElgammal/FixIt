@@ -9,16 +9,23 @@ namespace FixIt.Infrastructure.Repositories
     {
 
         #region Fields
-        private readonly DbSet<WorkerProfile> _Workers;    //WorkersRepo
+
+        private readonly FIXITDbContext _context;
 
         #endregion
 
         #region Ctors
 
-        public WorkerRepository(FIXITDbContext db) : base(db)
+
+
+        public WorkerRepository(FIXITDbContext context) : base(context)
         {
-            _Workers = db.Set<WorkerProfile>();
+            _context = context;
         }
+
+
+
+
 
         #endregion
 
@@ -26,19 +33,36 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<List<WorkerProfile>> GetAllWorkersAsync()
         {
-            return await _Workers.Include(w => w.User)
+            return await _dbContext.WorkerProfiles.Include(w => w.User)
                         .Include(w => w.Category)
                         .ToListAsync();
         }
 
         public async Task<WorkerProfile> GetWorkerByIdAsync(object id)
         {
-            return await _Workers.Include(w => w.User)
+            return await _dbContext.WorkerProfiles.Include(w => w.User)
                               .Include(w => w.Category)
                               .Where(w => w.UserId == (Guid)id)
                               .FirstOrDefaultAsync();
 
         }
+
+        public async Task<WorkerProfile> GetWorkerByWorkerIdAsync(Guid WorkerId)
+        {
+            return await _dbContext.WorkerProfiles.Include(w => w.User)
+                                 .Include(w => w.Category)
+                                 .Where(w => w.WorkerId == WorkerId)
+                                 .FirstOrDefaultAsync();
+
+        }
+
+        public async Task<Guid> GetWorkerIdByUserIdAsync(Guid UserId)
+        {
+            return _context.WorkerProfiles.Where(w => w.User.UserId == UserId).Select(s => s.WorkerId).FirstOrDefault();
+
+        }
+
+
 
 
         #endregion

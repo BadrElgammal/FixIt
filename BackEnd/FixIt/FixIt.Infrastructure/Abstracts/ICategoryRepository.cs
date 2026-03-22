@@ -4,5 +4,7 @@ namespace FixIt.Infrastructure.Abstracts
 {
     public interface ICategoryRepository : IGenericRepositoryAsync<Category>
     {
+        public Task<Category> GetCategoryByNameAsync(string Name);
+
     }
 }

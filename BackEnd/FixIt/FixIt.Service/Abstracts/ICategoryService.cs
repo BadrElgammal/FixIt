@@ -9,6 +9,7 @@ namespace FixIt.Service.Abstracts
         Task<string> UpdateCategoryAsync(Category category);
         Task<string> DeleteCategoryAsync(Category category);
         Task<Category> GetCategoryByIdAsync(int id);
+        Task<Category> GetCategoryByNameAsync(string name);
 
     }
 }
