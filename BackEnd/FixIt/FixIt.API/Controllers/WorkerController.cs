@@ -20,7 +20,7 @@ namespace FixIt.API.Controllers
             return Ok(WorksList);
 
         }
-        //2.worker => workerId + {WorkerId}
+        //2.worker => workerId
 
         //GetById
         [HttpGet("Profile")]
@@ -36,6 +36,19 @@ namespace FixIt.API.Controllers
         }
 
 
+        //GetByWorkerId
+        [HttpGet("WorkerProfile/{WorkerId}")]
+        [Authorize]
+        public async Task<IActionResult> GetByWorkerId(Guid WorkerId)
+        {
+
+            var Worker = await _mediator.Send(new GetWorkerProfileByWorkerIdQuery(WorkerId));
+            return NewResult(Worker);
+
+        }
+
+
+
         //Edite => dtos
         [HttpPut("Edite")]
         [Authorize]
@@ -43,7 +56,9 @@ namespace FixIt.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
+
             command.UserId = Id;
+
             var Worker = await _mediator.Send(command);
             return NewResult(Worker);
 

@@ -7,24 +7,6 @@ namespace FixIt.Core.Features.Workers.Commands.Validatiors
     public class EditeWorkerValidator : AbstractValidator<EditeWorkerCommand>
     {
 
-        //   UserId 
-        //   FullName
-        //   Email 
-        //   Phone 
-        //   City 
-        //    ImgUrl
-        //   Role 
-        //   IsActive 
-        //   LastLogin 
-        //   CreatedAt 
-        //   UpdatedAt 
-        //   JobTitle 
-        //   Description 
-        //   AvailabilityStatus 
-        //   RatingAverage 
-        //   Area 
-        //   CategoryName  
-
 
 
         private readonly IWorkerService _workerService;

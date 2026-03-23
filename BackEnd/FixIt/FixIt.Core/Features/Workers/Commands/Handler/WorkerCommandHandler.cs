@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Workers.Commands.Models;
-using FixIt.Domain.Entities;
+using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using MediatR;
 
@@ -15,14 +15,20 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
 
         #region Feilds
         private readonly IWorkerService _workerService;
+        private readonly ICategoryService _categoryService;
+        private readonly IWorkerRepository _workerRepo;
         private readonly IMapper _mapper;
         #endregion
 
         #region Ctors
-        public WorkerCommandHandler(IWorkerService workerService, IMapper mapper)
+        public WorkerCommandHandler(IWorkerService workerService, IMapper mapper, ICategoryService categoryService
+            , IWorkerRepository workerRepo)
         {
             _workerService = workerService;
             _mapper = mapper;
+            _categoryService = categoryService;
+            _workerRepo = workerRepo;
+
         }
         #endregion
 
@@ -31,15 +37,22 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
 
         public async Task<Response<string>> Handle(EditeWorkerCommand request, CancellationToken cancellationToken)
         {
-            var worker = await _workerService.GetWorkerById(request.UserId);
-            if (worker == null) return NotFound<String>("المستخدم غير موجود");
+
+            var WorkerId = await _workerRepo.GetWorkerIdByUserIdAsync(request.UserId);
+
+            var worker = await _workerService.GetWorkerByWorkerId(WorkerId);
+            if (worker == null) return NotFound<string>("المستخدم غير موجود");
 
 
-            //worProfile    =>// user
-            var workerMapper = _mapper.Map<WorkerProfile>(request);
-            var UserMapper = _mapper.Map<User>(request);
+            var category = await _categoryService.GetCategoryByNameAsync(request.CategoryName);
+            if (category == null) return NotFound<string>("هذا القسم غير موجود");
+            worker.CategoryId = category.CategoryId;
 
-            var result = await _workerService.EditeWorkerAsync(workerMapper, UserMapper);
+
+
+            var workerMapper = _mapper.Map(request, worker);
+
+            var result = await _workerService.EditeWorkerAsync(workerMapper);
 
             if (result == "success") return Success("تم التعديل بنجاح");
             else return BadRequest<string>();

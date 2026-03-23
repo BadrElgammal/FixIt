@@ -39,6 +39,11 @@ namespace FixIt.Service.Services
             return _categoryRepo.GetByIdAsync(id);
         }
 
+        public async Task<Category> GetCategoryByNameAsync(string name)
+        {
+            return await _categoryRepo.GetCategoryByNameAsync(name);
+        }
+
         public async Task<string> UpdateCategoryAsync(Category category)
         {
             await _categoryRepo.UpdateAsync(category);

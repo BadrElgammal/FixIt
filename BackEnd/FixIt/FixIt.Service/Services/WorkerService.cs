@@ -96,6 +96,17 @@ namespace FixIt.Service.Services
 
         }
 
+        public async Task<WorkerProfile> GetWorkerByWorkerId(Guid id)
+        {
+            return await _WorkerRepo.GetWorkerByWorkerIdAsync(id);
+        }
+
+        public async Task<string> EditeWorkerAsync(WorkerProfile worker)
+        {
+            await _WorkerRepo.UpdateAsync(worker);
+            return "success";
+        }
+
 
 
 

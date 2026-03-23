@@ -5,43 +5,16 @@ namespace FixIt.Core.Mapping.Workers
 {
     public partial class WorkerProfileMapper
     {
-
-        // Guid WorkerId 
-        // string? JobTitle 
-        // string? Description 
-        // decimal? ServiceBalance 
-        // bool AvailabilityStatus 
-        // double? RatingAverage 
-        // string? Area 
-
-        // int? CategoryId 
-
-        //public Guid UserId
-
-        // Portfolios 
-        // ReceivedRequests 
-        // Reviews 
-        // Favorites 
-        //public Guid UserId   
-        //public string FullName
-        //public string Email 
-        //public string Phone 
-        //public string City 
-        //public string PasswordHash 
-        //public string? ImgUrl 
-        //public string Role 
-        //public bool IsActive 
-
-        // SentRequests 
-        // Reviews 
-        // ClientChatRooms 
-        // WorkerChatRooms 
-        // Messages 
-        // Favorites 
         public void EditeWorkerCommandMapping()
         {
-            CreateMap<EditeWorkerCommand, WorkerProfile>();
-            CreateMap<EditeWorkerCommand, User>();
+            CreateMap<EditeWorkerCommand, WorkerProfile>()
+               .ForPath(dest => dest.User.FullName, opt => opt.MapFrom(src => src.FullName))
+               .ForPath(dest => dest.User.Phone, opt => opt.MapFrom(src => src.Phone))
+               .ForPath(dest => dest.User.City, opt => opt.MapFrom(src => src.City))
+               .ForPath(dest => dest.User.ImgUrl, opt => opt.MapFrom(src => src.ImgUrl));
+
+
+
         }
 
     }
