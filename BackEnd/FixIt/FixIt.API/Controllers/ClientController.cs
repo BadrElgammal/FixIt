@@ -73,7 +73,7 @@ namespace FixIt.API.Controllers
         //ChangeImageURL
         [HttpPut("ChangeImage")]
         [Authorize]
-        public async Task<IActionResult> ChangeWorkerImage([FromBody] ChangeWorkerImgURL command)
+        public async Task<IActionResult> ChangeWorkerImage([FromForm] ChangeWorkerImgURL command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);

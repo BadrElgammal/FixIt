@@ -7,6 +7,12 @@ namespace FixIt.Core.Features.Clients.Commands.Models
     public class ChangeClientImageURL : IRequest<Response<String>>
     {
         public Guid UserId { get; set; }
+
+        public ChangeClientImageURL()
+        {
+
+        }
+
         public ChangeClientImageURL(Guid id)
         {
             UserId = id;
