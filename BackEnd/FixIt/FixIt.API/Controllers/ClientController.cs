@@ -1,9 +1,9 @@
 ﻿using FixIt.API.Base;
 using FixIt.Core.Features.Clients.Commands.Models;
 using FixIt.Core.Features.Clients.Queries.Models;
+using FixIt.Core.Features.Workers.Commands.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -24,7 +24,7 @@ namespace FixIt.API.Controllers
         public async Task<IActionResult> GetClients()
         {
             var respose = await _mediator.Send(new GetClientsListQuery());
-            return NewResult(respose); 
+            return NewResult(respose);
         }
 
         [HttpGet("Profile")]
@@ -68,6 +68,22 @@ namespace FixIt.API.Controllers
             var result = await _mediator.Send(command);
             return NewResult(result);
         }
+
+
+        //ChangeImageURL
+        [HttpPut("ChangeImage")]
+        [Authorize]
+        public async Task<IActionResult> ChangeWorkerImage([FromBody] ChangeWorkerImgURL command)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+
+            command.userId = Id;
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+        }
+
 
 
     }

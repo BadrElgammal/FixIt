@@ -1,6 +1,4 @@
-﻿using FixIt.Domain.Entities;
-
-namespace FixIt.Core.Features.Workers.Queries.DTOs
+﻿namespace FixIt.Core.Features.Workers.Queries.DTOs
 {
     public class WorkerProfileDTO
     {
@@ -18,10 +16,6 @@ namespace FixIt.Core.Features.Workers.Queries.DTOs
         //"User"
         public string FullName { get; set; }
 
-        public ICollection<Portfolio>? Portfolios { get; set; } = new List<Portfolio>();
-        public ICollection<ServiceRequest>? ReceivedRequests { get; set; } = new List<ServiceRequest>();
-        public ICollection<Review>? Reviews { get; set; } = new List<Review>();
-        public ICollection<Favorite>? Favorites { get; set; } = new List<Favorite>();
 
     }
 }

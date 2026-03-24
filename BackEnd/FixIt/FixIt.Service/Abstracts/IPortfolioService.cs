@@ -1,4 +1,5 @@
 ﻿using FixIt.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Service.Abstracts
 {
@@ -11,6 +12,8 @@ namespace FixIt.Service.Abstracts
         Task<string> DeletePortfolioAsync(Portfolio portfolio);
         Task<string> UpdatePortfolioAsync(Portfolio portfolio);
         Task<Portfolio> GetPortfolioByidAsync(int id);
+        public Task<string> AddPortfolioImage(Portfolio portfolio, IFormFile file);
+
 
 
 

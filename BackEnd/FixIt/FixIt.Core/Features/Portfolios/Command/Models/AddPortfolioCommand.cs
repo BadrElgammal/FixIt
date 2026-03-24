@@ -11,7 +11,6 @@ namespace FixIt.Core.Features.Portfolios.Command.Models
         public string Title { get; set; }
         [MaxLength(500)]
         public string Description { get; set; }
-        public string ImgUrl { get; set; }
 
         public Guid WorkerProfileId { get; set; }
 

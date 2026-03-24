@@ -10,8 +10,7 @@ namespace FixIt.Core.Mapping.Workers
             CreateMap<EditeWorkerCommand, WorkerProfile>()
                .ForPath(dest => dest.User.FullName, opt => opt.MapFrom(src => src.FullName))
                .ForPath(dest => dest.User.Phone, opt => opt.MapFrom(src => src.Phone))
-               .ForPath(dest => dest.User.City, opt => opt.MapFrom(src => src.City))
-               .ForPath(dest => dest.User.ImgUrl, opt => opt.MapFrom(src => src.ImgUrl));
+               .ForPath(dest => dest.User.City, opt => opt.MapFrom(src => src.City));
 
 
 

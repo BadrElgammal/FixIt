@@ -1,21 +1,15 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Clients.Commands.Models;
-using FixIt.Core.Features.Clients.Queries.DTOs;
-using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Clients.Commands.Handlers
 {
     public class ClientCommandHandler : ResponseHandler, IRequestHandler<EditClientCommand, Response<String>>
-        ,IRequestHandler<DeleteClientCommand,Response<String>>
-        ,IRequestHandler<ChangeClientPasswordCommand,Response<String>>
+        , IRequestHandler<DeleteClientCommand, Response<String>>
+        , IRequestHandler<ChangeClientPasswordCommand, Response<String>>
+        , IRequestHandler<ChangeClientImageURL, Response<String>>
     {
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
@@ -30,7 +24,7 @@ namespace FixIt.Core.Features.Clients.Commands.Handlers
             var Client = await _clientService.GetClientById(request.UserId);
             if (Client == null) return NotFound<String>("المستخدم غير موجود");
 
-             _mapper.Map(request,Client);
+            _mapper.Map(request, Client);
 
             var result = await _clientService.EditClinetAsync(Client);
 
@@ -59,6 +53,26 @@ namespace FixIt.Core.Features.Clients.Commands.Handlers
             var result = await _clientService.ChangeClinetPasswordAsync(Client, request.NewPassword);
             if (result == "success") return Success("تم التعديل الباسورد بنجاح");
             else return BadRequest<string>();
+        }
+
+        public async Task<Response<string>> Handle(ChangeClientImageURL request, CancellationToken cancellationToken)
+        {
+            var user = await _clientService.GetClientById(request.UserId);
+
+            var result = await _clientService.ChangeClientImage(user, request.ImgUrl);
+
+
+            switch (result)
+            {
+                case "No Image !!": return NotFound<string>("No Image !!");
+                case "Feild to Uplaod !!": return NotFound<string>("Feild to Uplaod !!");
+                case "FaildinAdd": return NotFound<string>("FaildinAdd");
+
+            }
+
+            return Success("تم تغير الصورة ");
+
+
         }
     }
 }

@@ -1,20 +1,12 @@
 using FixIt.Core;
 using FixIt.Core.MiddleWare;
 using FixIt.Infrastructure;
-using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
-using FixIt.Infrastructure.Repositories;
 using FixIt.Service;
-using FixIt.Service.Abstracts;
 using FixIt.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Nest;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
 using System.Text;
 
 namespace FixIt.API
@@ -42,7 +34,7 @@ namespace FixIt.API
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme  = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(options =>
@@ -56,7 +48,7 @@ namespace FixIt.API
                         ValidateIssuer = true,
                         ValidIssuer = builder.Configuration["Jwt:IssuerIP"],
                         ValidateAudience = true,
-                        ValidAudience= builder.Configuration["Jwt:AudienceIP"]
+                        ValidAudience = builder.Configuration["Jwt:AudienceIP"]
                     };
                 });
             // L
@@ -66,7 +58,7 @@ namespace FixIt.API
             builder.Services.AddDbContext<FIXITDbContext>(options =>
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddDbContext<FIXITDbContext>();
-           
+
 
             #endregion
 
@@ -90,18 +82,21 @@ namespace FixIt.API
             if (app.Environment.IsDevelopment())
             {
             }
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseCors("AllowAngularApp");
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
             app.MapControllers();
 
-            app.Run(); 
+
+
+            app.Run();
             #endregion
         }
     }

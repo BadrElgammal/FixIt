@@ -1,18 +1,17 @@
 ﻿using FixIt.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Service.Abstracts
 {
-    public interface IClientService 
+    public interface IClientService
     {
         Task<List<User>> GetAllClientAsync();
         Task<User> GetClientById(object id);
         Task<String> EditClinetAsync(User user);
         Task<String> DeleteClientAsync(User user);
         Task<String> ChangeClinetPasswordAsync(User user, string passward);
+        public Task<string> ChangeClientImage(User user, IFormFile file);
+
+
     }
 }

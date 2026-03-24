@@ -8,7 +8,8 @@ using MediatR;
 namespace FixIt.Core.Features.Reviews.Query.Handlers
 {
     public class ReviewQueryHandler : ResponseHandler,
-                IRequestHandler<GetReviewsListQuery, Response<List<ReviewDTO>>>
+                IRequestHandler<GetReviewsListQuery, Response<List<ReviewDTO>>>,
+                IRequestHandler<GetReviewsListByWorkerIdQuery, Response<List<ReviewDTO>>>
     {
         private readonly IReviewsService _reviewsService;
         private readonly IMapper _mapper;
@@ -30,7 +31,16 @@ namespace FixIt.Core.Features.Reviews.Query.Handlers
 
         }
 
+        public async Task<Response<List<ReviewDTO>>> Handle(GetReviewsListByWorkerIdQuery request, CancellationToken cancellationToken)
+        {
+
+            var Reviews = await _reviewsService.GetAllReviewsByWorkerIdAsync(request.workerId);
+            if (Reviews == null || !Reviews.Any()) return NotFound<List<ReviewDTO>>("لا يوجد ");
+
+            var ReviewsMapper = _mapper.Map<List<ReviewDTO>>(Reviews);
+            return Success(ReviewsMapper);
 
 
+        }
     }
 }
