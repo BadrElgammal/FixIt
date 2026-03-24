@@ -24,4 +24,8 @@
     <ProjectReference Include="..\FixIt.Core\FixIt.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WWWRoot\" />
+  </ItemGroup>
+
 </Project>

@@ -9,7 +9,6 @@ namespace FixIt.Core.Mapping.Portfolios
         {
             CreateMap<AddPortfolioCommand, Portfolio>();
 
-
         }
 
     }

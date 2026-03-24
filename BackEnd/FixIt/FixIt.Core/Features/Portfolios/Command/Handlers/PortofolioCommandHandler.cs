@@ -10,7 +10,8 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
     public class PortofolioCommandHandler : ResponseHandler,
                IRequestHandler<AddPortfolioCommand, Response<string>>,
                IRequestHandler<DeletePortfolioCommand, Response<string>>,
-               IRequestHandler<EditePortfolioCommand, Response<string>>
+               IRequestHandler<EditePortfolioCommand, Response<string>>,
+               IRequestHandler<AddPortfolioImgURlCommand, Response<string>>
     {
         private readonly IPortfolioService _portfolioService;
         private readonly IMapper _mapper;
@@ -52,6 +53,28 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
             var result = await _portfolioService.UpdatePortfolioAsync(portfolio);
             if (result == "success") return Success("تم التعديل ");
             else return BadRequest<string>();
+
+        }
+
+        public async Task<Response<string>> Handle(AddPortfolioImgURlCommand request, CancellationToken cancellationToken)
+        {
+
+            var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
+
+            var result = await _portfolioService.AddPortfolioImage(portfolio, request.ImgUrl);
+
+
+            switch (result)
+            {
+                case "No Image !!": return NotFound<string>("No Image !!");
+                case "Feild to Uplaod !!": return NotFound<string>("Feild to Uplaod !!");
+                case "FaildinAdd": return NotFound<string>("FaildinAdd");
+
+            }
+
+            return Success("تم اضافة الصورة ");
+
+
 
         }
     }

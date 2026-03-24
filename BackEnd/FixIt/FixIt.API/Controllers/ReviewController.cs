@@ -11,12 +11,22 @@ namespace FixIt.API.Controllers
     [ApiController]
     public class ReviewController : AppController
     {
+
         //All Reviews
         [HttpGet("AllReviews")]
         [Authorize]
         public async Task<IActionResult> AllReviews()
         {
             var respose = await _mediator.Send(new GetReviewsListQuery());
+            return NewResult(respose);
+        }
+
+        //All Reviews {ByWorkerId}
+        [HttpGet("AllReviewsByWorkerId/{workerId}")]
+        [Authorize]
+        public async Task<IActionResult> AllReviewsByWorker(Guid workerId)
+        {
+            var respose = await _mediator.Send(new GetReviewsListByWorkerIdQuery(workerId));
             return NewResult(respose);
         }
 

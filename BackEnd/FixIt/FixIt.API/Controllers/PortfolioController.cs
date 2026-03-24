@@ -66,5 +66,20 @@ namespace FixIt.API.Controllers
             return Ok(PortoliosList);
         }
 
+
+        //AddImage
+        [HttpPut("AddPortfolioImage/{id}")]
+        [Authorize]
+        public async Task<IActionResult> AddImage([FromRoute] int id, [FromBody] AddPortfolioImgURlCommand command)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            command.PortfolioId = id;
+
+            var respose = await _mediator.Send(command);
+            return Ok(respose);
+        }
+
+
     }
 }

@@ -33,6 +33,11 @@ namespace FixIt.Service.Services
 
         }
 
+        public async Task<List<Review>> GetAllReviewsByWorkerIdAsync(Guid workerId)
+        {
+            return await _reviewsRepository.GetAllReviewsByWorkerIdAsync(workerId);
+        }
+
         public async Task<Review> GetReviewByIdAsync(int ReviewId)
         {
             return await _reviewsRepository.GetByIdAsync(ReviewId);

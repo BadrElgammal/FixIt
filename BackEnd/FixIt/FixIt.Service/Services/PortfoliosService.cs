@@ -1,19 +1,21 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Service.Services
 {
     public class PortfoliosService : IPortfolioService
     {
         private readonly IPortfoliosRepository _portfoliosRepo;
+        private readonly IFileService _fileService;
 
 
 
-        public PortfoliosService(IPortfoliosRepository portfoliosRepo)
+        public PortfoliosService(IPortfoliosRepository portfoliosRepo, IFileService fileService)
         {
             _portfoliosRepo = portfoliosRepo;
-
+            _fileService = fileService;
         }
 
         public async Task<string> AddPortfolioAsync(Portfolio portfolio)
@@ -50,5 +52,38 @@ namespace FixIt.Service.Services
             await _portfoliosRepo.UpdateAsync(portfolio);
             return "success";
         }
+
+        public async Task<string> AddPortfolioImage(Portfolio portfolio, IFormFile file)
+        {
+
+
+            var ImgUrl = await _fileService.UploadImage("Portfolios", file);
+            portfolio.ImgUrl = ImgUrl;
+
+            switch (ImgUrl)
+            {
+                case "No Image !!": return "No Image !!";
+                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+            }
+
+            try
+            {
+                await _portfoliosRepo.UpdateAsync(portfolio);
+                return "success";
+
+            }
+            catch (Exception)
+            {
+
+                return "FaildinAdd";
+            }
+
+
+
+        }
+
+
+
+
     }
 }

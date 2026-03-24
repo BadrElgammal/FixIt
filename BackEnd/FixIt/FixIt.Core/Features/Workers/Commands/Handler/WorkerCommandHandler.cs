@@ -10,14 +10,17 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
     public class WorkerCommandHandler : ResponseHandler
                     , IRequestHandler<EditeWorkerCommand, Response<string>>,
                      IRequestHandler<DeleteWorkerCommand, Response<string>>,
-                     IRequestHandler<ChangeWorkerPasswordCommand, Response<string>>
+                     IRequestHandler<ChangeWorkerPasswordCommand, Response<string>>,
+                     IRequestHandler<ChangeWorkerImgURL, Response<string>>
     {
 
         #region Feilds
         private readonly IWorkerService _workerService;
         private readonly ICategoryService _categoryService;
         private readonly IWorkerRepository _workerRepo;
+        private readonly IClientService _userService;
         private readonly IMapper _mapper;
+
         #endregion
 
         #region Ctors
@@ -54,6 +57,7 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
 
             var result = await _workerService.EditeWorkerAsync(workerMapper);
 
+
             if (result == "success") return Success("تم التعديل بنجاح");
             else return BadRequest<string>();
         }
@@ -81,6 +85,26 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
             var result = await _workerService.ChangeWorkerPasswordAsync(worker, request.NewPassword);
             if (result == "success") return Success("تم التعديل الباسورد بنجاح");
             else return BadRequest<string>();
+
+        }
+
+        public async Task<Response<string>> Handle(ChangeWorkerImgURL request, CancellationToken cancellationToken)
+        {
+
+            var user = await _workerService.GetUserByUserId(request.userId);
+
+            var result = await _workerService.ChangeWorkerImage(user, request.ImgUrl);
+
+
+            switch (result)
+            {
+                case "No Image !!": return NotFound<string>("No Image !!");
+                case "Feild to Uplaod !!": return NotFound<string>("Feild to Uplaod !!");
+                case "FaildinAdd": return NotFound<string>("FaildinAdd");
+
+            }
+
+            return Success("تم تغير الصورة ");
 
         }
 

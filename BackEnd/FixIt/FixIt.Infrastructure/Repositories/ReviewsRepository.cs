@@ -20,5 +20,12 @@ namespace FixIt.Infrastructure.Repositories
                                      .Include(r => r.ReviewedWorker)
                                      .ToListAsync();
         }
+
+        public Task<List<Review>> GetAllReviewsByWorkerIdAsync(Guid workerId)
+        {
+            return _dbContext.Reviews.Include(r => r.ReviewedWorker)
+                                     .Where(r => r.ReviewedWorkerId == workerId)
+                                     .ToListAsync();
+        }
     }
 }

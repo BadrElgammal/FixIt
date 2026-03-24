@@ -1,6 +1,7 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Service.Services
 {
@@ -11,6 +12,7 @@ namespace FixIt.Service.Services
         private readonly IWorkerRepository _WorkerRepo;
         private readonly IGenericRepositoryAsync<Wallet> _walletRepo;
         private readonly IGenericRepositoryAsync<User> _userRepo;
+        private readonly IFileService _fileService;
 
 
         #endregion
@@ -18,11 +20,12 @@ namespace FixIt.Service.Services
         #region Ctors
 
         public WorkerService(IWorkerRepository WorkerRepo, IGenericRepositoryAsync<Wallet> walletRepo
-            , IGenericRepositoryAsync<User> userRepo)
+            , IGenericRepositoryAsync<User> userRepo, IFileService fileService)
         {
             this._WorkerRepo = WorkerRepo;
             _walletRepo = walletRepo;
             _userRepo = userRepo;
+            _fileService = fileService;
         }
 
 
@@ -105,6 +108,41 @@ namespace FixIt.Service.Services
         {
             await _WorkerRepo.UpdateAsync(worker);
             return "success";
+
+
+        }
+
+        public async Task<string> ChangeWorkerImage(User user, IFormFile file)
+        {
+
+
+            var ImgUrl = await _fileService.UploadImage("Workers", file);
+            user.ImgUrl = ImgUrl;
+
+            switch (ImgUrl)
+            {
+                case "No Image !!": return "No Image !!";
+                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+            }
+
+            try
+            {
+                await _userRepo.UpdateAsync(user);
+                return "success";
+
+            }
+            catch (Exception)
+            {
+
+                return "FaildinAdd";
+            }
+
+
+        }
+
+        public async Task<User> GetUserByUserId(Guid userId)
+        {
+            return await _userRepo.GetByIdAsync(userId);
         }
 
 

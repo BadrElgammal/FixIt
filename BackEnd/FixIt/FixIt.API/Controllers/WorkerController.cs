@@ -54,6 +54,9 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> Edite([FromBody] EditeWorkerCommand command)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
@@ -80,7 +83,7 @@ namespace FixIt.API.Controllers
         //change password 
         [HttpPut("ChangePassword")]
         [Authorize]
-        public async Task<IActionResult> ChangeClientPassword([FromBody] ChangeWorkerPasswordCommand command)
+        public async Task<IActionResult> ChangeWorkerPassword([FromBody] ChangeWorkerPasswordCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
@@ -89,6 +92,20 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
+
+        //ChangeImageURL
+        [HttpPut("ChangeImage")]
+        [Authorize]
+        public async Task<IActionResult> ChangeWorkerImage([FromBody] ChangeWorkerImgURL command)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+
+            command.userId = Id;
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+        }
 
 
 

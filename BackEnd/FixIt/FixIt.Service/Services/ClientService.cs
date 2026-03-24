@@ -1,21 +1,20 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Service.Services
 {
     internal class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IFileService _fileService;
 
-        public ClientService(IClientRepository clientRepository)
+
+        public ClientService(IClientRepository clientRepository, IFileService fileService)
         {
             _clientRepository = clientRepository;
+            _fileService = fileService;
         }
         public async Task<User> GetClientById(object id)
         {
@@ -46,5 +45,33 @@ namespace FixIt.Service.Services
             return "success";
         }
 
+        public async Task<string> ChangeClientImage(User client, IFormFile file)
+        {
+
+            var ImgUrl = await _fileService.UploadImage("Clients", file);
+            client.ImgUrl = ImgUrl;
+
+            switch (ImgUrl)
+            {
+                case "No Image !!": return "No Image !!";
+                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+            }
+
+            try
+            {
+                await _clientRepository.UpdateAsync(client);
+                return "success";
+
+            }
+            catch (Exception)
+            {
+
+                return "FaildinAdd";
+            }
+
+
+
+
+        }
     }
 }
