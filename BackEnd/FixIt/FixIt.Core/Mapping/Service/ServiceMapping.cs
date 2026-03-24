@@ -12,7 +12,8 @@ namespace FixIt.Core.Mapping.Service
         public ServiceMapping()
         {
             CreateServieRequestMapping();
-            GetAllServiceRequests();
+            GetAllServiceRequists();
+            GetServiceRequest();
         }
     }
 }

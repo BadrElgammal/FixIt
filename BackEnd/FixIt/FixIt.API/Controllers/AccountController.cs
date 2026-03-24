@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 
 namespace FixIt.API.Controllers
@@ -47,7 +48,7 @@ namespace FixIt.API.Controllers
 
 
         [HttpPost("Register")]
-        public IActionResult Register(RegisterDTO userData)
+        public async Task<IActionResult> Register(RegisterDTO userData)
         {
             if(!ModelState.IsValid)
             {
@@ -79,18 +80,18 @@ namespace FixIt.API.Controllers
                 Role = userData.Role,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(userData.Password)
             };
-            _UserService.AddAsync(user);
+            await _UserService.AddAsync(user);
             if(userData.Role.ToLower() == "worker")
             {
                 var worker = new WorkerProfile() { UserId = user.UserId };
-                _WorkerService.AddAsync(worker);
+                await _WorkerService.AddAsync(worker);
             }
             var wallet = new Wallet() 
             {
                 UserId = user.UserId ,
                 OwnerType = user.Role
             };
-            _WalletService.AddAsync(wallet);
+            await _WalletService.AddAsync(wallet);
 
             string StringToken = _JwtService.GenerateToken(user);
 

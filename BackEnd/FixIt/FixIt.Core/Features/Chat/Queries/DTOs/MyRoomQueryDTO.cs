@@ -5,22 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Domain.Entities
+namespace FixIt.Core.Features.Chat.Queries.DTOs
 {
-    public class ChatRoom
+    public class MyRoomQueryDTO
     {
-        [Key]
         public int RoomId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string? LastMessage { get; set; }
         public DateTime? LastMessageAt { get; set; }
 
-        public Guid CurrentUserId { get; set; }
-        public User CurrentUser { get; set; }
-
-        public Guid TargetUserId { get; set; }
-        public User TargetUser { get; set; }
-
-        public ICollection<ChatMessage>? Messages { get; set; } = new List<ChatMessage>();
+        public Guid TargetUserId { get; set; } = Guid.NewGuid();
+        public string TargetUserName { get; set; }
+        public string? TargetUserImgUrl { get; set; }
+        public bool TargetUserIsActive { get; set; } = false;
     }
 }

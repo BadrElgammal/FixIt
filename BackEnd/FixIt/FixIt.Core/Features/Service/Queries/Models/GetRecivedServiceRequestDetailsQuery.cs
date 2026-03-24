@@ -1,5 +1,6 @@
 ﻿using FixIt.Core.Bases;
 using FixIt.Core.Features.Service.Commands.DTOs;
+using FixIt.Core.Features.Service.Queries.DTOs;
 using FixIt.Domain.Entities;
 using MediatR;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Service.Queries.Models
 {
-    public class GetRecivedServiceRequestDetailsQuery : IRequest<Response<ServiceRequestDTO>>
+    public class GetRecivedServiceRequestDetailsQuery : IRequest<Response<ServiceRequestDetailsDTO>>
     {
         public Guid ServiceId { get; set; }
         public Guid WorkerId { get; set; }
