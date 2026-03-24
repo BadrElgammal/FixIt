@@ -67,15 +67,15 @@ namespace FixIt.Infrastructure.Context
 
             // ================= ChatRooms =================
             modelBuilder.Entity<ChatRoom>()
-                .HasOne(c => c.Client)
+                .HasOne(c => c.CurrentUser)
                 .WithMany(u => u.ClientChatRooms)
-                .HasForeignKey(c => c.ClientId)
+                .HasForeignKey(c => c.CurrentUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ChatRoom>()
-                .HasOne(c => c.Worker)
+                .HasOne(c => c.TargetUser)
                 .WithMany(u => u.WorkerChatRooms)
-                .HasForeignKey(c => c.WorkerId)
+                .HasForeignKey(c => c.TargetUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // ================= Favorites =================

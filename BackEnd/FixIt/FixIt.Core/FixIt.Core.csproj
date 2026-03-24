@@ -34,6 +34,9 @@
   <ItemGroup>
     <Folder Include="Features\Categories\Command\Validatiors\" />
     <Folder Include="Features\Categories\Query\DTOs\" />
+    <Folder Include="Features\Chat\Commands\DTOs\" />
+    <Folder Include="Features\Chat\Commands\Validatiors\" />
+    <Folder Include="Features\Chat\Queries\Validatiors\" />
     <Folder Include="Features\Clients\Queries\Validatiors\" />
     <Folder Include="Bases\" />
     <Folder Include="Features\Favorites\Commands\Validatiors\" />
@@ -42,6 +45,7 @@
     <Folder Include="Features\Reviews\Command\Validatiors\" />
     <Folder Include="Features\Service\Queries\Validatiors\" />
     <Folder Include="Mapping\Categories\QueryMapping\" />
+    <Folder Include="Mapping\Chat\CommandMapping\" />
     <Folder Include="Mapping\Favorites\CommandMapping\" />
   </ItemGroup>
 

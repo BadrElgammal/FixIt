@@ -9,7 +9,7 @@ namespace FixIt.Domain.Entities
         public int ReviewId { get; set; }
         public decimal Rate { get; set; }
         public string Comment { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [ForeignKey("Reviewer")]
         public Guid ReviewerId { get; set; }

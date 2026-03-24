@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Service.Commands.DTOs;
+using FixIt.Core.Features.Service.Queries.DTOs;
 using FixIt.Core.Features.Service.Queries.Models;
 using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Migrations;
@@ -15,10 +16,10 @@ using System.Threading.Tasks;
 namespace FixIt.Core.Features.Service.Queries.Handlers
 {
     public class ServiceRequestQueryHandler : ResponseHandler,
-                        IRequestHandler<GetSentsServiceRequistQuery, Response<List<ServiceRequestDTO>>>,
-                        IRequestHandler<GetRecivedServiceRequestsQuery, Response<List<ServiceRequestDTO>>>,
-                        IRequestHandler<GetSentsServiceRequestDetailsQuery,Response<ServiceRequestDTO>>,
-                        IRequestHandler<GetRecivedServiceRequestDetailsQuery, Response<ServiceRequestDTO>>
+                        IRequestHandler<GetSentsServiceRequistQuery, Response<List<GetAllServiceRequistDTO>>>,
+                        IRequestHandler<GetRecivedServiceRequestsQuery, Response<List<GetAllServiceRequistDTO>>>,
+                        IRequestHandler<GetSentsServiceRequestDetailsQuery,Response<ServiceRequestDetailsDTO>>,
+                        IRequestHandler<GetRecivedServiceRequestDetailsQuery, Response<ServiceRequestDetailsDTO>>
 
     {
         private readonly IMapper _mapper;
@@ -30,39 +31,41 @@ namespace FixIt.Core.Features.Service.Queries.Handlers
             _serviceRequestService = serviceRequestService;
         }
 
-        public async Task<Response<List<ServiceRequestDTO>>> Handle(GetSentsServiceRequistQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<GetAllServiceRequistDTO>>> Handle(GetSentsServiceRequistQuery request, CancellationToken cancellationToken)
         {
-            var ServiceRequests =  _serviceRequestService.Find(s => s.ClientId == request.Id).ToList();    
-            var serviceRequestsMapper = _mapper.Map<List<ServiceRequestDTO>>(ServiceRequests);
+            var ServiceRequests = await _serviceRequestService.GetAllServiceRequestWithAllDataByClientId(request.Id);
+            if (!ServiceRequests.Any()) return BadRequest<List<GetAllServiceRequistDTO>>("لايوجد طلبات بعد");
+            var serviceRequestsMapper = _mapper.Map<List<GetAllServiceRequistDTO>>(ServiceRequests);
             return Success(serviceRequestsMapper);
         }
 
-        public async Task<Response<List<ServiceRequestDTO>>> Handle(GetRecivedServiceRequestsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<GetAllServiceRequistDTO>>> Handle(GetRecivedServiceRequestsQuery request, CancellationToken cancellationToken)
         {
-            var workerId =  _serviceRequestService.GetWorkerIdByUserId(request.Id);
-            var ServiceRequests = _serviceRequestService.Find(s => s.WorkerId == workerId).ToList();
-            var serviceRequestsMapper = _mapper.Map<List<ServiceRequestDTO>>(ServiceRequests);
+
+            var ServiceRequests = await _serviceRequestService.GetAllServiceRequestWithAllDataByWorkerId(request.Id);
+            if (!ServiceRequests.Any()) return BadRequest<List<GetAllServiceRequistDTO>>("لايوجد طلبات بعد");
+            var serviceRequestsMapper = _mapper.Map<List<GetAllServiceRequistDTO>>(ServiceRequests);
             return Success(serviceRequestsMapper);
         }
 
-        public async Task<Response<ServiceRequestDTO>> Handle(GetSentsServiceRequestDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<ServiceRequestDetailsDTO>> Handle(GetSentsServiceRequestDetailsQuery request, CancellationToken cancellationToken)
         {
-            var servieRequest = _serviceRequestService.Find(s => s.RequestId == request.ServiceId).FirstOrDefault();
-            if (servieRequest.ClientId != request.ClientId) return BadRequest<ServiceRequestDTO>("");
-            if (servieRequest == null) return NotFound<ServiceRequestDTO>("لا يوجد طلبات بعد");
+            var serviceRequest = await _serviceRequestService.GetServiceRequestWithAllData(request.ServiceId);
+            if (serviceRequest.ClientId != request.ClientId) return BadRequest<ServiceRequestDetailsDTO>("");
+            if (serviceRequest == null) return NotFound<ServiceRequestDetailsDTO>("لا يوجد طلبات بعد");
 
-            var serviceRequestsMapper = _mapper.Map<ServiceRequestDTO>(servieRequest);
+            var serviceRequestsMapper = _mapper.Map<ServiceRequestDetailsDTO>(serviceRequest);
             return Success(serviceRequestsMapper);
         }
 
-        public async Task<Response<ServiceRequestDTO>> Handle(GetRecivedServiceRequestDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<ServiceRequestDetailsDTO>> Handle(GetRecivedServiceRequestDetailsQuery request, CancellationToken cancellationToken)
         {
             var workerId = _serviceRequestService.GetWorkerIdByUserId(request.WorkerId);
-            var servieRequest = _serviceRequestService.Find(s => s.RequestId == request.ServiceId).FirstOrDefault();
-            if (servieRequest.WorkerId != workerId) return BadRequest<ServiceRequestDTO>("");
-            if (servieRequest == null) return NotFound<ServiceRequestDTO>("لا يوجد طلبات بعد");
+            var serviceRequest = await _serviceRequestService.GetServiceRequestWithAllData(request.ServiceId);
+            if (serviceRequest.WorkerId != workerId) return BadRequest<ServiceRequestDetailsDTO>("");
+            if (serviceRequest == null) return NotFound<ServiceRequestDetailsDTO>("لا يوجد طلبات بعد");
 
-            var serviceRequestsMapper = _mapper.Map<ServiceRequestDTO>(servieRequest);
+            var serviceRequestsMapper = _mapper.Map<ServiceRequestDetailsDTO>(serviceRequest);
             return Success(serviceRequestsMapper);
         }
     }

@@ -1,3 +1,4 @@
+using FixIt.API.SignalR;
 using FixIt.Core;
 using FixIt.Core.MiddleWare;
 using FixIt.Infrastructure;
@@ -22,14 +23,16 @@ namespace FixIt.API
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAngularApp",
-                    policy => policy
-                        .WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+            // ضيف ده في Program.cs لو مش موجود
+            builder.Services.AddCors(options => {
+                options.AddPolicy("AllowAll", builder => {
+                    builder.AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .SetIsOriginAllowed(origin => true) // للتست بس
+                           .AllowCredentials(); // مهمة جداً للـ SignalR
+                });
             });
+            // وتحت استخدمها: app.UseCors("AllowAll");
 
             builder.Services.AddAuthentication(options =>
             {
@@ -41,7 +44,6 @@ namespace FixIt.API
                 {
                     options.SaveToken = true;
                     var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]));
-                    //validate function
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         IssuerSigningKey = secretKey,
@@ -49,6 +51,23 @@ namespace FixIt.API
                         ValidIssuer = builder.Configuration["Jwt:IssuerIP"],
                         ValidateAudience = true,
                         ValidAudience = builder.Configuration["Jwt:AudienceIP"]
+                    };
+
+                    // 👇 الكود ده إجباري عشان الـ SignalR يقرأ التوكن من اللينك
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+
+                            // لو الريكويست رايح للـ /chat، اقرأ التوكن
+                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
             // L
@@ -73,28 +92,29 @@ namespace FixIt.API
             // Register repositories and business services
             builder.Services.AddScoped<JWTService>();
 
+            builder.Services.AddSignalR();
             var app = builder.Build();
 
             #region Request Piplines
 
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
             }
-            app.UseSwagger();
-            app.UseSwaggerUI();
+                app.UseSwagger();
+                app.UseSwaggerUI();
 
+            app.UseRouting(); // 1. Routing الأول
             app.UseMiddleware<ErrorHandlerMiddleware>();
 
-            app.UseCors("AllowAngularApp");
-            app.UseAuthorization();
+            app.UseCors("AllowAll"); // 2. الـ CORS بالاسم اللي انت معرفه فوق
+
+            app.UseAuthentication(); // 3. 👈 ضفنا دي (التأكد من التوكن)
+            app.UseAuthorization();  // 4. (التأكد من الصلاحيات)
 
             app.UseStaticFiles();
 
             app.MapControllers();
-
-
+            app.MapHub<ChatHub>("/chat"); // 5. 👈 المسار هنا اسمه /chat
 
             app.Run();
             #endregion

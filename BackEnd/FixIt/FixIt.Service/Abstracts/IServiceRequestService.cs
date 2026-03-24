@@ -18,6 +18,10 @@ namespace FixIt.Service.Abstracts
         Task<Wallet> GetWalletByWorkerId(Guid workerId);
         Task<string> EditWallet(Wallet wallet);
         Task<string> CreateTransaction(Transaction transaction);
+        Task<ServiceRequest> GetServiceRequestWithAllData(object serviceId);
+        Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByClientId(object ClientId);
+        Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByWorkerId(object WorkerId);
+
 
     }
 }

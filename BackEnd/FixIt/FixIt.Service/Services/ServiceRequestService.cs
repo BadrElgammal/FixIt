@@ -45,6 +45,21 @@ namespace FixIt.Service.Services
             return _serviceRequestRepository.Find(predicate);
         }
 
+        public async Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByClientId(object ClientId)
+        {
+            return await _serviceRequestRepository.GetAllServiceRequestWithAllDataByClientId(ClientId);
+        }
+
+        public async Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByWorkerId(object WorkerId)
+        {
+            return await _serviceRequestRepository.GetAllServiceRequestWithAllDataByWorkerId(WorkerId);
+        }
+
+        public async Task<ServiceRequest> GetServiceRequestWithAllData(object serviceId)
+        {
+            return await _serviceRequestRepository.GetServiceRequestWithAllData(serviceId);
+        }
+
         public async Task<Wallet> GetWalletByClientId(Guid clientId)
         {
             return await _serviceRequestRepository.GetWalletByClientId(clientId);

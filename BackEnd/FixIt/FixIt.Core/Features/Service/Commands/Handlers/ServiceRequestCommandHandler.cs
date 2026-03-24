@@ -81,6 +81,8 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
             {
                
                 var WalletClient = await _serviceRequestService.GetWalletByClientId(request.ClientId);
+                if (WalletClient.Balance < serviceRequest.TotalPrice)
+                    return BadRequest<string>("لا يوجد مال كافى لديك فى المحفظه");
                 var WalletWorker = await _serviceRequestService.GetWalletByWorkerId(serviceRequest.WorkerId);
                 var transaction = new Transaction
                 {
@@ -159,6 +161,8 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
             {
                 var WalletWorker = await _serviceRequestService.GetWalletByWorkerId(serviceRequest.WorkerId);
                 var WalletClient = await _serviceRequestService.GetWalletByClientId(serviceRequest.ClientId);
+                if(serviceRequest.TotalPrice != serviceRequest.DepositAmount) 
+                    return BadRequest<string>();
                 var transaction = new Transaction
                 {
                     Amount = serviceRequest.TotalPrice * (decimal)0.85,

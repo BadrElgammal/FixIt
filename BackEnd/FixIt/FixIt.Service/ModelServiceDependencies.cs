@@ -17,6 +17,7 @@ namespace FixIt.Service
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPortfolioService, PortfoliosService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IChatService, ChatService>();
 
             return services;
         }

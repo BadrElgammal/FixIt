@@ -13,8 +13,8 @@ namespace FixIt.Domain.Entities
         [Key]
         public int MessageId { get; set; }
         public string MessageText { get; set; }
-        public bool IsRead { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public bool IsRead { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [ForeignKey("Room")]
         public int RoomId { get; set; }
