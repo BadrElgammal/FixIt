@@ -9,8 +9,8 @@ namespace FixIt.Core.Mapping.Portfolios
         public void EditePortfolioMapping()
         {
             CreateMap<EditePortfolioCommand, Portfolio>()
-                                    .ForMember(dest => dest.ImgUrl, opt => opt.Ignore());
-            //.ForMember(dest => dest.WorkerProfileId, opt => opt.Ignore());
+                                    .ForMember(dest => dest.ImgUrl, opt => opt.Ignore())
+                                    .ForMember(dest => dest.WorkerProfileId, opt => opt.Ignore());
 
         }
 

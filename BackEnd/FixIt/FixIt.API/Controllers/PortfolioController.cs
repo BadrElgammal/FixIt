@@ -18,6 +18,12 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> Add([FromForm] AddPortfolioCommand command)
         {
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            command.WorkerProfileId = Id;
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -31,10 +37,15 @@ namespace FixIt.API.Controllers
         public async Task<IActionResult> Edite([FromRoute] int portfolioId, [FromForm] EditePortfolioCommand command)
         {
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
 
             command.PortfolioId = portfolioId;
+            command.WorkerProfileId = Id;
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var respose = await _mediator.Send(command);
             return NewResult(respose);

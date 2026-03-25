@@ -29,6 +29,8 @@ namespace FixIt.Core.Features.Portfolios.Command.Models
 
         public IFormFile? ImgUrl { get; set; }
 
+
+        //WorkerProfile <=> From UserId
         public Guid WorkerProfileId { get; set; }
 
     }

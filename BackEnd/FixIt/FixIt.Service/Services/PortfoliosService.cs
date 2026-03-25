@@ -73,6 +73,11 @@ namespace FixIt.Service.Services
             return await _portfoliosRepo.GetPortfolioByidAsNoTrackingAsync(id);
         }
 
+        public async Task<Guid> GetWorkerIdByUserId(Guid userId)
+        {
+            return await _portfoliosRepo.GetWorkerIdByUserId(userId);
+        }
+
         public async Task<string> UpdatePortfolioAsync(Portfolio portfolio, IFormFile? file)
         {
             //await _portfoliosRepo.UpdateAsync(portfolio);
