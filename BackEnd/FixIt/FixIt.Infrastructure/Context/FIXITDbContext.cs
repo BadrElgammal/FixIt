@@ -28,6 +28,7 @@ namespace FixIt.Infrastructure.Context
         public DbSet<ChatRoom> ChatRooms { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -133,6 +134,17 @@ namespace FixIt.Infrastructure.Context
                 .HasForeignKey(m => m.ReciverId) // أو اسم الـ FK بتاعها عندك
                 .OnDelete(DeleteBehavior.Restrict);
 
+
+
+
+
+
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.User)
+                .WithMany()
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

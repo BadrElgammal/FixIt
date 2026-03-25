@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Service.Commands.Models
 {
-    public class RejectServiceRequestCommand : IRequest<Response<String>>
+    public class RejectServiceRequestCommand : IRequest<Response<string>>
     {
         public Guid ServiceId { get; set; }
         public Guid UserId { get; set; }

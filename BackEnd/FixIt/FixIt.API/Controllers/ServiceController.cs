@@ -108,12 +108,13 @@ namespace FixIt.API.Controllers
 
         [HttpPut("recivedJobs/{serviceId}/inprocess")]
         [Authorize]
-        public async Task<IActionResult> AcceptPriceServiceRequest(Guid serviceId)
+        public async Task<IActionResult> AcceptPriceServiceRequest(AcceptPriceServiceRequestCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
+            command.ClientId = Id;
 
-            var result = await _mediator.Send(new AcceptPriceServiceRequestCommand(serviceId, Id));
+            var result = await _mediator.Send(command);
             return NewResult(result);
         }
 

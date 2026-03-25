@@ -16,6 +16,7 @@ namespace FixIt.Domain.Entities
         public DateTime RequestDate { get; set; } = DateTime.Now;
         public DateTime? CompleteDate { get; set; }
 
+        public string? serviceAddress { get; set; }
         // Img
         public string? RequestedImgUrl { get; set; }
         public string? SubmitedImgUrl { get; set; }

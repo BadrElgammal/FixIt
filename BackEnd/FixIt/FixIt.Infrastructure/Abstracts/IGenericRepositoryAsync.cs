@@ -25,6 +25,6 @@ namespace FixIt.Infrastructure.Abstracts
         Task UpdateRangeAsync(ICollection<T> entities);
         Task DeleteAsync(T entity);
         void Delete(T entity);
-        IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+        IQueryable<T> Find(Expression<Func<T, bool>> predicate);
     }
 }

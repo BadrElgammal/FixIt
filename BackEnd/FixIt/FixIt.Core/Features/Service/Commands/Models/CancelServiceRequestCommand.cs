@@ -11,11 +11,11 @@ namespace FixIt.Core.Features.Service.Commands.Models
     public class CancelServiceRequestCommand :IRequest<Response<string>>
     {
         public Guid ServiceId { get; set; }
-        public Guid WorkerId { get; set; }
-        public CancelServiceRequestCommand(Guid serviceId, Guid workerId)
+        public Guid UserId { get; set; }
+        public CancelServiceRequestCommand(Guid serviceId, Guid userId)
         {
             ServiceId = serviceId;
-            WorkerId = workerId;
+            UserId = userId;
         }
     }
 }

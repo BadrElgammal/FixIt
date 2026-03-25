@@ -4,6 +4,7 @@ using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(FIXITDbContext))]
-    partial class FIXITDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260325182630_AddNotificationTable")]
+    partial class AddNotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,9 +340,6 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.Property<Guid>("WorkerId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("serviceAddress")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RequestId");
 
