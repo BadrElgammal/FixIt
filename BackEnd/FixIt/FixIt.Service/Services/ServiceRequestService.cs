@@ -3,6 +3,7 @@ using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace FixIt.Service.Services
 {
@@ -10,13 +11,15 @@ namespace FixIt.Service.Services
     {
         private readonly IServiceRequestRepository _serviceRequestRepository;
         private readonly IFileService _fileService;
+        private readonly IGenericRepositoryAsync<WorkerProfile> _workerRepo;
 
 
 
-        public ServiceRequestService(IServiceRequestRepository serviceRequestRepository, IFileService fileService)
+        public ServiceRequestService(IServiceRequestRepository serviceRequestRepository, IFileService fileService , IGenericRepositoryAsync<WorkerProfile> workerRepo)
         {
             _serviceRequestRepository = serviceRequestRepository;
             _fileService = fileService;
+            _workerRepo = workerRepo;
         }
         public async Task<string> CreateServiceRequest(ServiceRequest serviceRequest, IFormFile? file)
         {
@@ -119,6 +122,7 @@ namespace FixIt.Service.Services
             return await _serviceRequestRepository.GetServiceRequestWithAllData(serviceId);
         }
 
+
         public async Task<Wallet> GetWalletByClientId(Guid clientId)
         {
             return await _serviceRequestRepository.GetWalletByClientId(clientId);
@@ -132,6 +136,11 @@ namespace FixIt.Service.Services
         public Guid GetWorkerIdByUserId(Guid userId)
         {
             return _serviceRequestRepository.GetWorkerIdByUserId(userId);
+        }
+        public async Task<Guid> GetUserIdByWorkerId(Guid workerId)
+        {
+            var worker = await _workerRepo.GetByIdAsync(workerId);
+            return worker.UserId;
         }
     }
 }

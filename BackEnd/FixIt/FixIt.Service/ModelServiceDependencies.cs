@@ -18,6 +18,8 @@ namespace FixIt.Service
             services.AddScoped<IPortfolioService, PortfoliosService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<INotificationService, NotificationService>();
+
 
             return services;
         }

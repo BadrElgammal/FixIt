@@ -119,9 +119,9 @@ namespace FixIt.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            return _dbContext.Set<T>().Where(predicate).ToList();
+            return _dbContext.Set<T>().Where(predicate);
 
         }
 

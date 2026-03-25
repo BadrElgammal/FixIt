@@ -9,6 +9,7 @@ namespace FixIt.Service.Abstracts
         Task<string> CreateServiceRequest(ServiceRequest serviceRequest, IFormFile? file);
         IEnumerable<ServiceRequest> Find(Expression<Func<ServiceRequest, bool>> predicate);
         Guid GetWorkerIdByUserId(Guid userId);
+        Task<Guid> GetUserIdByWorkerId(Guid workerId);
         Task<String> EditServiceRequestAsync(ServiceRequest serviceRequest, IFormFile? file);
         Task<String> EditServiceRequestAsync(ServiceRequest serviceRequest);
         Task<Wallet> GetWalletByClientId(Guid clientId);

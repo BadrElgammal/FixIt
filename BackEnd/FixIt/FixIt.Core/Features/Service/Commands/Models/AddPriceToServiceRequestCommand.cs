@@ -17,6 +17,6 @@ namespace FixIt.Core.Features.Service.Commands.Models
         public Guid RequestId { get; set; } 
         public decimal TotalPrice { get; set; }
         [JsonIgnore]
-        public Guid WorkerId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

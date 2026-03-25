@@ -5,14 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace FixIt.Core.Features.Service.Commands.Models
 {
-    public class CreateServiceRequestCommand : IRequest<Response<String>>
+    public class CreateServiceRequestCommand : IRequest<Response<string>>
     {
         public string ServiceTitle { get; set; }
         public string ServiceDescription { get; set; }
         [JsonIgnore]
         public Guid ClientId { get; set; }
         public Guid WorkerId { get; set; }
-
         //Img
         public IFormFile? RequestedImgUrl { get; set; }
 

@@ -8,6 +8,7 @@
         public decimal TotalPrice { get; set; }
         public decimal DepositAmount { get; set; }
         public string State { get; set; }
+        public string? serviceAddress { get; set; }
         public DateTime RequestDate { get; set; }
         public DateTime? CompleteDate { get; set; }
         public string ClientName { get; set; }

@@ -7,7 +7,7 @@ namespace FixIt.Core.Features.Service.Commands.Models
     public class SubmitServiceRequestCommand : IRequest<Response<string>>
     {
         public Guid ServiceId { get; set; }
-        public Guid WorkerId { get; set; }
+        public Guid UserId { get; set; }
 
         public SubmitServiceRequestCommand()
         {
@@ -15,10 +15,10 @@ namespace FixIt.Core.Features.Service.Commands.Models
         }
 
 
-        public SubmitServiceRequestCommand(Guid serviceId, Guid workerId)
+        public SubmitServiceRequestCommand(Guid serviceId, Guid userId)
         {
             ServiceId = serviceId;
-            WorkerId = workerId;
+            UserId = userId;
         }
 
         //Img
