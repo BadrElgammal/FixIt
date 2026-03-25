@@ -36,7 +36,7 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        [HttpPost("room")]
+        [HttpPost("room/{targetUserId}")]
         [Authorize]
         public async Task<IActionResult> CreateOrGetRoom([FromBody] Guid targetUserId)
         {

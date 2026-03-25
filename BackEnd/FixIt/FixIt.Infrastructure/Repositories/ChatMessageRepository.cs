@@ -21,7 +21,7 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<List<ChatMessage>> GetMessagesAsync(int roomId)
         {
-            return await _context.ChatMessages.Include(m => m.Sender).Where(m => m.RoomId == roomId).OrderBy(m => m.CreatedAt).ToListAsync();
+            return await _context.ChatMessages.Include(m => m.Sender).Include(m => m.Room).Include(m => m.Reciver).Where(m => m.RoomId == roomId).OrderBy(m => m.CreatedAt).ToListAsync();
         }
 
         public async Task AddAsync(ChatMessage chatMessage)

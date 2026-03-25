@@ -18,7 +18,9 @@ namespace FixIt.Core.Features.Chat.Commands.Handlers
 {
     public class ChatCommandHandler : ResponseHandler,
                         IRequestHandler<CreateOrGetRoomCommand, Response<int>>,
-                        IRequestHandler<AddMessageCommand, Response<MessageQueryDTO>>
+                        IRequestHandler<AddMessageCommand, Response<MessageQueryDTO>>,
+                        IRequestHandler<SetUserActiveCommand, Response<bool>>,
+                        IRequestHandler<MarkMessagesAsReadCommand, bool>
 
     {
         private readonly IMapper _mapper;
@@ -49,7 +51,8 @@ namespace FixIt.Core.Features.Chat.Commands.Handlers
             {
                 MessageText = request.Message,
                 RoomId = request.RoomId,
-                SenderId = request.SenderId
+                SenderId = request.SenderId,
+                ReciverId = request.SenderId == room.CurrentUserId ? room.TargetUserId : room.CurrentUserId
             };
 
             if(room != null)
@@ -74,9 +77,39 @@ namespace FixIt.Core.Features.Chat.Commands.Handlers
                 SenderName = sender.FullName, 
                 SenderImgUrl = sender.ImgUrl,
                 SenderIsActive = true, 
-                RoomId = Message.RoomId
+                RoomId = Message.RoomId,
+                ReceiverId = Message.ReciverId
             };
             return Success(messageDto);
+        }
+
+        public async Task<Response<bool>> Handle(SetUserActiveCommand request, CancellationToken cancellationToken)
+        {
+            var user = _chatService.Find(u => u.UserId == request.UserId).FirstOrDefault();
+            if (user == null)
+                return Success(false);
+            user.IsActive = request.IsActive;
+            if(!request.IsActive)
+                user.LastLogin = DateTime.UtcNow;
+
+            var result = await _chatService.UpdateUser(user);
+            if (result != "success") return BadRequest<bool>("لم يتم تحديث بيانات حاله اليوزر");
+            return Success(true);
+        }
+
+        public async Task<bool> Handle(MarkMessagesAsReadCommand request, CancellationToken cancellationToken)
+        {
+            var message = await _chatService.GetMessages(request.RoomId);
+            if (!message.Any())
+                return true;
+            foreach(var msg in message)
+            {
+                if( msg.RoomId == request.RoomId && msg.ReciverId == request.UserId && msg.IsRead == false)
+                    msg.IsRead = true;
+            }
+            var result = await _chatService.UpdateRangeMessages(message);
+            if (result != "success") return false;
+            return true;
         }
     }
 }
