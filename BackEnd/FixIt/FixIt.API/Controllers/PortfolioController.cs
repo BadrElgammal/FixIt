@@ -16,32 +16,38 @@ namespace FixIt.API.Controllers
         //add Portfolio    
         [HttpPost("AddPortfolio")]
         [Authorize]
-        public async Task<IActionResult> Add([FromBody] AddPortfolioCommand command)
+        public async Task<IActionResult> Add([FromForm] AddPortfolioCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var respose = await _mediator.Send(command);
-            return Ok(respose);
+            return NewResult(respose);
         }
 
-        //edite Portfolio
-        [HttpPut("EditePortfolio/{id}")]
+        //edite Portfolio{PortfolioId}
+        [HttpPut("EditePortfolio/{portfolioId}")]
         [Authorize]
-        public async Task<IActionResult> Edite([FromRoute] int id)
+        public async Task<IActionResult> Edite([FromRoute] int portfolioId, [FromForm] EditePortfolioCommand command)
         {
-            var respose = await _mediator.Send(new EditePortfolioCommand(id));
-            return Ok(respose);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            command.PortfolioId = portfolioId;
+
+            var respose = await _mediator.Send(command);
+            return NewResult(respose);
         }
 
-        //delete Portfolio
-        [HttpDelete("DeletePortfolio/{id}")]
+        //delete Portfolio{PortfolioId}
+        [HttpDelete("DeletePortfolio/{portfolioId}")]
         [Authorize]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int portfolioId)
         {
 
-            var respose = await _mediator.Send(new DeletePortfolioCommand(id));
-            return Ok(respose);
+            var respose = await _mediator.Send(new DeletePortfolioCommand(portfolioId));
+            return NewResult(respose);
         }
 
         //All Portfolios in [workerId]
@@ -51,7 +57,7 @@ namespace FixIt.API.Controllers
         {
 
             var PortoliosList = await _mediator.Send(new GetPortoliosListByWorkerIdQuery(WorkerId));
-            return Ok(PortoliosList);
+            return NewResult(PortoliosList);
         }
 
         //All Portfolios in [UserId]
@@ -63,21 +69,7 @@ namespace FixIt.API.Controllers
             Guid Id = Guid.Parse(userId);
 
             var PortoliosList = await _mediator.Send(new GetAllPortfoliosByUserIdQuery(Id));
-            return Ok(PortoliosList);
-        }
-
-
-        //AddImage
-        [HttpPut("AddPortfolioImage/{id}")]
-        [Authorize]
-        public async Task<IActionResult> AddImage([FromRoute] int id, [FromBody] AddPortfolioImgURlCommand command)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            command.PortfolioId = id;
-
-            var respose = await _mediator.Send(command);
-            return Ok(respose);
+            return NewResult(PortoliosList);
         }
 
 

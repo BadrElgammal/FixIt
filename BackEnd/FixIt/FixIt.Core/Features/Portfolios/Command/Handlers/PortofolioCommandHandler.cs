@@ -10,8 +10,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
     public class PortofolioCommandHandler : ResponseHandler,
                IRequestHandler<AddPortfolioCommand, Response<string>>,
                IRequestHandler<DeletePortfolioCommand, Response<string>>,
-               IRequestHandler<EditePortfolioCommand, Response<string>>,
-               IRequestHandler<AddPortfolioImgURlCommand, Response<string>>
+               IRequestHandler<EditePortfolioCommand, Response<string>>
     {
         private readonly IPortfolioService _portfolioService;
         private readonly IMapper _mapper;
@@ -26,10 +25,20 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
         {
 
             var portfolioMapper = _mapper.Map<Portfolio>(request);
-            var result = await _portfolioService.AddPortfolioAsync(portfolioMapper);
+            var result = await _portfolioService.AddPortfolioAsync(portfolioMapper, request.ImgUrl);
 
-            if (result == "success") return Success($"تم اضافة  {request.Title}");
-            else return BadRequest<string>();
+            switch (result)
+            {
+                case "No Image !!": return NotFound<string>("No Image !!");
+                case "Feild to Uplaod !!": return NotFound<string>("Feild to Uplaod !!");
+                case "FaildinAdd": return NotFound<string>("FaildinAdd");
+
+                case "success": return Success($"تم اضافة  {request.Title}");
+            }
+
+
+            return BadRequest<string>();
+
 
         }
 
@@ -38,6 +47,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
 
             var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
             if (portfolio == null) return NotFound<string>("غير موجود");
+
 
             var result = await _portfolioService.DeletePortfolioAsync(portfolio);
             if (result == "success") return Success("تم الحذف ");
@@ -50,19 +60,9 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
             var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
             if (portfolio == null) return NotFound<string>("غير موجود");
 
-            var result = await _portfolioService.UpdatePortfolioAsync(portfolio);
-            if (result == "success") return Success("تم التعديل ");
-            else return BadRequest<string>();
+            var portfolioMapper = _mapper.Map<Portfolio>(request);
 
-        }
-
-        public async Task<Response<string>> Handle(AddPortfolioImgURlCommand request, CancellationToken cancellationToken)
-        {
-
-            var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
-
-            var result = await _portfolioService.AddPortfolioImage(portfolio, request.ImgUrl);
-
+            var result = await _portfolioService.UpdatePortfolioAsync(portfolioMapper, request.ImgUrl);
 
             switch (result)
             {
@@ -70,12 +70,13 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
                 case "Feild to Uplaod !!": return NotFound<string>("Feild to Uplaod !!");
                 case "FaildinAdd": return NotFound<string>("FaildinAdd");
 
+                case "success": return Success("تم التعديل ");
             }
 
-            return Success("تم اضافة الصورة ");
-
-
+            return BadRequest<string>();
 
         }
+
+
     }
 }

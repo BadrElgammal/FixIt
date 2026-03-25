@@ -8,7 +8,7 @@ namespace FixIt.Core.Mapping.Portfolios
         {
             AddPortfolioMapping();
             GetPortfoliosListQueryMapping();
-
+            EditePortfolioMapping();
         }
 
     }

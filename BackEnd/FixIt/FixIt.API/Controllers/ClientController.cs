@@ -1,7 +1,6 @@
 ﻿using FixIt.API.Base;
 using FixIt.Core.Features.Clients.Commands.Models;
 using FixIt.Core.Features.Clients.Queries.Models;
-using FixIt.Core.Features.Workers.Commands.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -73,13 +72,13 @@ namespace FixIt.API.Controllers
         //ChangeImageURL
         [HttpPut("ChangeImage")]
         [Authorize]
-        public async Task<IActionResult> ChangeWorkerImage([FromForm] ChangeWorkerImgURL command)
+        public async Task<IActionResult> ChangeClientImage([FromForm] ChangeClientImageURL command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
 
-            command.userId = Id;
+            command.UserId = Id;
             var result = await _mediator.Send(command);
             return NewResult(result);
         }
