@@ -7,6 +7,8 @@ namespace FixIt.Core.Features.Portfolios.Command.Models
 {
     public class AddPortfolioCommand : IRequest<Response<string>>
     {
+
+
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
@@ -16,7 +18,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Models
         [Required]
         public IFormFile ImgUrl { get; set; }
 
-
+        //WorkerProfile <=> From UserId
         public Guid WorkerProfileId { get; set; }
 
 

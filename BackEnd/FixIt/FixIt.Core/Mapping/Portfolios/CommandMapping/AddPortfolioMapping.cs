@@ -8,7 +8,8 @@ namespace FixIt.Core.Mapping.Portfolios
         public void AddPortfolioMapping()
         {
             CreateMap<AddPortfolioCommand, Portfolio>()
-                                    .ForMember(dest => dest.ImgUrl, opt => opt.Ignore());
+                                    .ForMember(dest => dest.ImgUrl, opt => opt.Ignore())
+                                    .ForMember(dest => dest.WorkerProfileId, opt => opt.Ignore());
 
 
         }

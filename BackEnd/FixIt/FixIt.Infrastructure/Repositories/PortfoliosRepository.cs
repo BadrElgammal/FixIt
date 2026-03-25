@@ -39,6 +39,15 @@ namespace FixIt.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.PortfolioId == portfolioId);
         }
+
+        public async Task<Guid> GetWorkerIdByUserId(Guid userId)
+        {
+
+            return _db.Portfolios.Where(s => s.WorkerProfile.UserId == userId)
+                .Select(s => s.WorkerProfileId)
+                .FirstOrDefault();
+
+        }
     }
 
 

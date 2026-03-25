@@ -25,6 +25,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
         {
 
             var portfolioMapper = _mapper.Map<Portfolio>(request);
+            portfolioMapper.WorkerProfileId = await _portfolioService.GetWorkerIdByUserId(request.WorkerProfileId);
             var result = await _portfolioService.AddPortfolioAsync(portfolioMapper, request.ImgUrl);
 
             switch (result)
@@ -45,6 +46,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
         public async Task<Response<string>> Handle(DeletePortfolioCommand request, CancellationToken cancellationToken)
         {
 
+
             var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
             if (portfolio == null) return NotFound<string>("غير موجود");
 
@@ -60,7 +62,10 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
             var portfolio = await _portfolioService.GetPortfolioByidAsync(request.PortfolioId);
             if (portfolio == null) return NotFound<string>("غير موجود");
 
+
             var portfolioMapper = _mapper.Map<Portfolio>(request);
+
+            portfolioMapper.WorkerProfileId = await _portfolioService.GetWorkerIdByUserId(request.WorkerProfileId);
 
             var result = await _portfolioService.UpdatePortfolioAsync(portfolioMapper, request.ImgUrl);
 
