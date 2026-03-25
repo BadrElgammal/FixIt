@@ -117,6 +117,22 @@ namespace FixIt.Infrastructure.Context
                 .Property(t => t.TransactionType)
                 .HasConversion<string>();
 
+
+
+            // تعريف علاقة المرسل
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(m => m.Sender) // افترضت إن عندك property اسمها Sender
+                .WithMany()
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict); // مهمة جداً عشان متضربش إيرور في الـ Migration
+
+            // تعريف علاقة المستقبل (بنفس الاسبيلينج اللي في الإيرور عندك Reciver)
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(m => m.Reciver)
+                .WithMany()
+                .HasForeignKey(m => m.ReciverId) // أو اسم الـ FK بتاعها عندك
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }
