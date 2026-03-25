@@ -10,6 +10,10 @@
 
         //"Reviewer"
         public string ReviewerName { get; set; }
+        public string ReviewerImgUrl { get; set; }
+        public string ReviewerRole { get; set; }
+
+
 
         //"ReviewedWorker"
         public string ReviewerWorkerName { get; set; }
