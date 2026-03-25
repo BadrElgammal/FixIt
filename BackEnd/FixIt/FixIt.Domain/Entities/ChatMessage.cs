@@ -19,8 +19,12 @@ namespace FixIt.Domain.Entities
         [ForeignKey("Room")]
         public int RoomId { get; set; }
         public ChatRoom Room { get; set; }
-        [ForeignKey("sender")]
+        [ForeignKey("Sender")]
         public Guid SenderId { get; set; }
         public User Sender { get; set; }
+
+        [ForeignKey("Reciver")]
+        public Guid ReciverId { get; set; }
+        public User Reciver { get; set; }
     }
 }

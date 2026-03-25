@@ -15,7 +15,9 @@ namespace FixIt.Core.Mapping.Chat
             CreateMap<ChatMessage, MessageQueryDTO>()
               .ForMember(dest => dest.SenderName, otp => otp.MapFrom(src => src.Sender.FullName))
               .ForMember(dest => dest.SenderImgUrl, otp => otp.MapFrom(src => src.Sender.ImgUrl))
-              .ForMember(dest => dest.SenderIsActive, otp => otp.MapFrom(src => src.Sender.IsActive));
+              .ForMember(dest => dest.SenderIsActive, otp => otp.MapFrom(src => src.Sender.IsActive))
+              .ForMember(dest => dest.ReceiverId, otp => otp.MapFrom(src => src.ReciverId));
+
         }
     }
 }

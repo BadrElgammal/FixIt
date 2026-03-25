@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace FixIt.API.SignalR
 {
     [Authorize]
-    public class ChatHub:Hub
+    public class ChatHub : Hub
     {
         private readonly IMediator _mediator;
 
@@ -16,57 +16,101 @@ namespace FixIt.API.SignalR
             _mediator = mediator;
         }
 
-        // اليوزر أول ما يضغط على الشات في الـ Angular هينادي الميثود دي
+        // ✅ لما اليوزر يدخل روم
         public async Task JoinRoom(string roomId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+
+            // اختياري: تأكيد للفرونت
+            await Clients.Caller.SendAsync("JoinedRoom", roomId);
         }
 
-        // اليوزر لما يقفل الشات أو يغير الروم، يفضل نخرجه من الجروب
+        // ✅ لما يخرج من الروم
         public async Task LeaveRoom(string roomId)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
+
+            await Clients.Caller.SendAsync("LeftRoom", roomId);
         }
 
-        // الميثود المسئولة عن إرسال الرسالة
-        //public async Task SendMessage(int roomId, Guid targetUserId, string message)
-        //{
-        //    var senderId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        //    // 1. الحفظ في الداتابيز الأول (أهم حاجة)
-        //    // var savedMessage = await _mediator.Send(new AddMessageCommand(...));
-
-        //    // 2. بنبعت الرسالة جوه الروم (عشان لو الطرف التاني فاتح الشات حالياً)
-        //    await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", new
-        //    {
-        //        roomId = roomId,
-        //        senderId = senderId,
-        //        message = message
-        //    });
-
-        //    // 3. بنبعت إشعار لليوزر نفسه (عشان لو هو أونلاين بس مش فاتح الروم)
-        //    await Clients.User(targetUserId.ToString()).SendAsync("ReceiveNotification", new
-        //    {
-        //        roomId = roomId,
-        //        senderId = senderId,
-        //        message = "لديك رسالة جديدة"
-        //    });
-        //}
-
+        // ✅ إرسال رسالة
         public async Task SendMessage(int roomId, string messageText)
         {
-            var senderIdStr = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (Guid.TryParse(senderIdStr, out Guid senderId))
-            {
-                var command = new AddMessageCommand(roomId,messageText, senderId);
-                var result = await _mediator.Send(command);
+            var senderIdStr = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                if (result.Succeeded)
-                {
-                    await Clients.Group(roomId.ToString())
-                                     .SendAsync("ReceiveMessage", result.Data); 
-                }
+            if (!Guid.TryParse(senderIdStr, out Guid senderId))
+            {
+                await Clients.Caller.SendAsync("Error", "Invalid user");
+                return;
             }
+
+            var command = new AddMessageCommand(roomId, messageText, senderId);
+            var result = await _mediator.Send(command);
+
+            if (!result.Succeeded)
+            {
+                await Clients.Caller.SendAsync("Error", result.Message);
+                return;
+            }
+
+            // ✅ نبعت الرسالة لكل اللي في الروم
+            await Clients.Group(roomId.ToString())
+                         .SendAsync("ReceiveMessage", result.Data);
+
+            // ✅ (اختياري مهم) إشعار لو حد مش فاتح الروم
+            if (result.Data?.ReceiverId != null)
+            {
+                await Clients.User(result.Data.ReceiverId.ToString())
+                             .SendAsync("ReceiveNotification", new
+                             {
+                                 roomId = roomId,
+                                 message = "لديك رسالة جديدة"
+                             });
+            }
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (Guid.TryParse(userId, out Guid id))
+            {
+                await _mediator.Send(new SetUserActiveCommand(id, true));
+            }
+
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (Guid.TryParse(userId, out Guid id))
+            {
+                await _mediator.Send(new SetUserActiveCommand(id, false));
+            }
+
+            await base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task MarkAsRead(int roomId)
+        {
+            var userIdStr = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!Guid.TryParse(userIdStr, out Guid userId))
+                return;
+
+            var result = await _mediator.Send(new MarkMessagesAsReadCommand(roomId, userId));
+
+            if (!result)
+                return;
+
+            await Clients.Group(roomId.ToString())
+                .SendAsync("MessagesRead", new
+                {
+                    roomId = roomId,
+                    readerId = userId
+                });
         }
     }
 }

@@ -22,6 +22,7 @@ namespace FixIt.Core.Features.Chat.Queries.DTOs
         public string? SenderImgUrl { get; set; }
         public bool SenderIsActive { get; set; } = false;
 
+        public Guid ReceiverId { get; set; }
 
         public int RoomId { get; set; }
 

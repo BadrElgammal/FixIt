@@ -66,5 +66,22 @@ namespace FixIt.Service.Services
         {
             return _userservice.Find(predicate);
         }
+
+        public async Task<string> UpdateUser(User User)
+        {
+            await _userservice.UpdateAsync(User);
+            return "success";
+        }
+
+        public async Task<string> UpdateMessages(ChatMessage chatmessage)
+        {
+            await _messageRepo.UpdateAsync(chatmessage);
+            return "success";
+        }
+        public async Task<string> UpdateRangeMessages(List<ChatMessage> chatmessage)
+        {
+            await _messageRepo.UpdateRangeAsync(chatmessage);
+            return "success";
+        }
     }
 }
