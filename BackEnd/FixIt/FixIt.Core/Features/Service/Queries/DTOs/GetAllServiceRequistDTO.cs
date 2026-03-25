@@ -1,15 +1,8 @@
-﻿using FixIt.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FixIt.Core.Features.Service.Queries.DTOs
+﻿namespace FixIt.Core.Features.Service.Queries.DTOs
 {
     public class GetAllServiceRequistDTO
     {
-        public Guid ServiceId { get; set; } 
+        public Guid ServiceId { get; set; }
         public string ServiceTitle { get; set; }
         public string ServiceDescription { get; set; }
         public decimal TotalPrice { get; set; }
@@ -25,5 +18,10 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         //public WorkerProfile Worker { get; set; }
 
         //public Review? Review { get; set; }
+
+        //Imgs
+        public string? RequestedImgUrl { get; set; }
+        public string? SubmitedImgUrl { get; set; }
+
     }
 }

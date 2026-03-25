@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FixIt.Core.Features.Service.Queries.DTOs
+﻿namespace FixIt.Core.Features.Service.Queries.DTOs
 {
     public class ServiceRequestDetailsDTO
     {
@@ -27,5 +21,11 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         public decimal Rate { get; set; }
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        //Imgs
+        public string? RequestedImgUrl { get; set; }
+        public string? SubmitedImgUrl { get; set; }
+
+
     }
 }
