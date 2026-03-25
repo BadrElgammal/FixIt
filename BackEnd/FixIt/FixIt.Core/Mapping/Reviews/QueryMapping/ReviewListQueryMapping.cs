@@ -9,6 +9,8 @@ namespace FixIt.Core.Mapping.Reviews
         {
             CreateMap<Review, ReviewDTO>()
                             .ForMember(dest => dest.ReviewerName, opt => opt.MapFrom(src => src.Reviewer.FullName))
+                            .ForMember(dest => dest.ReviewerImgUrl, opt => opt.MapFrom(src => src.Reviewer.ImgUrl))
+                            .ForMember(dest => dest.ReviewerRole, opt => opt.MapFrom(src => src.Reviewer.Role))
                             .ForMember(dest => dest.ReviewerWorkerName, opt => opt.MapFrom(src => src.ReviewedWorker.User.FullName));
 
 
