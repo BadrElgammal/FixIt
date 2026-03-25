@@ -33,13 +33,12 @@ namespace FixIt.Infrastructure.Repositories
 
         }
 
-
-
-
-
-
-
-
+        public async Task<Portfolio> GetPortfolioByidAsNoTrackingAsync(int portfolioId)
+        {
+            return await _db.Portfolios
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.PortfolioId == portfolioId);
+        }
     }
 
 

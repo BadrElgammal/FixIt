@@ -24,8 +24,10 @@ namespace FixIt.API
 
             builder.Services.AddControllers();
             // ضيف ده في Program.cs لو مش موجود
-            builder.Services.AddCors(options => {
-                options.AddPolicy("AllowAll", builder => {
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
                     builder.AllowAnyMethod()
                            .AllowAnyHeader()
                            .SetIsOriginAllowed(origin => true) // للتست بس
@@ -87,7 +89,8 @@ namespace FixIt.API
             builder.Services.AddInfrastructureDependencies();
             builder.Services.AddCoreDependances();
             builder.Services.AddServiceDependencies();
-
+            //Img
+            builder.Services.AddHttpContextAccessor();
 
             // Register repositories and business services
             builder.Services.AddScoped<JWTService>();
@@ -95,23 +98,26 @@ namespace FixIt.API
             builder.Services.AddSignalR();
             var app = builder.Build();
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseStaticFiles();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+
             #region Request Piplines
 
             if (app.Environment.IsDevelopment())
             {
             }
-                app.UseSwagger();
-                app.UseSwaggerUI();
 
             app.UseRouting(); // 1. Routing الأول
-            app.UseMiddleware<ErrorHandlerMiddleware>();
-
             app.UseCors("AllowAll"); // 2. الـ CORS بالاسم اللي انت معرفه فوق
+
 
             app.UseAuthentication(); // 3. 👈 ضفنا دي (التأكد من التوكن)
             app.UseAuthorization();  // 4. (التأكد من الصلاحيات)
 
-            app.UseStaticFiles();
 
             app.MapControllers();
             app.MapHub<ChatHub>("/chat"); // 5. 👈 المسار هنا اسمه /chat
