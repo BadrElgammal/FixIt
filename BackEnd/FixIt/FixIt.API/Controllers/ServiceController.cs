@@ -1,10 +1,8 @@
 ﻿using FixIt.API.Base;
-using FixIt.Core.Features.Service.Commands.DTOs;
 using FixIt.Core.Features.Service.Commands.Models;
 using FixIt.Core.Features.Service.Queries.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -23,7 +21,7 @@ namespace FixIt.API.Controllers
 
         [HttpPost("AddService/{WorkerId}")]
         [Authorize]
-        public async Task<IActionResult> CreateServieRequest(Guid WorkerId , CreateServiceRequestCommand command)
+        public async Task<IActionResult> CreateServieRequest(Guid WorkerId, CreateServiceRequestCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
@@ -48,7 +46,7 @@ namespace FixIt.API.Controllers
 
         [HttpGet("RecivedsServiceRequests")]
         [Authorize]
-        [Authorize(Roles ="worker")]
+        [Authorize(Roles = "worker")]
         public async Task<IActionResult> GetAllRecivedServiceRequests()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -65,7 +63,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new GetSentsServiceRequestDetailsQuery(serviceId,Id));
+            var result = await _mediator.Send(new GetSentsServiceRequestDetailsQuery(serviceId, Id));
             return NewResult(result);
         }
 
@@ -77,7 +75,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new GetRecivedServiceRequestDetailsQuery(serviceId,Id));
+            var result = await _mediator.Send(new GetRecivedServiceRequestDetailsQuery(serviceId, Id));
             return NewResult(result);
         }
 
@@ -97,7 +95,7 @@ namespace FixIt.API.Controllers
         [HttpPut("recivedJobs/{serviceId}/pending")]
         [Authorize]
         [Authorize(Roles = "worker")]
-        public async Task<IActionResult> AddPriceToServiceRequest(Guid serviceId,AddPriceToServiceRequestCommand command)
+        public async Task<IActionResult> AddPriceToServiceRequest(Guid serviceId, AddPriceToServiceRequestCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
@@ -115,7 +113,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new AcceptPriceServiceRequestCommand(serviceId,Id));
+            var result = await _mediator.Send(new AcceptPriceServiceRequestCommand(serviceId, Id));
             return NewResult(result);
         }
 
@@ -127,19 +125,23 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId,Id));
+            var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId, Id));
             return NewResult(result);
         }
 
         [HttpPut("recivedJobs/{serviceId}/submitted")]
         [Authorize]
         [Authorize(Roles = "worker")]
-        public async Task<IActionResult> SubmitServiceRequest(Guid serviceId)
+        public async Task<IActionResult> SubmitServiceRequest([FromRoute] Guid serviceId, [FromForm] SubmitServiceRequestCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new SubmitServiceRequestCommand(serviceId,Id));
+            command.WorkerId = Id;
+            command.ServiceId = serviceId;
+
+            // var result = await _mediator.Send(new SubmitServiceRequestCommand(serviceId,Id));
+            var result = await _mediator.Send(command);
             return NewResult(result);
         }
 

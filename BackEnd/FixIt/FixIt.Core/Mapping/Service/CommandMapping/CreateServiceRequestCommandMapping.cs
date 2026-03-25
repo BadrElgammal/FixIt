@@ -1,10 +1,5 @@
 ﻿using FixIt.Core.Features.Service.Commands.Models;
 using FixIt.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Mapping.Service
 {
@@ -12,7 +7,10 @@ namespace FixIt.Core.Mapping.Service
     {
         public void CreateServieRequestMapping()
         {
-            CreateMap<CreateServiceRequestCommand, ServiceRequest>();
+            CreateMap<CreateServiceRequestCommand, ServiceRequest>()
+                .ForMember(dest => dest.RequestedImgUrl, otp => otp.Ignore());
+
+
         }
     }
 }

@@ -1,27 +1,54 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Service.Services
 {
     public class ServiceRequestService : IServiceRequestService
     {
         private readonly IServiceRequestRepository _serviceRequestRepository;
+        private readonly IFileService _fileService;
 
-        public ServiceRequestService(IServiceRequestRepository serviceRequestRepository)
+
+
+        public ServiceRequestService(IServiceRequestRepository serviceRequestRepository, IFileService fileService)
         {
             _serviceRequestRepository = serviceRequestRepository;
+            _fileService = fileService;
         }
-        public async Task<string> CreateServiceRequest(ServiceRequest serviceRequest)
+        public async Task<string> CreateServiceRequest(ServiceRequest serviceRequest, IFormFile? file)
         {
-            await _serviceRequestRepository.AddAsync(serviceRequest);
-            return "success";
+
+            //await _serviceRequestRepository.AddAsync(serviceRequest);
+            //return "success";
+
+
+
+            var ImgUrl = await _fileService.UploadImage("RequestedServices", file);
+            serviceRequest.RequestedImgUrl = ImgUrl;
+
+            switch (ImgUrl)
+            {
+                case "No Image !!": return "No Image !!";
+                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+            }
+
+            try
+            {
+
+                await _serviceRequestRepository.AddAsync(serviceRequest);
+                return "success";
+            }
+            catch (Exception)
+            {
+
+                return "FaildinAdd";
+            }
+
+
+
         }
 
         public async Task<string> CreateTransaction(Transaction transaction)
@@ -29,10 +56,42 @@ namespace FixIt.Service.Services
             return await _serviceRequestRepository.CreateTransaction(transaction);
         }
 
+        public async Task<string> EditServiceRequestAsync(ServiceRequest serviceRequest, IFormFile? file)
+        {
+            //await _serviceRequestRepository.UpdateAsync(serviceRequest);
+            //return "success";
+
+
+
+            var ImgUrl = await _fileService.UploadImage("SubmitedServices", file);
+            serviceRequest.SubmitedImgUrl = ImgUrl;
+
+            switch (ImgUrl)
+            {
+                case "No Image !!": return "No Image !!";
+                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+            }
+
+            try
+            {
+
+                await _serviceRequestRepository.UpdateAsync(serviceRequest);
+                return "success";
+            }
+            catch (Exception)
+            {
+
+                return "FaildinAdd";
+            }
+
+
+        }
+
         public async Task<string> EditServiceRequestAsync(ServiceRequest serviceRequest)
         {
             await _serviceRequestRepository.UpdateAsync(serviceRequest);
             return "success";
+
         }
 
         public async Task<string> EditWallet(Wallet wallet)
@@ -72,7 +131,7 @@ namespace FixIt.Service.Services
 
         public Guid GetWorkerIdByUserId(Guid userId)
         {
-            return  _serviceRequestRepository.GetWorkerIdByUserId(userId);
+            return _serviceRequestRepository.GetWorkerIdByUserId(userId);
         }
     }
 }

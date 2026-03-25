@@ -1,12 +1,7 @@
 ﻿using FixIt.Core.Bases;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
+using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Service.Commands.Models
 {
@@ -17,5 +12,9 @@ namespace FixIt.Core.Features.Service.Commands.Models
         [JsonIgnore]
         public Guid ClientId { get; set; }
         public Guid WorkerId { get; set; }
+
+        //Img
+        public IFormFile? RequestedImgUrl { get; set; }
+
     }
 }

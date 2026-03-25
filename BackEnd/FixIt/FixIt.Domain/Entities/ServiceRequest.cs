@@ -1,11 +1,6 @@
 ﻿using FixIt.Domain.Enum;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Domain.Entities
 {
@@ -21,15 +16,20 @@ namespace FixIt.Domain.Entities
         public DateTime RequestDate { get; set; } = DateTime.Now;
         public DateTime? CompleteDate { get; set; }
 
+        // Img
+        public string? RequestedImgUrl { get; set; }
+        public string? SubmitedImgUrl { get; set; }
+
+
         [ForeignKey("Client")]
         public Guid ClientId { get; set; }
         public User Client { get; set; }
         [ForeignKey("Worker")]
         public Guid WorkerId { get; set; }
-        public  WorkerProfile Worker { get; set; }
+        public WorkerProfile Worker { get; set; }
 
         public Review? Review { get; set; }
-        
+
         public ICollection<Transaction>? Transactions { get; set; } = new List<Transaction>();
     }
 }
