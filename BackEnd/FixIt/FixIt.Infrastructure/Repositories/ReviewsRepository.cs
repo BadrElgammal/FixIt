@@ -27,5 +27,13 @@ namespace FixIt.Infrastructure.Repositories
                                      .Where(r => r.ReviewedWorkerId == workerId)
                                      .ToListAsync();
         }
+
+        public async Task<Guid> GetWorkerIdByUserIdAsync(Guid userId)
+        {
+            return _dbContext.WorkerProfiles.Where(w => w.UserId == userId)
+                                            .Select(w => w.WorkerId)
+                                            .FirstOrDefault();
+
+        }
     }
 }

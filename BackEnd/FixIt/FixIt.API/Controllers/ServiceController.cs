@@ -21,7 +21,7 @@ namespace FixIt.API.Controllers
 
         [HttpPost("AddService/{WorkerId}")]
         [Authorize]
-        public async Task<IActionResult> CreateServieRequest(Guid WorkerId, CreateServiceRequestCommand command)
+        public async Task<IActionResult> CreateServieRequest(Guid WorkerId, [FromForm] CreateServiceRequestCommand command)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);

@@ -61,6 +61,17 @@ namespace FixIt.API.Controllers
             return NewResult(respose);
         }
 
+        // AllPortfoliosForAdmin
+        [HttpGet("AllPortfoliosForAdmin")]
+        [Authorize]
+        public async Task<IActionResult> GetAllForAdmin()
+        {
+
+            var PortoliosList = await _mediator.Send(new GetAllPortfoliosForAdminQuery());
+            return NewResult(PortoliosList);
+        }
+
+
         //All Portfolios in [workerId]
         [HttpGet("AllPortfoliosByWorkerId/{workerId}")]
         [Authorize]
@@ -71,7 +82,7 @@ namespace FixIt.API.Controllers
             return NewResult(PortoliosList);
         }
 
-        //All Portfolios in [UserId]
+        //All Portfolios in [UserId] for me [tocken]
         [HttpGet("AllPortfoliosByUserId")]
         [Authorize]
         public async Task<IActionResult> GetAllByUserId()
@@ -82,6 +93,8 @@ namespace FixIt.API.Controllers
             var PortoliosList = await _mediator.Send(new GetAllPortfoliosByUserIdQuery(Id));
             return NewResult(PortoliosList);
         }
+
+
 
 
     }

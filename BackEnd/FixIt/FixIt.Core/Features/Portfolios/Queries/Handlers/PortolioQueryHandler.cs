@@ -8,6 +8,7 @@ using MediatR;
 namespace FixIt.Core.Features.Portfolios.Queries.Handlers
 {
     public class PortolioQueryHandler : ResponseHandler,
+                IRequestHandler<GetAllPortfoliosForAdminQuery, Response<List<PortfolioDTO>>>,
                 IRequestHandler<GetPortoliosListByWorkerIdQuery, Response<List<PortfolioDTO>>>,
                 IRequestHandler<GetAllPortfoliosByUserIdQuery, Response<List<PortfolioDTO>>>
 
@@ -20,22 +21,51 @@ namespace FixIt.Core.Features.Portfolios.Queries.Handlers
             _mapper = mapper;
         }
 
+
+        //For Admin 
+        public async Task<Response<List<PortfolioDTO>>> Handle(GetAllPortfoliosForAdminQuery request, CancellationToken cancellationToken)
+        {
+
+            var PortfoliosList = await _portfolioService.GetAllPortfoliosAsync();
+
+            if (PortfoliosList == null || !PortfoliosList.Any()) return NotFound<List<PortfolioDTO>>("لا يوجد ");
+
+            var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
+
+
+            return Success(PortfoliosListMapper);
+
+        }
+
+
+        //for another Worker
         public async Task<Response<List<PortfolioDTO>>> Handle(GetPortoliosListByWorkerIdQuery request, CancellationToken cancellationToken)
         {
             var PortfoliosList = await _portfolioService.GetAllPortfoliosByWorkerIdAsync(request.WorkerId);
-            var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
 
+            if (PortfoliosList == null || !PortfoliosList.Any()) return NotFound<List<PortfolioDTO>>("لا يوجد ");
+
+            var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
 
             return Success(PortfoliosListMapper);
         }
 
+
+        //for me [tocken]
         public async Task<Response<List<PortfolioDTO>>> Handle(GetAllPortfoliosByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var PortfoliosList = await _portfolioService.GetAllPortfoliosByWorkerIdAsync(request.UserId);
+
+            var workerId = await _portfolioService.GetWorkerIdByUserId(request.UserId);
+            var PortfoliosList = await _portfolioService.GetAllPortfoliosByWorkerIdAsync(workerId);
+
+            if (PortfoliosList == null || !PortfoliosList.Any()) return NotFound<List<PortfolioDTO>>("لا يوجد ");
+
             var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
 
 
             return Success(PortfoliosListMapper);
         }
+
+
     }
 }
