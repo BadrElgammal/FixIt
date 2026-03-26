@@ -43,6 +43,9 @@ namespace FixIt.Service.Services
             return await _reviewsRepository.GetByIdAsync(ReviewId);
         }
 
-
+        public async Task<Guid> GetWorkerIdByUserId(Guid userId)
+        {
+            return await _reviewsRepository.GetWorkerIdByUserIdAsync(userId);
+        }
     }
 }

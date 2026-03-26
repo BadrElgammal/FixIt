@@ -6,8 +6,10 @@ namespace FixIt.Core.Mapping.Reviews
     {
         public ReviewMapper()
         {
-            ReviewsListMapper();
             AddReviewCommandMapping();
+            ReviewsListMapper();
+            GetMyAllReviewsListQueryMapping();
+            GetReviewsListByWorkerIdQueryMapping();
 
         }
 

@@ -54,6 +54,11 @@ namespace FixIt.Service.Services
             return "success";
         }
 
+        public async Task<List<Portfolio>> GetAllPortfoliosAsync()
+        {
+            return await _portfoliosRepo.GetAllAsync();
+        }
+
         public async Task<List<Portfolio>> GetAllPortfoliosByUserIdAsync(Guid userId)
         {
             return await _portfoliosRepo.GetAllPortfoliosByUserId(userId);

@@ -10,15 +10,16 @@
 
         //"Reviewer"
         public string ReviewerName { get; set; }
-        public string ReviewerImgUrl { get; set; }
+        public string? ReviewerImgUrl { get; set; }
         public string ReviewerRole { get; set; }
 
 
 
-        //"ReviewedWorker"
-        public string ReviewerWorkerName { get; set; }
-        //"Request"
-        public Guid RequestId { get; set; }
+        ////"ReviewedWorker"
+        //public string ReviewerWorkerName { get; set; }
+        ////"Request"
+        //[JsonIgnore]
+        //public Guid RequestId { get; set; }
 
     }
 }
