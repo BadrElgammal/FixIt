@@ -21,7 +21,7 @@ namespace FixIt.Core.Features.Service.Commands.Validatiors
         public void ApplayValidationsRuls()
         {
 
-            RuleFor(x => x.WorkerId)
+            RuleFor(x => x.UserId)
                 .NotEmpty()
                 .NotNull();
 

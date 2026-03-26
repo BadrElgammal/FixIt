@@ -100,7 +100,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
             command.RequestId = serviceId;
-            command.WorkerId = Id;
+            command.UserId = Id;
 
             var result = await _mediator.Send(command);
             return NewResult(result);
@@ -138,7 +138,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            command.WorkerId = Id;
+            command.UserId = Id;
             command.ServiceId = serviceId;
 
             // var result = await _mediator.Send(new SubmitServiceRequestCommand(serviceId,Id));

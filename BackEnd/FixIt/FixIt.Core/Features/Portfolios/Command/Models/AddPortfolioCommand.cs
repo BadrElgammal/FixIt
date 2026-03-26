@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FixIt.Core.Features.Portfolios.Command.Models
 {
@@ -19,6 +20,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Models
         public IFormFile ImgUrl { get; set; }
 
         //WorkerProfile <=> From UserId
+        [JsonIgnore]
         public Guid WorkerProfileId { get; set; }
 
 

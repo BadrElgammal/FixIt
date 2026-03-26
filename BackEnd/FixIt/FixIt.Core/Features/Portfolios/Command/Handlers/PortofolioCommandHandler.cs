@@ -35,6 +35,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
                 case "FaildinAdd": return NotFound<string>("FaildinAdd");
 
                 case "success": return Success($"تم اضافة  {request.Title}");
+                default: return NotFound<string>($"{result}");
             }
 
 
