@@ -40,10 +40,9 @@ namespace FixIt.Service.Services
                 return "success";
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                return "FaildinAdd";
+                return e.InnerException.Message;
             }
 
 

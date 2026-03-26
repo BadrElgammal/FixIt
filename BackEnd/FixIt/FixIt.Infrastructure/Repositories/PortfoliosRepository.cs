@@ -42,10 +42,10 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<Guid> GetWorkerIdByUserId(Guid userId)
         {
-
-            return _db.Portfolios.Where(s => s.WorkerProfile.UserId == userId)
-                .Select(s => s.WorkerProfileId)
-                .FirstOrDefault();
+            return _db.WorkerProfiles.Where(w => w.UserId == userId).Select(w => w.WorkerId).FirstOrDefault();
+            //return _db.Portfolios.Where(s => s.WorkerProfile.UserId == userId)
+            //    .Select(s => s.WorkerProfileId)
+            //    .FirstOrDefault();
 
         }
     }
