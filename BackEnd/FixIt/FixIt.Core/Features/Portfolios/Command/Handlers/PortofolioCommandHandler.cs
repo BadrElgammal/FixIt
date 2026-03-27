@@ -64,7 +64,7 @@ namespace FixIt.Core.Features.Portfolios.Command.Handlers
             if (portfolio == null) return NotFound<string>("غير موجود");
 
 
-            var portfolioMapper = _mapper.Map<Portfolio>(request);
+            var portfolioMapper = _mapper.Map(request, portfolio);
 
             portfolioMapper.WorkerProfileId = await _portfolioService.GetWorkerIdByUserId(request.WorkerProfileId);
 

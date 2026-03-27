@@ -10,7 +10,7 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
 {
     public class WorkerQueryHandler : ResponseHandler,
                  IRequestHandler<GetWorkersListQuery, Bases.Response<List<GetWorkersResponce>>>, // WorkerProfile
-                 IRequestHandler<GetWorkerByIdQuery, Bases.Response<GetSingleWorkerResponce>>,
+                 IRequestHandler<GetWorkerByUserIdQuery, Bases.Response<GetSingleWorkerResponce>>,
                  IRequestHandler<GetWorkerProfileByWorkerIdQuery, Bases.Response<WorkerProfileDTO>>
     {
 
@@ -35,6 +35,8 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
 
         //
         #region methods handel
+
+        //List For Admin
         public async Task<Bases.Response<List<GetWorkersResponce>>> Handle(GetWorkersListQuery request, CancellationToken cancellationToken)
         {
             var WorkersList = await _WorkerService.GetAllWorkersAsync();
@@ -42,23 +44,28 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
             return Success(WorkersListMapper);
         }
 
-
-        public async Task<Bases.Response<GetSingleWorkerResponce>> Handle(GetWorkerByIdQuery request, CancellationToken cancellationToken)
+        //For me userId by Tocken
+        public async Task<Bases.Response<GetSingleWorkerResponce>> Handle(GetWorkerByUserIdQuery request, CancellationToken cancellationToken)
         {
 
-            var user = await _WorkerService.GetWorkerById(request.Id);
+            var user = await _WorkerService.GetWorkerById(request.userId);
             if (user == null) return NotFound<GetSingleWorkerResponce>();
             var result = _mapper.Map<GetSingleWorkerResponce>(user);
             return Success(result);
         }
 
+
+        //For another worker by workerId
         public async Task<Bases.Response<WorkerProfileDTO>> Handle(GetWorkerProfileByWorkerIdQuery request, CancellationToken cancellationToken)
         {
 
             var workerProfile = await _WorkerService.GetWorkerByWorkerId(request.WorkerId);
             if (workerProfile == null) return NotFound<WorkerProfileDTO>();
 
+
             var workerProfileMapper = _mapper.Map<WorkerProfileDTO>(workerProfile);
+            workerProfileMapper.ReviewsCounter = workerProfile.Reviews.Count;
+
             return Success(workerProfileMapper);
 
         }

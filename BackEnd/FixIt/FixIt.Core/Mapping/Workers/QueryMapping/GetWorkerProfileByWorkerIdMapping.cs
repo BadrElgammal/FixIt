@@ -9,7 +9,9 @@ namespace FixIt.Core.Mapping.Workers
         {
             CreateMap<WorkerProfile, WorkerProfileDTO>()
                      .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
-                     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName));
+                     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                     .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.User.IsActive))
+                     .ForMember(dest => dest.ImgUrl, opt => opt.MapFrom(src => src.User.ImgUrl));
 
         }
 

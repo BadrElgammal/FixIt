@@ -34,7 +34,7 @@ namespace FixIt.Core.Features.Categories.Command.Handlers
             var category = await _categoryService.GetCategoryByIdAsync(request.CategoryId);
             if (category == null) return NotFound<string>("هذا القسم غير موجود");
 
-            var categoryMapper = _mapper.Map<Category>(request);
+            var categoryMapper = _mapper.Map(request, category);
             var result = await _categoryService.UpdateCategoryAsync(categoryMapper);
             if (result == "success") return Success($"{request.CategoryName} تم التعديل");
             else return BadRequest<string>();

@@ -33,11 +33,22 @@ namespace FixIt.Infrastructure.Repositories
 
         }
 
-        public async Task<Portfolio> GetPortfolioByidAsNoTrackingAsync(int portfolioId)
+        public async Task<Portfolio> GetPortfolioByidAsync(int portfolioId)
         {
+
             return await _db.Portfolios
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.PortfolioId == portfolioId);
+
+        }
+
+        public async Task<WorkerProfile> GetWorkerByWorkerId(Guid workerId)
+        {
+
+
+            return await _db.WorkerProfiles.Where(w => w.WorkerId == workerId)
+                                            .Include(w => w.User)
+                                            .Include(w => w.Portfolios)
+                                            .FirstOrDefaultAsync();
         }
 
         public async Task<Guid> GetWorkerIdByUserId(Guid userId)

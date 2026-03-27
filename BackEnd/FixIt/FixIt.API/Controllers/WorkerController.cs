@@ -30,7 +30,7 @@ namespace FixIt.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
 
-            var Worker = await _mediator.Send(new GetWorkerByIdQuery(Id));
+            var Worker = await _mediator.Send(new GetWorkerByUserIdQuery(Id));
             return NewResult(Worker);
 
         }

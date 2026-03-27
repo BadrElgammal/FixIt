@@ -49,8 +49,10 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<WorkerProfile> GetWorkerByWorkerIdAsync(Guid WorkerId)
         {
+
             return await _dbContext.WorkerProfiles.Include(w => w.User)
                                  .Include(w => w.Category)
+                                 .Include(w => w.Reviews)
                                  .Where(w => w.WorkerId == WorkerId)
                                  .FirstOrDefaultAsync();
 
