@@ -13,6 +13,12 @@ namespace FixIt.Core.Mapping.Reviews
                             .ForMember(dest => dest.ReviewerRole, opt => opt.MapFrom(src => src.Reviewer.Role));
 
 
+            CreateMap<WorkerProfile, ReviewForWorkerDTO>()
+                .ForMember(dest => dest.WorkerName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.ImgUrl, opt => opt.MapFrom(src => src.User.ImgUrl))
+                //ReviewsForWorker  <==> Worker   ===>    RwviewsDTO
+                .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews));
+
         }
 
 

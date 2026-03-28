@@ -6,6 +6,7 @@ namespace FixIt.Service.Abstracts
     public interface IPortfolioService
     {
         public Task<Guid> GetWorkerIdByUserId(Guid userId);
+        public Task<WorkerProfile> GetWorkerByWorkerId(Guid workerId);
         Task<List<Portfolio>> GetAllPortfoliosByWorkerIdAsync(object workerId);
         Task<List<Portfolio>> GetAllPortfoliosAsync();
         Task<List<Portfolio>> GetAllPortfoliosByUserIdAsync(Guid userId);

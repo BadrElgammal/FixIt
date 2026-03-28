@@ -7,7 +7,9 @@ namespace FixIt.Infrastructure.Abstracts
         Task<List<Portfolio>> GetAllPortfoliosByWorkerId(object workerId);
         Task<List<Portfolio>> GetAllPortfoliosByUserId(Guid userId);
         Task<Guid> GetWorkerIdByUserId(Guid userId);
-        Task<Portfolio> GetPortfolioByidAsNoTrackingAsync(int portfolioId);
+        Task<WorkerProfile> GetWorkerByWorkerId(Guid workerId);
+        Task<Portfolio> GetPortfolioByidAsync(int portfolioId);
+
 
 
     }

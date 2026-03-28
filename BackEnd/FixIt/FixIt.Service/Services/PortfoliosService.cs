@@ -73,8 +73,12 @@ namespace FixIt.Service.Services
 
         public async Task<Portfolio> GetPortfolioByidAsync(int id)
         {
-            // return await _portfoliosRepo.GetByIdAsync(id);
-            return await _portfoliosRepo.GetPortfolioByidAsNoTrackingAsync(id);
+            return await _portfoliosRepo.GetPortfolioByidAsync(id);
+        }
+
+        public async Task<WorkerProfile> GetWorkerByWorkerId(Guid workerId)
+        {
+            return await _portfoliosRepo.GetWorkerByWorkerId(workerId);
         }
 
         public async Task<Guid> GetWorkerIdByUserId(Guid userId)
@@ -87,14 +91,19 @@ namespace FixIt.Service.Services
             //await _portfoliosRepo.UpdateAsync(portfolio);
             //return "success";
 
-            var ImgUrl = await _fileService.UploadImage("Portfolios", file);
-            portfolio.ImgUrl = ImgUrl;
-
-            switch (ImgUrl)
+            if (file != null && file.Length > 0)
             {
-                case "No Image !!": return "No Image !!";
-                case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+
+                var ImgUrl = await _fileService.UploadImage("Portfolios", file);
+                portfolio.ImgUrl = ImgUrl;
+
+                switch (ImgUrl)
+                {
+                    case "No Image !!": return "No Image !!";
+                    case "Feild to Uplaod !!": return "Feild to Uplaod !!";
+                }
             }
+
 
             try
             {

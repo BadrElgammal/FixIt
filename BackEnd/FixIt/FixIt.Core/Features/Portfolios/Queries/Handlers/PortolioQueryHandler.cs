@@ -9,7 +9,7 @@ namespace FixIt.Core.Features.Portfolios.Queries.Handlers
 {
     public class PortolioQueryHandler : ResponseHandler,
                 IRequestHandler<GetAllPortfoliosForAdminQuery, Response<List<PortfolioDTO>>>,
-                IRequestHandler<GetPortoliosListByWorkerIdQuery, Response<List<PortfolioDTO>>>,
+                IRequestHandler<GetPortoliosListByWorkerIdQuery, Response<PortfoliosForWorkerDTO>>,
                 IRequestHandler<GetAllPortfoliosByUserIdQuery, Response<List<PortfolioDTO>>>
 
     {
@@ -39,15 +39,29 @@ namespace FixIt.Core.Features.Portfolios.Queries.Handlers
 
 
         //for another Worker
-        public async Task<Response<List<PortfolioDTO>>> Handle(GetPortoliosListByWorkerIdQuery request, CancellationToken cancellationToken)
+        //public async Task<Response<List<PortfolioDTO>>> Handle(GetPortoliosListByWorkerIdQuery request, CancellationToken cancellationToken)
+        //{
+        //    var PortfoliosList = await _portfolioService.GetAllPortfoliosByWorkerIdAsync(request.WorkerId);
+
+        //    if (PortfoliosList == null || !PortfoliosList.Any()) return NotFound<List<PortfolioDTO>>("لا يوجد ");
+
+        //    var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
+
+        //    return Success(PortfoliosListMapper);
+        //}
+
+        async Task<Response<PortfoliosForWorkerDTO>> IRequestHandler<GetPortoliosListByWorkerIdQuery, Response<PortfoliosForWorkerDTO>>.Handle(GetPortoliosListByWorkerIdQuery request, CancellationToken cancellationToken)
         {
-            var PortfoliosList = await _portfolioService.GetAllPortfoliosByWorkerIdAsync(request.WorkerId);
+            var worker = await _portfolioService.GetWorkerByWorkerId(request.WorkerId);
 
-            if (PortfoliosList == null || !PortfoliosList.Any()) return NotFound<List<PortfolioDTO>>("لا يوجد ");
+            if (worker == null) return NotFound<PortfoliosForWorkerDTO>("هذا العامل غير موجود");
+            if (worker.Portfolios == null || !worker.Portfolios.Any()) return NotFound<PortfoliosForWorkerDTO>("لا يوجد اعمال ");
 
-            var PortfoliosListMapper = _mapper.Map<List<PortfolioDTO>>(PortfoliosList);
+            var PortfoliosListMapper = _mapper.Map<PortfoliosForWorkerDTO>(worker);
 
             return Success(PortfoliosListMapper);
+
+
         }
 
 

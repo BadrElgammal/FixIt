@@ -7,6 +7,7 @@ namespace FixIt.Infrastructure.Abstracts
         Task<List<Review>> GetAllReviewsAsync();
         Task<List<Review>> GetAllReviewsByWorkerIdAsync(Guid workerId);
         Task<Guid> GetWorkerIdByUserIdAsync(Guid userId);
+        Task<WorkerProfile> GetWorkerByWorkerIdAsync(Guid workerId);
 
 
     }

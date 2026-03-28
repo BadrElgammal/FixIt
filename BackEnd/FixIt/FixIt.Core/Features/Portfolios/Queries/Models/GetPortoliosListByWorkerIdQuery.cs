@@ -4,7 +4,7 @@ using MediatR;
 
 namespace FixIt.Core.Features.Portfolios.Queries.Models
 {
-    public class GetPortoliosListByWorkerIdQuery : IRequest<Response<List<PortfolioDTO>>>
+    public class GetPortoliosListByWorkerIdQuery : IRequest<Response<PortfoliosForWorkerDTO>>
     {
         public Guid WorkerId { get; set; }
         public GetPortoliosListByWorkerIdQuery(Guid id)
