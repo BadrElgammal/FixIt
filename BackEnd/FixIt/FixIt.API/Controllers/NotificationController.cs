@@ -1,6 +1,7 @@
 ﻿using FixIt.API.Base;
 using FixIt.API.SignalR;
 using FixIt.Core.Features.Chat.Queries.Models;
+using FixIt.Core.Features.Notifications.Commands.Models;
 using FixIt.Core.Features.Notifications.Queries.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +33,18 @@ namespace FixIt.API.Controllers
             Guid Id = Guid.Parse(userId);
 
             var result = await _mediator.Send(new GetAllNotificationsQuery(Id));
+            return NewResult(result);
+        }
+
+
+        [HttpPut("{notificationId}/read")]
+        [Authorize]
+        public async Task<IActionResult> MarkNotificationIsRead([FromBody] int notificationId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new MarkNotificationIsRead(notificationId, Id));
             return NewResult(result);
         }
 

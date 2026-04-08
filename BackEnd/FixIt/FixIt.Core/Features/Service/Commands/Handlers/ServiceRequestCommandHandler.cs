@@ -92,7 +92,7 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
                 serviceRequest.TotalPrice = request.TotalPrice;
                 serviceRequest.State = ServiceRequestState.pending;
                 var result = await _serviceRequestService.EditServiceRequestAsync(serviceRequest);
-                if (result == "success") return BadRequest<string>();
+                if (result != "success") return BadRequest<string>();
 
                 //Add Notification
                 await _mediator.Send(new AddNotificationCommand(

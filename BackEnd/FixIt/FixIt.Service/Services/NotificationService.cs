@@ -24,9 +24,20 @@ namespace FixIt.Service.Services
             return true;
         }
 
+        public async Task<bool> EditNotification(Notification notification)
+        {
+             await _notificationRepo.UpdateAsync(notification);
+            return true;
+        }
+
         public async Task<List<Notification>> GetAllNotificationsAsync(Guid userId)
         {
             return await _notificationRepo.Find(n => n.UserId == userId).ToListAsync();
+        }
+
+        public async Task<Notification> GetNotificationById(int notificationId)
+        {
+            return await _notificationRepo.GetByIdAsync(notificationId);
         }
     }
 }

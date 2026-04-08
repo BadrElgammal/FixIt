@@ -6,7 +6,6 @@ namespace FixIt.Core.Mapping.Workers
     {
         public WorkerProfileMapper()
         {
-            GetWorkerListMapping();
             GetWorkerByIdMapping();
             EditeWorkerCommandMapping();
             GetWorkerProfileByWorkerIdMapping();

@@ -11,5 +11,7 @@ namespace FixIt.Service.Abstracts
     { 
         Task<bool> AddNotificationAsync(Notification notification);
         Task<List<Notification>> GetAllNotificationsAsync(Guid userId);
+        Task<Notification> GetNotificationById(int notificationId);
+        Task<bool> EditNotification(Notification notification); 
     }
 }

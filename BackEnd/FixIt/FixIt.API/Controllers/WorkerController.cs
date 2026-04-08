@@ -11,12 +11,13 @@ namespace FixIt.API.Controllers
     [ApiController]
     public class WorkerController : AppController
     {
+
         //GetAll
         [HttpGet("AllWorkers")]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetWorkersPaginatedListQuery query)
         {
-            var WorksList = await _mediator.Send(new GetWorkersListQuery());
+            var WorksList = await _mediator.Send(query);
             return Ok(WorksList);
 
         }
