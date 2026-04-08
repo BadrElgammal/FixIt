@@ -16,6 +16,7 @@ namespace FixIt.Service.Abstracts
         public Task<string> ChangeWorkerImage(User user, IFormFile file);
         public Task<User> GetUserByUserId(Guid userId);
 
-
+        public IQueryable<WorkerProfile> GetAllWorkersPaginated();
+        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable);
     }
 }

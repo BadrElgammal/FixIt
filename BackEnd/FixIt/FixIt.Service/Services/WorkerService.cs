@@ -2,6 +2,7 @@
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixIt.Service.Services
 {
@@ -143,6 +144,22 @@ namespace FixIt.Service.Services
         public async Task<User> GetUserByUserId(Guid userId)
         {
             return await _userRepo.GetByIdAsync(userId);
+        }
+
+        public IQueryable<WorkerProfile> GetAllWorkersPaginated()
+        {
+            return _WorkerRepo.GetTableNoTracking().Include(w => w.User)
+                        .Include(w => w.Category).AsQueryable();
+        }
+
+        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable)
+        {
+            var query = _WorkerRepo.GetTableNoTracking().Include(w => w.User)
+                        .Include(w => w.Category).AsQueryable();
+            if (search != null) query = query.Where(w => w.User.FullName.Contains(search));
+            if (address != null) query = query.Where(w => w.Area.Contains(address) || w.User.City.Contains(address));
+            if (isAvilable !=null) query = query.Where(w => w.AvailabilityStatus == isAvilable);
+            return query;
         }
 
 

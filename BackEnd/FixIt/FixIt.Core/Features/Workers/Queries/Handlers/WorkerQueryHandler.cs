@@ -2,16 +2,18 @@
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Workers.Queries.DTOs;
 using FixIt.Core.Features.Workers.Queries.Models;
-using FixIt.Core.Features.Workers.Queries.Results;
+using FixIt.Core.Wrapper;
+using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
+using System.Linq.Expressions;
 
 namespace FixIt.Core.Features.Workers.Queries.Handlers
 {
     public class WorkerQueryHandler : ResponseHandler,
-                 IRequestHandler<GetWorkersListQuery, Bases.Response<List<GetWorkersResponce>>>, // WorkerProfile
                  IRequestHandler<GetWorkerByUserIdQuery, Bases.Response<GetSingleWorkerResponce>>,
-                 IRequestHandler<GetWorkerProfileByWorkerIdQuery, Bases.Response<WorkerProfileDTO>>
+                 IRequestHandler<GetWorkerProfileByWorkerIdQuery, Bases.Response<WorkerProfileDTO>>,
+                 IRequestHandler<GetWorkersPaginatedListQuery, PaginatedResult<GetWorkersPaginatedResponce>>
     {
 
         #region Fields
@@ -35,14 +37,6 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
 
         //
         #region methods handel
-
-        //List For Admin
-        public async Task<Bases.Response<List<GetWorkersResponce>>> Handle(GetWorkersListQuery request, CancellationToken cancellationToken)
-        {
-            var WorkersList = await _WorkerService.GetAllWorkersAsync();
-            var WorkersListMapper = _mapper.Map<List<GetWorkersResponce>>(WorkersList);
-            return Success(WorkersListMapper);
-        }
 
         //For me userId by Tocken
         public async Task<Bases.Response<GetSingleWorkerResponce>> Handle(GetWorkerByUserIdQuery request, CancellationToken cancellationToken)
@@ -68,6 +62,14 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
 
             return Success(workerProfileMapper);
 
+        }
+
+        public Task<PaginatedResult<GetWorkersPaginatedResponce>> Handle(GetWorkersPaginatedListQuery request, CancellationToken cancellationToken)
+        {
+            Expression<Func<WorkerProfile, GetWorkersPaginatedResponce>> expression = e => new GetWorkersPaginatedResponce(e.WorkerId, e.JobTitle, e.Description, e.AvailabilityStatus, e.RatingAverage, e.Area, e.Category.CategoryName, e.User.FullName, e.User.ImgUrl, e.User.Role, e.User.City);
+            var FilterQuery = _WorkerService.GetAllWorkersPaginatedWithFiltaration(request.search, request.address, request.IsAvilable);
+            var paginatedList = FilterQuery.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
+            return paginatedList;
         }
 
 
