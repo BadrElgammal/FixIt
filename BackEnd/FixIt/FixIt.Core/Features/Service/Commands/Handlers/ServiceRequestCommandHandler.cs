@@ -177,11 +177,21 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
 
         public async Task<Response<string>> Handle(CancelServiceRequestCommand request, CancellationToken cancellationToken)
         {
-            var workerId = _serviceRequestService.GetWorkerIdByUserId(request.UserId);
             var serviceRequest = _serviceRequestService.Find(s => s.RequestId == request.ServiceId).FirstOrDefault();
+            bool valid = false;
+            if(request.Rule.ToLower() == "admin")
+                valid = true;
+            if(request.Rule.ToLower() == "worker")
+            {
+                var workerId = _serviceRequestService.GetWorkerIdByUserId(request.UserId);
+                if (serviceRequest.WorkerId == workerId && serviceRequest.State == ServiceRequestState.inprocess)
+                    valid = true;
+            }
+
+            
           
             //check the user is worker in service and check the state
-            if (serviceRequest.WorkerId == workerId && serviceRequest.State == ServiceRequestState.inprocess)
+            if (valid)
             {
                 var WalletWorker = await _serviceRequestService.GetWalletByWorkerId(serviceRequest.WorkerId);
                 var WalletClient = await _serviceRequestService.GetWalletByClientId(serviceRequest.ClientId);
@@ -208,7 +218,8 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
                 if (result2 != "success") return BadRequest<string>();
 
                 //Change state and Edit Service 
-                serviceRequest.State = ServiceRequestState.canceled;
+                if(request.Rule.ToLower() == "admin") serviceRequest.State = ServiceRequestState.canceldByAdmin;
+                else if (request.Rule.ToLower() == "worker") serviceRequest.State = ServiceRequestState.canceled;
                 var result1 = await _serviceRequestService.EditServiceRequestAsync(serviceRequest);
                 if (result1 != "success") return BadRequest<string>();
 
@@ -272,8 +283,8 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
         {
             var serviceRequest = _serviceRequestService.Find(s => s.RequestId == request.ServiceId).FirstOrDefault();
 
-            //check the user is worker in service and check the state
-            if (serviceRequest.ClientId == request.ClientId && serviceRequest.State == ServiceRequestState.submitted)
+            //check the user is worker in service and check the state or admin
+            if ((serviceRequest.ClientId == request.ClientId && serviceRequest.State == ServiceRequestState.submitted) || (request.Rule.ToLower() == "admin" && serviceRequest.State == ServiceRequestState.disputed))
             {
                 var WalletWorker = await _serviceRequestService.GetWalletByWorkerId(serviceRequest.WorkerId);
                 var WalletClient = await _serviceRequestService.GetWalletByClientId(serviceRequest.ClientId);
@@ -302,6 +313,8 @@ namespace FixIt.Core.Features.Service.Commands.Handlers
                 if (result2 != "success") return BadRequest<string>();
 
                 //Change state and Edit Service 
+                if(request.Rule.ToLower() == "admin") serviceRequest.State = ServiceRequestState.completedByAdmin;
+                else if(request.Rule.ToLower() == "client") serviceRequest.State = ServiceRequestState.completed;
                 serviceRequest.State = ServiceRequestState.completed;
                 var result1 = await _serviceRequestService.EditServiceRequestAsync(serviceRequest);
                 if (result1 != "success") return BadRequest<string>();

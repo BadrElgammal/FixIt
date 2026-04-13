@@ -50,6 +50,7 @@
     <Folder Include="Mapping\Categories\QueryMapping\" />
     <Folder Include="Mapping\Chat\CommandMapping\" />
     <Folder Include="Mapping\Favorites\CommandMapping\" />
+    <Folder Include="Mapping\Favorites\QueryMapping\" />
   </ItemGroup>
 
 </Project>

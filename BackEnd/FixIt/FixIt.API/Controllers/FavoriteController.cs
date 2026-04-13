@@ -15,12 +15,13 @@ namespace FixIt.API.Controllers
 
         [HttpGet("ClientFavorites")]
         [Authorize]
-        public async Task<IActionResult> ClientFavorites()
+        public async Task<IActionResult> ClientFavorites([FromQuery] GetAllFavoritesPagenatedQuery query)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
-            var respose = await _mediator.Send(new GetAllFavoritesQuery(Id));
-            return NewResult(respose);
+            query.Id = Id;
+            var respose = await _mediator.Send(query);
+            return Ok(respose);
         }
 
         //add Fav
