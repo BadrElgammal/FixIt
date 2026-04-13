@@ -12,10 +12,12 @@ namespace FixIt.Core.Features.Service.Commands.Models
     {
         public Guid ServiceId { get; set; }
         public Guid UserId { get; set; }
-        public CancelServiceRequestCommand(Guid serviceId, Guid userId)
+        public string Rule { get; set; }
+        public CancelServiceRequestCommand(Guid serviceId, Guid userId , string rule) 
         {
             ServiceId = serviceId;
             UserId = userId;
+            Rule = rule;
         }
     }
 }

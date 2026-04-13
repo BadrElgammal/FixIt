@@ -1,7 +1,9 @@
 ﻿using FixIt.Domain.Entities;
+using FixIt.Domain.Enum;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -115,6 +117,40 @@ namespace FixIt.Service.Services
         public async Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByWorkerId(object WorkerId)
         {
             return await _serviceRequestRepository.GetAllServiceRequestWithAllDataByWorkerId(WorkerId);
+        }
+        public IQueryable<ServiceRequest> GetAllServiceRequestWithAllDataByClientIdPaginated(Guid ClientId)
+        {
+            var serviceRequest = _serviceRequestRepository.GetTableNoTracking().Include(s => s.Client)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.User)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.Category)
+                    .Where(s => s.ClientId == (Guid)ClientId).AsQueryable();
+            return serviceRequest;
+        }
+
+        public IQueryable<ServiceRequest> GetAllServiceRequestWithAllDataByWorkerIdPaginated(Guid WorkerId)
+        {
+            var serviceRequest = _serviceRequestRepository.GetTableNoTracking()
+                .Include(s => s.Client)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.User)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.Category)
+                    .Where(s => s.Worker.User.UserId == (Guid)WorkerId).AsQueryable();
+            return serviceRequest;
+        }
+
+        public IQueryable<ServiceRequest> GetAllServiceRequestForAdminFiltration(ServiceRequestState? state)
+        {
+            var serviceRequest = _serviceRequestRepository.GetTableNoTracking()
+                .Include(s => s.Client)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.User)
+                .Include(s => s.Worker)
+                    .ThenInclude(w => w.Category).AsQueryable();
+            if(state != null) serviceRequest = serviceRequest.Where(s => s.State == state);
+            return serviceRequest;
         }
 
         public async Task<ServiceRequest> GetServiceRequestWithAllData(object serviceId)

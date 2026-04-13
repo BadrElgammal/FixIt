@@ -1,4 +1,6 @@
-﻿namespace FixIt.Core.Features.Service.Queries.DTOs
+﻿using FixIt.Domain.Enum;
+
+namespace FixIt.Core.Features.Service.Queries.DTOs
 {
     public class GetAllServiceRequistDTO
     {
@@ -7,7 +9,7 @@
         public string ServiceDescription { get; set; }
         public decimal TotalPrice { get; set; }
         //public decimal DepositAmount { get; set; }
-        public string State { get; set; }
+        public ServiceRequestState State { get; set; }
         public DateTime RequestDate { get; set; }
         //public DateTime? CompleteDate { get; set; }
         public string ClientName { get; set; }
@@ -22,6 +24,22 @@
         //Imgs
         public string? RequestedImgUrl { get; set; }
         public string? SubmitedImgUrl { get; set; }
+
+        public GetAllServiceRequistDTO(Guid serviceId, string serviceTitle, string serviceDescription, decimal totalPrice, ServiceRequestState state, DateTime requestDate, string clientName, string workerName, Guid clientId, Guid workerId, string? requestedImgUrl, string? submitedImgUrl)
+        {
+            ServiceId = serviceId;
+            ServiceTitle = serviceTitle;
+            ServiceDescription = serviceDescription;
+            TotalPrice = totalPrice;
+            State = state;
+            RequestDate = requestDate;
+            ClientName = clientName;
+            WorkerName = workerName;
+            ClientId = clientId;
+            WorkerId = workerId;
+            RequestedImgUrl = requestedImgUrl;
+            SubmitedImgUrl = submitedImgUrl;
+        }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Favorites.Queries.DTOs
 {
-    public  class ClientFavoritesWorkerDTO
+    public class ClientFavoritesWorkerPaginatedResponse
     {
         public Guid WorkerId { get; set; }
 
@@ -24,5 +24,20 @@ namespace FixIt.Core.Features.Favorites.Queries.DTOs
 
 
         public string CategoryName { get; set; }
+
+        public ClientFavoritesWorkerPaginatedResponse(Guid workerId, string fullName, string? imgUrl, string role, string city, string? area, string? jobTitle, string? description, bool availabilityStatus, double? ratingAverage, string categoryName)
+        {
+            WorkerId = workerId;
+            FullName = fullName;
+            ImgUrl = imgUrl;
+            Role = role;
+            City = city;
+            Area = area;
+            JobTitle = jobTitle;
+            Description = description;
+            AvailabilityStatus = availabilityStatus;
+            RatingAverage = ratingAverage;
+            CategoryName = categoryName;
+        }
     }
 }

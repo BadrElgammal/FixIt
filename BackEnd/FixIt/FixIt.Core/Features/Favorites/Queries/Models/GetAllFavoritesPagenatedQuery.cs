@@ -1,6 +1,4 @@
-﻿using FixIt.Core.Bases;
-using FixIt.Core.Features.Service.Commands.DTOs;
-using FixIt.Core.Features.Service.Queries.DTOs;
+﻿using FixIt.Core.Features.Favorites.Queries.DTOs;
 using FixIt.Core.Wrapper;
 using MediatR;
 using System;
@@ -9,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixIt.Core.Features.Service.Queries.Models
+namespace FixIt.Core.Features.Favorites.Queries.Models
 {
-    public class GetSentsServiceRequistQuery : IRequest<PaginatedResult<GetAllServiceRequistDTO>>
+    public class GetAllFavoritesPagenatedQuery : IRequest<PaginatedResult<ClientFavoritesWorkerPaginatedResponse>>
     {
         public Guid Id { get; set; }
         public int pageNum { get; set; }

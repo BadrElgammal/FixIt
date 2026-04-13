@@ -11,7 +11,7 @@ namespace FixIt.Core.Mapping.Favorites
     {
         public FavoritesMapper()
         {
-            GetClientFavoritesMapping();
+            
         }
     }
 }

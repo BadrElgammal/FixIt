@@ -12,10 +12,12 @@ namespace FixIt.Core.Features.Service.Commands.Models
     {
         public Guid ServiceId { get; set; }
         public Guid ClientId { get; set; }
-        public AcceptSubmittedServiceRequestCommand(Guid serviceId, Guid clientId)
+        public string Rule { get; set; }
+        public AcceptSubmittedServiceRequestCommand(Guid serviceId, Guid clientId , string rule)
         {
             ServiceId = serviceId;
             ClientId = clientId;
+            Rule = rule;
         }
     }
 }

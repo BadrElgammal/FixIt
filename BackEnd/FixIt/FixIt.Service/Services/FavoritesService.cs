@@ -1,6 +1,7 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixIt.Service.Services
 {
@@ -28,6 +29,15 @@ namespace FixIt.Service.Services
         public async Task<List<Favorite>> GetAllFavoritesByUserId(object userId)
         {
             return await _favoritesRepository.GetAllFavoritesByUserId(userId);
+        }
+
+        public IQueryable<Favorite> GetAllFavoritesByUserIdPaginated(Guid userId)
+        {
+            return _favoritesRepository.GetTableNoTracking().Include(f => f.Worker).
+                                            ThenInclude(w => w.User).
+                                          Include(f => f.Worker).
+                                            ThenInclude(w => w.Category)
+                                          .Where(f => f.ClientId == userId).AsQueryable();
         }
 
         public async Task<Favorite> GetFavoriteByClientIdAndWorkerId(Guid ClientId, Guid workerId)
