@@ -16,6 +16,8 @@ namespace FixIt.Domain.Enum
         submitted,
         disputed,
         reviewed,
-        completed
+        completed,
+        canceldByAdmin,
+        completedByAdmin
     }
 }

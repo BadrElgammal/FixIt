@@ -1,4 +1,5 @@
 ﻿using FixIt.Domain.Entities;
+using FixIt.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 
@@ -18,8 +19,10 @@ namespace FixIt.Service.Abstracts
         Task<string> CreateTransaction(Transaction transaction);
         Task<ServiceRequest> GetServiceRequestWithAllData(object serviceId);
         Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByClientId(object ClientId);
+        IQueryable<ServiceRequest> GetAllServiceRequestWithAllDataByClientIdPaginated(Guid ClientId);
         Task<List<ServiceRequest>> GetAllServiceRequestWithAllDataByWorkerId(object WorkerId);
-
+        IQueryable<ServiceRequest> GetAllServiceRequestWithAllDataByWorkerIdPaginated(Guid WorkerId);
+        IQueryable<ServiceRequest> GetAllServiceRequestForAdminFiltration(ServiceRequestState? state);
 
     }
 }

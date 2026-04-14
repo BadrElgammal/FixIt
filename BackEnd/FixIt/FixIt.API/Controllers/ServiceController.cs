@@ -35,50 +35,47 @@ namespace FixIt.API.Controllers
 
         [HttpGet("SentsServiceRequests")]
         [Authorize]
-        public async Task<IActionResult> GetAllSentsServiceRequests()
+        public async Task<IActionResult> GetAllSentsServiceRequests([FromQuery] GetSentsServiceRequistQuery query)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
-
-            var result = await _mediator.Send(new GetSentsServiceRequistQuery(Id));
-            return NewResult(result);
+            query.Id = Id;
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        [HttpGet("RecivedsServiceRequests")]
+        [HttpGet("Worker/RecivedsServiceRequests")]
         [Authorize]
         [Authorize(Roles = "worker")]
-        public async Task<IActionResult> GetAllRecivedServiceRequests()
+        public async Task<IActionResult> GetAllRecivedServiceRequests([FromQuery] GetRecivedServiceRequestsQuery query)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
-
-            var result = await _mediator.Send(new GetRecivedServiceRequestsQuery(Id));
-            return NewResult(result);
+            query.Id = Id;
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        [HttpGet("SentsDetails/{serviceId}")]
+        [HttpGet("/api/Admin/AllServiceRequests")]
         [Authorize]
-        public async Task<IActionResult> GetSentsServiceRequestDetails(Guid serviceId)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Guid Id = Guid.Parse(userId);
-
-            var result = await _mediator.Send(new GetSentsServiceRequestDetailsQuery(serviceId, Id));
-            return NewResult(result);
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAllServiceRequestsToAdmin([FromQuery] GetAllServiceRequestsQuery query)
+        {     
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        [HttpGet("RecivedDetails/{serviceId}")]
+        [HttpGet("Details/{serviceId}")]
         [Authorize]
-        [Authorize(Roles = "worker")]
-        public async Task<IActionResult> GetRecivedServiceRequestDetails(Guid serviceId)
+        public async Task<IActionResult> GetServiceRequestDetails(Guid serviceId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Role = User.FindFirst(ClaimTypes.Role).Value;
             Guid Id = Guid.Parse(userId);
-
-            var result = await _mediator.Send(new GetRecivedServiceRequestDetailsQuery(serviceId, Id));
+            
+            var result = await _mediator.Send(new GetServiceRequestDetailsQuery(serviceId, Id,Role));
             return NewResult(result);
         }
-
 
 
         [HttpPut("{serviceId}/reject")]
@@ -92,7 +89,7 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        [HttpPut("recivedJobs/{serviceId}/pending")]
+        [HttpPut("Worker/recivedJobs/{serviceId}/pending")]
         [Authorize]
         [Authorize(Roles = "worker")]
         public async Task<IActionResult> AddPriceToServiceRequest(Guid serviceId, AddPriceToServiceRequestCommand command)
@@ -106,7 +103,7 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        [HttpPut("recivedJobs/{serviceId}/inprocess")]
+        [HttpPut("sendsJobs/{serviceId}/inprocess")]
         [Authorize]
         public async Task<IActionResult> AcceptPriceServiceRequest(AcceptPriceServiceRequestCommand command)
         {
@@ -120,17 +117,17 @@ namespace FixIt.API.Controllers
 
         [HttpPut("recivedJobs/{serviceId}/canceled")]
         [Authorize]
-        [Authorize(Roles = "worker")]
         public async Task<IActionResult> CancelServiceRequest(Guid serviceId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Rule = User.FindFirst(ClaimTypes.Role).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId, Id));
+            var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId, Id,Rule));
             return NewResult(result);
         }
 
-        [HttpPut("recivedJobs/{serviceId}/submitted")]
+        [HttpPut("Worker/recivedJobs/{serviceId}/submitted")]
         [Authorize]
         [Authorize(Roles = "worker")]
         public async Task<IActionResult> SubmitServiceRequest([FromRoute] Guid serviceId, [FromForm] SubmitServiceRequestCommand command)
@@ -147,19 +144,20 @@ namespace FixIt.API.Controllers
         }
 
 
-        [HttpPut("recivedJobs/{serviceId}/completed")]
+        [HttpPut("sendsJobs/{serviceId}/completed")]
         [Authorize]
         public async Task<IActionResult> AcceptSubmittedServiceRequest(Guid serviceId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Rule = User.FindFirst(ClaimTypes.Role).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new AcceptSubmittedServiceRequestCommand(serviceId, Id));
+            var result = await _mediator.Send(new AcceptSubmittedServiceRequestCommand(serviceId, Id , Rule));
             return NewResult(result);
         }
 
 
-        [HttpPut("recivedJobs/{serviceId}/Disputed")]
+        [HttpPut("sendsJobs/{serviceId}/Disputed")]
         [Authorize]
         public async Task<IActionResult> DisputedServiceRequest(Guid serviceId)
         {
@@ -168,6 +166,29 @@ namespace FixIt.API.Controllers
 
             var result = await _mediator.Send(new DisputedServiceRequestCommand(serviceId, Id));
             return NewResult(result);
+        }
+
+        [HttpPut("Admin/{serviceId}/resolve")]
+        [Authorize]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ResolveServiceRequest(Guid serviceId,[FromQuery]string state)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Rule = User.FindFirst(ClaimTypes.Role).Value;
+            Guid Id = Guid.Parse(userId);
+
+            if (Rule.ToLower() == "admin" && state.ToLower() == "cancle")
+            {
+                var result = await _mediator.Send(new CancelServiceRequestCommand(serviceId, Id, Rule));
+                return NewResult(result);
+            }
+            else if (Rule.ToLower() == "admin" && state.ToLower() == "complete")
+            {
+                var result = await _mediator.Send(new AcceptSubmittedServiceRequestCommand(serviceId, Id, Rule));
+                return NewResult(result);
+            }
+            else
+                return BadRequest("خطا ليس لديك صلاحيه او ادخلت امر خطا");
         }
     }
 }

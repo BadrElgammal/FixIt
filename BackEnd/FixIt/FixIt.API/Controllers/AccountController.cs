@@ -77,7 +77,7 @@ namespace FixIt.API.Controllers
                 Email = userData.Email,
                 Phone = userData.Phone,
                 City = userData.City,
-                Role = userData.Role,
+                Role = userData.Role.ToLower(),
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(userData.Password)
             };
             await _UserService.AddAsync(user);
