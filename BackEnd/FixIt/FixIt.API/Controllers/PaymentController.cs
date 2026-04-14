@@ -117,7 +117,7 @@ namespace FixIt.API.Controllers
             }
 
             string receivedHmac = query["hmac"];
-            string calculatedHmac = _paymobService.ComputeHmacSHA512(concatenated.ToString(), _configuration["Paymob:HMAC"]);
+            string calculatedHmac = _paymobService.ComputeHmacSHA512(concatenated.ToString(), Environment.GetEnvironmentVariable("HMAC")!);//_configuration["Paymob:HMAC"]
 
             if (receivedHmac.Equals(calculatedHmac, StringComparison.OrdinalIgnoreCase))
             {
@@ -143,7 +143,7 @@ namespace FixIt.API.Controllers
             try
             {
                 string receivedHmac = Request.Query["hmac"];
-                string secret = _configuration["Paymob:HMAC"];
+                string secret = Environment.GetEnvironmentVariable("HMAC")!;//_configuration["Paymob:HMAC"];
 
                 if (!payload.TryGetProperty("obj", out var obj))
                     return BadRequest("Missing 'obj' in payload.");
