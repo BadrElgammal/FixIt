@@ -34,6 +34,23 @@ namespace FixIt.API.Controllers
 
             var result = await _mediator.Send(new GetMyRoomsQuery(Id));
             return NewResult(result);
+        }/*am1303*/
+        [HttpGet("/api/Admin/AllChats")]
+        [Authorize]
+        [Authorize(Roles ="admin")]
+        public async Task<IActionResult> AllChatsToAdmin([FromQuery] GetAllRoomsQuery query)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Role = User.FindFirst(ClaimTypes.Role).Value;
+            Guid Id = Guid.Parse(userId);
+
+            if (Role.ToLower() == "admin")
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            else
+                return BadRequest("ليس لديك صلاحيه");
         }
 
         [HttpPost("room/{targetUserId}")]
@@ -53,9 +70,10 @@ namespace FixIt.API.Controllers
         public async Task<IActionResult> GetRoomMessages([FromBody] int roomId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Role = User.FindFirst(ClaimTypes.Role).Value;
             Guid Id = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new GetRoomMessagesQuery(Id, roomId));
+            var result = await _mediator.Send(new GetRoomMessagesQuery(Id,Role, roomId));
             return NewResult(result);
         }
 

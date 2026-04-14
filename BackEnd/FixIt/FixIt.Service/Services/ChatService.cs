@@ -1,6 +1,7 @@
 ﻿using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,11 @@ namespace FixIt.Service.Services
         {
             await _messageRepo.UpdateRangeAsync(chatmessage);
             return "success";
+        }
+
+        public IQueryable<ChatRoom> GetAllRooms()
+        {
+            return _roomRepo.GetTableNoTracking().Include(R => R.CurrentUser).Include(R => R.TargetUser).OrderByDescending(r => r.LastMessageAt).AsQueryable();
         }
     }
 }
