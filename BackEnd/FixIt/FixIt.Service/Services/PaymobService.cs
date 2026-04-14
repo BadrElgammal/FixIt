@@ -42,8 +42,10 @@ namespace FixIt.Service.Services
 
             var httpClient = new HttpClient();
 
-            string secretKey = _configuration["Paymob:SecretKey"] ?? throw new ArgumentException("Paymob secret key not configured");
-            string publicKey = _configuration["Paymob:PublicKey"] ?? throw new ArgumentException("Paymob public key not configured");
+            //string secretKey = _configuration["Paymob:SecretKey"] ?? throw new ArgumentException("Paymob secret key not configured");
+            //string publicKey = _configuration["Paymob:PublicKey"] ?? throw new ArgumentException("Paymob public key not configured");
+            string secretKey = Environment.GetEnvironmentVariable("SECRETKEY")!;
+            string publicKey = Environment.GetEnvironmentVariable("PUBLICKEY")!;
 
             // 2. تحويل المبلغ لقروش
             var amountCents = (int)(payment.Amount * 100);
@@ -129,7 +131,8 @@ namespace FixIt.Service.Services
         {
             return paymentMethod?.ToLower() switch
             {
-                "card" => _configuration["Paymob:CardIntegrationId"] ?? throw new ArgumentException("Card ID missing"),
+                //"card" => _configuration["Paymob:CardIntegrationId"] ?? throw new ArgumentException("Card ID missing"),
+                "card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")!,
                 "wallet" => _configuration["Paymob:MobileIntegrationId"] ?? throw new ArgumentException("Wallet ID missing"),
                 _ => throw new ArgumentException($"Invalid payment method: {paymentMethod}")
             };

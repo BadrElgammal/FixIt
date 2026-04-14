@@ -1,3 +1,4 @@
+using DotNetEnv;
 using FixIt.API.SignalR;
 using FixIt.Core;
 using FixIt.Core.MiddleWare;
@@ -17,6 +18,12 @@ namespace FixIt.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+            Env.Load();
+            builder.Configuration.AddEnvironmentVariables();
+
+
 
             #region Service Container
 
