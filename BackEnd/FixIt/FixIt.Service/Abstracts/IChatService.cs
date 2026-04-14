@@ -18,6 +18,7 @@ namespace FixIt.Service.Abstracts
         Task<string> UpdateRangeMessages(List<ChatMessage> chatmessage);
         Task<List<ChatMessage>> GetMessages(int roomId);
         Task<List<ChatRoom>> GetUserRooms(Guid userId);
+        IQueryable<ChatRoom> GetAllRooms();
         Task<ChatRoom> GetRoomByRoomId(int RoomId);
         IEnumerable<User> Find(Expression<Func<User, bool>> predicate);
     }

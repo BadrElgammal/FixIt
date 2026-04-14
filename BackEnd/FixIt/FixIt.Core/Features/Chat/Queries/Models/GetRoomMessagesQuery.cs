@@ -12,10 +12,13 @@ namespace FixIt.Core.Features.Chat.Queries.Models
     public class GetRoomMessagesQuery : IRequest<Response<List<MessageQueryDTO>>>
     {
         public Guid CurrentUserId { get; set; }
+        public string Role {  get; set; }
         public int RoomId { get; set; }
-        public GetRoomMessagesQuery(Guid CurrentUserId , int roomId)
+
+        public GetRoomMessagesQuery(Guid CurrentUserId , string role , int roomId)
         {
             CurrentUserId = CurrentUserId;
+            Role = role;
             RoomId = roomId;
         }
     }
