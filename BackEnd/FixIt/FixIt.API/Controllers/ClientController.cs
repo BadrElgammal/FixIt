@@ -19,11 +19,16 @@ namespace FixIt.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("AllClients")]
-        public async Task<IActionResult> GetClients()
+        [HttpGet("/api/Admin/AllClients")]
+        public async Task<IActionResult> GetClients([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
-            var respose = await _mediator.Send(new GetClientsListQuery());
-            return NewResult(respose);
+            GetClientsListQuery query = new GetClientsListQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize
+            };
+            var respose = await _mediator.Send(query);
+            return Ok(respose);
         }
 
         [HttpGet("Profile")]
