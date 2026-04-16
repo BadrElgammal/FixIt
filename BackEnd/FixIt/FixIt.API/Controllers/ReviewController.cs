@@ -12,23 +12,34 @@ namespace FixIt.API.Controllers
     public class ReviewController : AppController
     {
         //Admin
-        [HttpGet("AllReviewsAdmin")]
+        [HttpGet("/api/Admin/AllReviewsAdmin")]
         [Authorize]
-        public async Task<IActionResult> AllReviewsForAdmin()
+        [Authorize(Roles ="admin")]
+        public async Task<IActionResult> AllReviewsForAdmin([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
-            var respose = await _mediator.Send(new GetReviewsListQuery());
-            return NewResult(respose);
+            GetReviewsListQuery query = new GetReviewsListQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize
+            };
+            var respose = await _mediator.Send(query);
+            return Ok(respose);
         }
 
 
         //All Reviews {ByWorkerId}
         [HttpGet("AllReviewsByWorkerId/{WorkerId}")]
         [Authorize]
-        public async Task<IActionResult> AllReviewsByWorker(Guid WorkerId)
+        public async Task<IActionResult> AllReviewsByWorker([FromBody]Guid WorkerId, [FromQuery] int PageNum, [FromQuery] int PageSize)
         {
-
-            var respose = await _mediator.Send(new GetReviewsListByWorkerIdQuery(WorkerId));
-            return NewResult(respose);
+            GetReviewsListByWorkerIdQuery query = new GetReviewsListByWorkerIdQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize,
+                workerId = WorkerId
+            };
+            var respose = await _mediator.Send(query);
+            return Ok(respose);
         }
 
 
@@ -36,15 +47,19 @@ namespace FixIt.API.Controllers
         //All Reviews for me [UserId]
         [HttpGet("AllReviews")]
         [Authorize]
-        public async Task<IActionResult> AllReviews()
+        public async Task<IActionResult> AllReviews([FromQuery]  int PageNum , [FromQuery] int PageSize)
         {
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
-
-
-            var respose = await _mediator.Send(new GetMyAllReviewsListQuery(Id));
-            return NewResult(respose);
+            GetMyAllReviewsListQuery query = new GetMyAllReviewsListQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize,
+                userId = Id
+            };
+            var respose = await _mediator.Send(query);
+            return Ok(respose);
         }
 
 

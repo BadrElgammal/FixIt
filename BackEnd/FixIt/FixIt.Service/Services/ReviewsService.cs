@@ -38,6 +38,16 @@ namespace FixIt.Service.Services
             return await _reviewsRepository.GetAllReviewsByWorkerIdAsync(workerId);
         }
 
+        public IQueryable<Review> GetAllReviewsByWorkerIdpaginated(Guid workerId)
+        {
+            return _reviewsRepository.GetAllReviewsByWorkerIdpaginated(workerId);
+        }
+
+        public IQueryable<Review> GetAllReviewsPaginated()
+        {
+            return _reviewsRepository.GetAllReviewsPaginated();
+        }
+
         public async Task<Review> GetReviewByIdAsync(int ReviewId)
         {
             return await _reviewsRepository.GetByIdAsync(ReviewId);

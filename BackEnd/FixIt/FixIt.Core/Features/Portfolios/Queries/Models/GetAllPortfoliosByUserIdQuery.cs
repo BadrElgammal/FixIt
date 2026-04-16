@@ -1,17 +1,15 @@
 ﻿using FixIt.Core.Bases;
 using FixIt.Core.Features.Portfolios.Queries.DTOs;
+using FixIt.Core.Wrapper;
 using MediatR;
 
 namespace FixIt.Core.Features.Portfolios.Queries.Models
 {
-    public class GetAllPortfoliosByUserIdQuery : IRequest<Response<List<PortfolioDTO>>>
+    public class GetAllPortfoliosByUserIdQuery : IRequest<PaginatedResult<PortfolioDTO>>
     {
         public Guid UserId { get; set; }
-        public GetAllPortfoliosByUserIdQuery(Guid id)
-        {
-            UserId = id;
-        }
-
+        public int pageNum { get; set; }
+        public int pageSize { get; set; }
 
     }
 }

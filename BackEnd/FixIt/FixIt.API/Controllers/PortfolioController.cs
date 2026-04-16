@@ -61,37 +61,48 @@ namespace FixIt.API.Controllers
             return NewResult(respose);
         }
 
-        // AllPortfoliosForAdmin
-        [HttpGet("AllPortfoliosForAdmin")]
-        [Authorize]
-        public async Task<IActionResult> GetAllForAdmin()
-        {
+        //// AllPortfoliosForAdmin
+        //[HttpGet("AllPortfoliosForAdmin")]
+        //[Authorize]
+        //public async Task<IActionResult> GetAllForAdmin()
+        //{
 
-            var PortoliosList = await _mediator.Send(new GetAllPortfoliosForAdminQuery());
-            return NewResult(PortoliosList);
-        }
+        //    var PortoliosList = await _mediator.Send(new GetAllPortfoliosForAdminQuery());
+        //    return NewResult(PortoliosList);
+        //}
 
 
         //All Portfolios in [workerId]
         [HttpGet("AllPortfoliosByWorkerId/{workerId}")]
         [Authorize]
-        public async Task<IActionResult> GetAllByWorkerId(Guid WorkerId)
+        public async Task<IActionResult> GetAllByWorkerId([FromBody]Guid WorkerId , [FromQuery] int PageNum, [FromQuery] int PageSize)
         {
-
-            var PortoliosList = await _mediator.Send(new GetPortoliosListByWorkerIdQuery(WorkerId));
-            return NewResult(PortoliosList);
+            GetPortoliosListByWorkerIdQuery query = new GetPortoliosListByWorkerIdQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize,
+                WorkerId = WorkerId
+            };
+            var PortoliosList = await _mediator.Send(query);
+            return Ok(PortoliosList);
         }
 
         //All Portfolios in [UserId] for me [tocken]
         [HttpGet("AllPortfoliosByUserId")]
         [Authorize]
-        public async Task<IActionResult> GetAllByUserId()
+        public async Task<IActionResult> GetAllByUserId([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid Id = Guid.Parse(userId);
+            GetAllPortfoliosByUserIdQuery query = new GetAllPortfoliosByUserIdQuery
+            {
+                pageNum = PageNum,
+                pageSize = PageSize,
+                UserId = Id
+            };
 
-            var PortoliosList = await _mediator.Send(new GetAllPortfoliosByUserIdQuery(Id));
-            return NewResult(PortoliosList);
+            var PortoliosList = await _mediator.Send(query);
+            return Ok(PortoliosList);
         }
 
 

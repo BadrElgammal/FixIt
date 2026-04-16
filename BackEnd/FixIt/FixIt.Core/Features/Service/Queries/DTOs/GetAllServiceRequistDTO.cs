@@ -9,7 +9,7 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         public string ServiceDescription { get; set; }
         public decimal TotalPrice { get; set; }
         //public decimal DepositAmount { get; set; }
-        public ServiceRequestState State { get; set; }
+        public string State { get; set; }
         public DateTime RequestDate { get; set; }
         //public DateTime? CompleteDate { get; set; }
         public string ClientName { get; set; }
@@ -25,7 +25,7 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         public string? RequestedImgUrl { get; set; }
         public string? SubmitedImgUrl { get; set; }
 
-        public GetAllServiceRequistDTO(Guid serviceId, string serviceTitle, string serviceDescription, decimal totalPrice, ServiceRequestState state, DateTime requestDate, string clientName, string workerName, Guid clientId, Guid workerId, string? requestedImgUrl, string? submitedImgUrl)
+        public GetAllServiceRequistDTO(Guid serviceId, string serviceTitle, string serviceDescription, decimal totalPrice, string state, DateTime requestDate, string clientName, string workerName, Guid clientId, Guid workerId, string? requestedImgUrl, string? submitedImgUrl)
         {
             ServiceId = serviceId;
             ServiceTitle = serviceTitle;

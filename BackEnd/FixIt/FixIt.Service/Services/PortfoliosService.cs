@@ -71,6 +71,11 @@ namespace FixIt.Service.Services
             return portfoliosList;
         }
 
+        public IQueryable<Portfolio> GetAllPortfoliosByWorkerIdpaginated(Guid workerId)
+        {
+            return _portfoliosRepo.GetAllPortfoliosByWorkerIdpaginated(workerId);
+        }
+
         public async Task<Portfolio> GetPortfolioByidAsync(int id)
         {
             return await _portfoliosRepo.GetPortfolioByidAsync(id);
