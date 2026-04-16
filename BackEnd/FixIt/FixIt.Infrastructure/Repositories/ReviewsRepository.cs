@@ -28,7 +28,18 @@ namespace FixIt.Infrastructure.Repositories
                                      .ToListAsync();
         }
 
+        public IQueryable<Review> GetAllReviewsByWorkerIdpaginated(Guid workerId)
+        {
+            return _dbContext.Reviews.AsNoTracking().Include(r => r.Reviewer).Include(r => r.Request).Include(r => r.ReviewedWorker)
+                                     .Where(r => r.ReviewedWorkerId == workerId).AsQueryable();
+        }
 
+        public IQueryable<Review> GetAllReviewsPaginated()
+        {
+            return _dbContext.Reviews.AsNoTracking().Include(r => r.Reviewer)
+                                     .Include(r => r.Request)
+                                     .Include(r => r.ReviewedWorker).AsQueryable();
+        }
 
         public async Task<WorkerProfile> GetWorkerByWorkerIdAsync(Guid workerId)
         {

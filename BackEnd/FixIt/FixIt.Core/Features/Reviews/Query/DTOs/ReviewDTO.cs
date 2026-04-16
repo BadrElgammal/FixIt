@@ -21,5 +21,16 @@
         //[JsonIgnore]
         //public Guid RequestId { get; set; }
 
+        public ReviewDTO(int reviewId , decimal rate , string comment , DateTime createdAt , string reviewerName , string? reviewerImgUrl , string reviewerRole)
+        {
+            ReviewId = reviewId;
+            Rate = rate;
+            Comment = comment;
+            CreatedAt = createdAt;
+            ReviewerName = reviewerName;
+            ReviewerImgUrl = reviewerImgUrl;
+            ReviewerRole = reviewerRole;
+        }
+
     }
 }

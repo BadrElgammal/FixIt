@@ -33,6 +33,12 @@ namespace FixIt.Infrastructure.Repositories
 
         }
 
+        public IQueryable<Portfolio> GetAllPortfoliosByWorkerIdpaginated(Guid workerId)
+        {
+            return _db.Portfolios.AsNoTracking().Include(p => p.WorkerProfile)
+                                        .Where(w => w.WorkerProfileId == workerId).AsQueryable();
+        }
+
         public async Task<Portfolio> GetPortfolioByidAsync(int portfolioId)
         {
 

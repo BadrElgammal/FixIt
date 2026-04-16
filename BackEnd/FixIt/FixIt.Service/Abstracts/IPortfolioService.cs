@@ -8,6 +8,7 @@ namespace FixIt.Service.Abstracts
         public Task<Guid> GetWorkerIdByUserId(Guid userId);
         public Task<WorkerProfile> GetWorkerByWorkerId(Guid workerId);
         Task<List<Portfolio>> GetAllPortfoliosByWorkerIdAsync(object workerId);
+        IQueryable<Portfolio> GetAllPortfoliosByWorkerIdpaginated(Guid workerId);
         Task<List<Portfolio>> GetAllPortfoliosAsync();
         Task<List<Portfolio>> GetAllPortfoliosByUserIdAsync(Guid userId);
         Task<string> AddPortfolioAsync(Portfolio portfolio, IFormFile file);

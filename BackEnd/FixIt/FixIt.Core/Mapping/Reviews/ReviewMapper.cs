@@ -7,7 +7,6 @@ namespace FixIt.Core.Mapping.Reviews
         public ReviewMapper()
         {
             AddReviewCommandMapping();
-            ReviewsListMapper();
 
 
         }

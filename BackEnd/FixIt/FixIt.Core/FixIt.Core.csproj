@@ -51,6 +51,8 @@
     <Folder Include="Mapping\Chat\CommandMapping\" />
     <Folder Include="Mapping\Favorites\CommandMapping\" />
     <Folder Include="Mapping\Favorites\QueryMapping\" />
+    <Folder Include="Mapping\Portfolios\QueryMapping\" />
+    <Folder Include="Mapping\Reviews\QueryMapping\" />
   </ItemGroup>
 
 </Project>

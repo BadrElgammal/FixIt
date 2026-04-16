@@ -11,6 +11,14 @@
         // "WorkerProfile"
         public string WorkerFullName { get; set; }
 
-
+        public PortfolioDTO( int portfolioId, string title, string description, string imgUrl, DateTime createdAt, string workerFullName)
+        {
+            PortfolioId = portfolioId;
+            Title = title;
+            Description = description;
+            ImgUrl = imgUrl;
+            CreatedAt = createdAt;
+            WorkerFullName = workerFullName;
+        }
     }
 }
