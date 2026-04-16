@@ -19,5 +19,9 @@ namespace FixIt.Infrastructure.Repositories
             _context = context;
         }
 
+        public IQueryable<User> GetAllClientsPaginated()
+        {
+            return _context.Users.AsNoTracking().Where(u => u.Role.ToLower() == "client").AsQueryable();
+        }
     }
 }

@@ -27,9 +27,9 @@ namespace FixIt.Service.Services
             return "success";
         }
 
-        public async Task<List<User>> GetAllClientAsync()
+        public IQueryable<User> GetAllClientPaginated()
         {
-            return await _clientRepository.GetAllAsync();
+            return  _clientRepository.GetAllClientsPaginated();
         }
 
         public async Task<string> DeleteClientAsync(User user)

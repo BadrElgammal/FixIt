@@ -5,7 +5,7 @@ namespace FixIt.Service.Abstracts
 {
     public interface IClientService
     {
-        Task<List<User>> GetAllClientAsync();
+        IQueryable<User> GetAllClientPaginated();
         Task<User> GetClientById(object id);
         Task<String> EditClinetAsync(User user);
         Task<String> DeleteClientAsync(User user);

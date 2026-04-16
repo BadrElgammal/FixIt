@@ -2,6 +2,7 @@
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Clients.Queries.DTOs;
 using FixIt.Core.Features.Clients.Queries.Models;
+using FixIt.Core.Wrapper;
 using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
@@ -15,7 +16,7 @@ namespace FixIt.Core.Features.Clients.Queries.Handlers
 {
     public class ClientQueryHandler : ResponseHandler,
         IRequestHandler<GetClientProfileQuery, Response<ClientProfileDTO>>,
-        IRequestHandler<GetClientsListQuery, Response<List<User>>>
+        IRequestHandler<GetClientsListQuery, PaginatedResult<User>>
     {
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
@@ -38,10 +39,11 @@ namespace FixIt.Core.Features.Clients.Queries.Handlers
             return Success(ClientMapper);
         }
 
-        public async Task<Response<List<User>>> Handle(GetClientsListQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<User>> Handle(GetClientsListQuery request, CancellationToken cancellationToken)
         {
-            var clients = await _clientService.GetAllClientAsync();
-            return Success(clients);
+            var clients = _clientService.GetAllClientPaginated();
+            var clientsPaginatedList = await clients.ToPaginatedListAsync(request.pageNum, request.pageSize);
+            return clientsPaginatedList;
         }
     }
 }
