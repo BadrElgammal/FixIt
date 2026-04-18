@@ -158,7 +158,7 @@ namespace FixIt.Service.Services
                         .Include(w => w.Category).AsQueryable();
             if (search != null) query = query.Where(w => w.User.FullName.Contains(search));
             if (address != null) query = query.Where(w => w.Area.Contains(address) || w.User.City.Contains(address));
-            if (isAvilable !=null) query = query.Where(w => w.AvailabilityStatus == isAvilable);
+            if (isAvilable != null) query = query.Where(w => w.AvailabilityStatus == isAvilable);
             return query;
         }
 
