@@ -109,6 +109,28 @@ namespace FixIt.API.Controllers
         }
 
 
+        // Post : Client/AddWorker => By Admin
+        [HttpPost("AddWorker")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddWorker(AddWorkerByAdminCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+        }
+
+        //Put : worker/block
+        [HttpPut("Block")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Block(Guid id)
+        {
+            var result = await _mediator.Send(new BlockByAdminCommand(id));
+            return NewResult(result);
+        }
 
     }
 

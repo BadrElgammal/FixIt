@@ -1,6 +1,8 @@
 ﻿using FixIt.API.Base;
 using FixIt.Core.Features.Clients.Commands.Models;
 using FixIt.Core.Features.Clients.Queries.Models;
+using FixIt.Domain.Entities;
+using FixIt.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +16,13 @@ namespace FixIt.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public ClientController(IMediator mediator)
+
+
+        public ClientController(IMediator mediator, IService<User> UserService, IService<Wallet> WalletService)
         {
             _mediator = mediator;
+
+
         }
 
         [HttpGet("/api/Admin/AllClients")]
@@ -86,6 +92,21 @@ namespace FixIt.API.Controllers
 
 
             command.UserId = Id;
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+        }
+
+
+        // Post : Client/AddClient => By Admin
+        [HttpPost("AddClient")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddClient(AddClientByAdminCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _mediator.Send(command);
             return NewResult(result);
         }

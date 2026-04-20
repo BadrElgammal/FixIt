@@ -191,5 +191,61 @@ namespace FixIt.Service.Services
         }
 
 
+        //              ---------------------------------
+
+
+        public async Task<bool> RequestWithdrawalAsync(Guid userId, decimal amount, string method)
+        {
+            var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
+
+            if (wallet == null || wallet.Balance < amount)
+                return false;
+
+            // 1. خصم المبلغ من الرصيد فوراً (حجز الرصيد)
+            wallet.Balance -= amount;
+            wallet.UpdatedAt = DateTime.Now;
+
+            // 2. إنشاء طلب السحب
+            var withdrawRequest = new WithdrawRequest
+            {
+                Id = Guid.NewGuid(),
+                Amount = amount,
+                Method = method,
+                Status = "Pending",
+                CreatedAt = DateTime.Now,
+                WalletId = wallet.Id
+            };
+
+            await _context.WithdrawRequests.AddAsync(withdrawRequest);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> ProcessWithdrawalRequestAsync(Guid requestId, bool approve)
+        {
+            var request = await _context.WithdrawRequests
+                .Include(r => r.Wallet)
+                .FirstOrDefaultAsync(r => r.Id == requestId);
+
+            if (request == null || request.Status != "Pending") return false;
+
+            if (approve)
+            {
+                request.Status = "Paid";
+                request.PaidAt = DateTime.Now;
+            }
+            else
+            {
+                // في حالة الرفض: نرجع الفلوس للمحفظة
+                request.Status = "Rejected";
+                request.Wallet.Balance += request.Amount;
+                request.Wallet.UpdatedAt = DateTime.Now;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
     }
 }
