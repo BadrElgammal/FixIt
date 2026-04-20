@@ -75,13 +75,13 @@ namespace FixIt.API.Controllers
         //All Portfolios in [workerId]
         [HttpGet("AllPortfoliosByWorkerId/{workerId}")]
         [Authorize]
-        public async Task<IActionResult> GetAllByWorkerId([FromBody]Guid WorkerId , [FromQuery] int PageNum, [FromQuery] int PageSize)
+        public async Task<IActionResult> GetAllByWorkerId([FromRoute]Guid workerId, [FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             GetPortoliosListByWorkerIdQuery query = new GetPortoliosListByWorkerIdQuery
             {
                 pageNum = PageNum,
                 pageSize = PageSize,
-                WorkerId = WorkerId
+                WorkerId = workerId
             };
             var PortoliosList = await _mediator.Send(query);
             return Ok(PortoliosList);
