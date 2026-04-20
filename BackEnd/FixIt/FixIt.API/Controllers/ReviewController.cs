@@ -14,7 +14,7 @@ namespace FixIt.API.Controllers
         //Admin
         [HttpGet("/api/Admin/AllReviewsAdmin")]
         [Authorize]
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AllReviewsForAdmin([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             GetReviewsListQuery query = new GetReviewsListQuery
@@ -30,7 +30,7 @@ namespace FixIt.API.Controllers
         //All Reviews {ByWorkerId}
         [HttpGet("AllReviewsByWorkerId/{WorkerId}")]
         [Authorize]
-        public async Task<IActionResult> AllReviewsByWorker([FromBody]Guid WorkerId, [FromQuery] int PageNum, [FromQuery] int PageSize)
+        public async Task<IActionResult> AllReviewsByWorker([FromRoute]Guid WorkerId, [FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             GetReviewsListByWorkerIdQuery query = new GetReviewsListByWorkerIdQuery
             {

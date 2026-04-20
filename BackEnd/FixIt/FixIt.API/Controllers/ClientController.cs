@@ -20,6 +20,8 @@ namespace FixIt.API.Controllers
         }
 
         [HttpGet("/api/Admin/AllClients")]
+        [Authorize]
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> GetClients([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             GetClientsListQuery query = new GetClientsListQuery
