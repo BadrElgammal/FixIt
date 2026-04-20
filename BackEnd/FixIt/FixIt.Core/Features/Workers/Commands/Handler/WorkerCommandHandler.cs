@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Workers.Commands.Models;
+using FixIt.Domain.Entities;
+using FixIt.Domain.Enum;
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using MediatR;
@@ -11,27 +13,33 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
                     , IRequestHandler<EditeWorkerCommand, Response<string>>,
                      IRequestHandler<DeleteWorkerCommand, Response<string>>,
                      IRequestHandler<ChangeWorkerPasswordCommand, Response<string>>,
-                     IRequestHandler<ChangeWorkerImgURL, Response<string>>
+                     IRequestHandler<ChangeWorkerImgURL, Response<string>>,
+                     IRequestHandler<AddWorkerByAdminCommand, Response<string>>,
+                     IRequestHandler<BlockByAdminCommand, Response<string>>
     {
 
         #region Feilds
         private readonly IWorkerService _workerService;
         private readonly ICategoryService _categoryService;
         private readonly IWorkerRepository _workerRepo;
-        private readonly IClientService _userService;
+        private readonly IService<User> _UserService;
+        private readonly IService<WorkerProfile> _WorkerProfileService;
+        private readonly IService<Wallet> _WalletService;
         private readonly IMapper _mapper;
 
         #endregion
 
         #region Ctors
         public WorkerCommandHandler(IWorkerService workerService, IMapper mapper, ICategoryService categoryService
-            , IWorkerRepository workerRepo)
+            , IWorkerRepository workerRepo, IService<User> UserService, IService<Wallet> walletService, IService<WorkerProfile> WorkerProfileService)
         {
             _workerService = workerService;
             _mapper = mapper;
             _categoryService = categoryService;
             _workerRepo = workerRepo;
-
+            _WalletService = walletService;
+            _UserService = UserService;
+            _WorkerProfileService = WorkerProfileService;
         }
         #endregion
 
@@ -106,6 +114,78 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
 
             return Success("تم تغير الصورة ");
 
+        }
+
+
+        //Add worker by Admin
+        public async Task<Response<string>> Handle(AddWorkerByAdminCommand request, CancellationToken cancellationToken)
+        {
+
+
+            if (_UserService.Find(u => u.Email == request.Email).Any())
+                return BadRequest<string>("هذا البريد الإلكتروني مستخدم بالفعل. يرجى استخدام بريد آخر.");
+
+
+            if (_UserService.Find(u => u.Phone == request.Phone).Any())
+                return BadRequest<string>("رقم الهاتف مستخدم بالفعل. يرجى استخدام رقم اخر.");
+
+
+            if (request.Password != request.ConfirmPassword)
+                return BadRequest<string>("كلمة المرور وتأكيد كلمة المرور غير متطابقتين.");
+
+
+
+            var user = new User
+            {
+                FullName = request.FullName,
+                Email = request.Email,
+                Phone = request.Phone,
+                City = request.City,
+                Role = RoleType.worker.ToString(), //"worker"
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+            };
+
+            try
+            {
+
+                await _UserService.AddAsync(user);
+
+                var worker = new WorkerProfile() { UserId = user.UserId };
+                await _WorkerProfileService.AddAsync(worker);
+
+                var wallet = new Wallet()
+                {
+                    UserId = user.UserId,
+                    OwnerType = user.Role
+                };
+                await _WalletService.AddAsync(wallet);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest<string>("فشلت عمليةالاضافة ");
+
+            }
+
+            return Success("تم الاضافة بنجاح");
+
+        }
+
+        public async Task<Response<string>> Handle(BlockByAdminCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _UserService.GetByIdAsync(request.id);
+            if (user == null) return BadRequest<string>("المستخدم غير موجود");
+
+            user.isBlocked = !user.isBlocked;
+
+            string message;
+
+            if (user.isBlocked)
+                message = "هذاالحساب تم حظره ... يرجى التواصل معنا";
+            else
+                message = "تم الغاء حظر المستخدم";
+
+            return Success(message);
         }
 
         #endregion

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Clients.Commands.Models;
+using FixIt.Domain.Entities;
+using FixIt.Domain.Enum;
 using FixIt.Service.Abstracts;
 using MediatR;
 
@@ -10,14 +12,21 @@ namespace FixIt.Core.Features.Clients.Commands.Handlers
         , IRequestHandler<DeleteClientCommand, Response<String>>
         , IRequestHandler<ChangeClientPasswordCommand, Response<String>>
         , IRequestHandler<ChangeClientImageURL, Response<String>>
+        , IRequestHandler<AddClientByAdminCommand, Response<string>>
     {
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
+        private readonly IService<User> _UserService;
+        private readonly IService<Wallet> _WalletService;
 
-        public ClientCommandHandler(IMapper mapper, IClientService clientService)
+
+        public ClientCommandHandler(IMapper mapper, IClientService clientService,
+            IService<User> UserService, IService<Wallet> WalletService)
         {
             _mapper = mapper;
             _clientService = clientService;
+            _UserService = UserService;
+            _WalletService = WalletService;
         }
         public async Task<Response<string>> Handle(EditClientCommand request, CancellationToken cancellationToken)
         {
@@ -73,6 +82,55 @@ namespace FixIt.Core.Features.Clients.Commands.Handlers
             return Success("تم تغير الصورة ");
 
 
+        }
+
+
+        //Add Client by Admin
+        public async Task<Response<string>> Handle(AddClientByAdminCommand request, CancellationToken cancellationToken)
+        {
+
+            if (_UserService.Find(u => u.Email == request.Email).Any())
+                return BadRequest<string>("هذا البريد الإلكتروني مستخدم بالفعل. يرجى استخدام بريد آخر.");
+
+
+            if (_UserService.Find(u => u.Phone == request.Phone).Any())
+                return BadRequest<string>("رقم الهاتف مستخدم بالفعل. يرجى استخدام رقم اخر.");
+
+
+            if (request.Password != request.ConfirmPassword)
+                return BadRequest<string>("كلمة المرور وتأكيد كلمة المرور غير متطابقتين.");
+
+            try
+            {
+
+                var user = new User
+                {
+                    FullName = request.FullName,
+                    Email = request.Email,
+                    Phone = request.Phone,
+                    City = request.City,
+                    Role = RoleType.client.ToString(),//"client"
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+                };
+
+                await _UserService.AddAsync(user);
+
+
+                var wallet = new Wallet()
+                {
+                    UserId = user.UserId,
+                    OwnerType = user.Role
+                };
+                await _WalletService.AddAsync(wallet);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest<string>("فشلت عمليةالاضافة ");
+            }
+
+
+            return Success("تم الاضافة بنجاح");
         }
     }
 }

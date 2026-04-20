@@ -25,6 +25,9 @@ namespace FixIt.API.Controllers
             _db = db;
         }
 
+
+        // -------------------------------------------------- ChargeWallet --------------------------------------------------
+
         /// <summary>
         /// بتبدأ عملية شحن المحفظة وبترجع رابط الدفع للفرونت إند
         /// </summary>
@@ -217,6 +220,60 @@ namespace FixIt.API.Controllers
                 return StatusCode(500, $"Error processing server callback: {ex.Message}");
             }
         }
+
+        // -----------------------------------------------------------------------------------------------------------------------------
+
+
+
+        // -------------------------------------------------- WithdrawRequest --------------------------------------------------
+
+
+        /// <summary>
+        /// المستخدم بيطلب سحب مبلغ من محفظته
+        /// </summary>
+        [Authorize]
+        [HttpPost("withdraw-request")]
+        public async Task<IActionResult> RequestWithdraw([FromQuery] decimal amount, [FromQuery] string method)
+        {
+            if (amount <= 0) return BadRequest("المبلغ يجب أن يكون أكبر من صفر");
+
+            var userIdString = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdString, out Guid userId)) return Unauthorized();
+
+            var result = await _paymobService.RequestWithdrawalAsync(userId, amount, method);
+
+            if (result) return Ok("تم تقديم طلب السحب بنجاح وحجز المبلغ من رصيدك.");
+            return BadRequest("رصيدك غير كافٍ لإتمام العملية.");
+        }
+
+        /// <summary>
+        /// للأدمن فقط: الموافقة أو الرفض على طلب السحب
+        /// </summary>
+        [Authorize(Roles = "admin")]
+        [HttpPost("admin/process-withdraw/{requestId}")]
+        public async Task<IActionResult> ProcessWithdraw(Guid requestId, [FromQuery] bool approve)
+        {
+            var result = await _paymobService.ProcessWithdrawalRequestAsync(requestId, approve);
+
+            if (result) return Ok($"تمت معالجة الطلب بـ {(approve ? "الموافقة والدفع" : "الرفض وإعادة الرصيد")}.");
+            return BadRequest("الطلب غير موجود أو تمت معالجته مسبقاً.");
+        }
+
+        /// <summary>
+        /// عرض كل طلبات السحب للأدمن لمراجعتها
+        /// </summary>
+        [Authorize(Roles = "admin")]
+        [HttpGet("admin/withdraw-requests")]
+        public async Task<IActionResult> GetAllWithdrawRequests()
+        {
+            var requests = await _db.WithdrawRequests
+                .Include(r => r.Wallet.User)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+            return Ok(requests);
+        }
+
+        // -----------------------------------------------------------------------------------------------------------------------------
 
     }
 }
