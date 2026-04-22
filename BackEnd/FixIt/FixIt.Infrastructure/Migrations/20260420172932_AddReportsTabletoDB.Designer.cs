@@ -4,6 +4,7 @@ using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(FIXITDbContext))]
-    partial class FIXITDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260420172932_AddReportsTabletoDB")]
+    partial class AddReportsTabletoDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,7 +283,7 @@ namespace FixIt.Infrastructure.Migrations
                     b.Property<Guid>("ReporterUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RequestId")
+                    b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ResolvedAt")
@@ -728,7 +731,8 @@ namespace FixIt.Infrastructure.Migrations
                     b.HasOne("FixIt.Domain.Entities.ServiceRequest", "ServiceRequest")
                         .WithMany("Reports")
                         .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ReportedUser");
 

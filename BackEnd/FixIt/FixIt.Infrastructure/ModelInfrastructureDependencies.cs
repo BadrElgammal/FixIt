@@ -19,6 +19,9 @@ namespace FixIt.Infrastructure
             services.AddScoped<IPortfoliosRepository, PortfoliosRepository>();
             services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
             services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
+
+
             return services;
         }
     }

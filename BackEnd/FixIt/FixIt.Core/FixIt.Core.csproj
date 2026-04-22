@@ -45,6 +45,8 @@
     <Folder Include="Features\Notifications\Commands\Validatiors\" />
     <Folder Include="Features\Notifications\Queries\Validatiors\" />
     <Folder Include="Features\Portfolios\Command\Validatiors\" />
+    <Folder Include="Features\Reports\Command\Validatiors\" />
+    <Folder Include="Features\Reports\Queries\Validatiors\" />
     <Folder Include="Features\Reviews\Command\Validatiors\" />
     <Folder Include="Features\Service\Queries\Validatiors\" />
     <Folder Include="Mapping\Categories\QueryMapping\" />
