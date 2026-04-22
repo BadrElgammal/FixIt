@@ -1,15 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FixIt.Domain.Entities;
+﻿using FixIt.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace FixIt.Infrastructure.Context
 {
-    public class FIXITDbContext:DbContext
+    public class FIXITDbContext : DbContext
     {
         public FIXITDbContext()
         { }
@@ -29,6 +24,7 @@ namespace FixIt.Infrastructure.Context
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -136,15 +132,51 @@ namespace FixIt.Infrastructure.Context
 
 
 
-
-
+            // ================= Notifications =================
 
 
             modelBuilder.Entity<Notification>()
-                .HasOne(n => n.User)
-                .WithMany()
-                .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                  .HasOne(n => n.User)
+                  .WithMany(u => u.Notifications)
+                  .HasForeignKey(n => n.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            // ================= Reports =================
+
+            // Reporter User
+            modelBuilder.Entity<Report>(entity =>
+            {
+
+                entity.HasOne(r => r.ReporterUser)
+                      .WithMany(u => u.SentReports)
+                      .HasForeignKey(r => r.ReporterUserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Reported User
+                entity.HasOne(r => r.ReportedUser)
+                      .WithMany(u => u.ReceivedReports)
+                      .HasForeignKey(r => r.ReportedUserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Service Request
+                entity.HasOne(r => r.ServiceRequest)
+                      .WithMany(s => s.Reports)
+                      .HasForeignKey(r => r.RequestId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            });
+
+
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            //For any decimal to be 18 digit 00.00
+            configurationBuilder.Properties<decimal>().HavePrecision(18, 2);
         }
 
     }

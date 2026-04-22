@@ -32,5 +32,7 @@ namespace FixIt.Domain.Entities
         public Review? Review { get; set; }
 
         public ICollection<Transaction>? Transactions { get; set; } = new List<Transaction>();
+
+        public ICollection<Report>? Reports { get; set; } = new List<Report>();
     }
 }
