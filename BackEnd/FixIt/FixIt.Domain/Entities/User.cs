@@ -40,5 +40,9 @@ namespace FixIt.Domain.Entities
         public ICollection<ChatMessage>? Messages { get; set; } = new List<ChatMessage>();
         public ICollection<Favorite>? Favorites { get; set; } = new List<Favorite>();
         public ICollection<Notification>? Notifications { get; set; } = new List<Notification>();
+
+        public ICollection<Report>? SentReports { get; set; } = new List<Report>();
+        public ICollection<Report>? ReceivedReports { get; set; } = new List<Report>();
+
     }
 }

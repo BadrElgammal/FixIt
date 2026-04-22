@@ -20,6 +20,7 @@ namespace FixIt.Service
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IPaymobService, PaymobService>();
+            services.AddScoped<IReportService, ReportService>();
 
 
             return services;
