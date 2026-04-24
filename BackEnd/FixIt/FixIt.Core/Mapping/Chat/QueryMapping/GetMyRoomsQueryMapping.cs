@@ -14,10 +14,26 @@ namespace FixIt.Core.Mapping.Chat
         public void GetMyRoomsQueryMapping()
         {
             CreateMap<ChatRoom, MyRoomQueryDTO>()
-                .ForMember(dest => dest.TargetUserId, otp => otp.MapFrom(src => src.TargetUserId))
-                .ForMember(dest => dest.TargetUserName, otp => otp.MapFrom(src => src.TargetUser.FullName))
-                .ForMember(dest => dest.TargetUserImgUrl, otp => otp.MapFrom(src => src.TargetUser.ImgUrl))
-                .ForMember(dest => dest.TargetUserIsActive, otp => otp.MapFrom(src => src.TargetUser.IsActive));
+                .ForMember(dest => dest.TargetUserId, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var userId = context.Items["UserId"]; 
+                    return src.TargetUserId.Equals(userId) ? src.CurrentUserId : src.TargetUserId;
+                }))
+                .ForMember(dest => dest.TargetUserName, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var userId = context.Items["UserId"];
+                    return src.TargetUserId.Equals(userId) ? src.CurrentUser.FullName : src.TargetUser.FullName;
+                }))
+                .ForMember(dest => dest.TargetUserImgUrl, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var userId = context.Items["UserId"];
+                    return src.TargetUserId.Equals(userId) ? src.CurrentUser.ImgUrl : src.TargetUser.ImgUrl;
+                }))
+                .ForMember(dest => dest.TargetUserIsActive, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var userId = context.Items["UserId"];
+                    return src.TargetUserId.Equals(userId) ? src.CurrentUser.IsActive : src.TargetUser.IsActive;
+                }));
         }
     }
 }

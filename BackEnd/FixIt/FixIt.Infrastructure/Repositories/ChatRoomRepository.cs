@@ -36,7 +36,7 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<List<ChatRoom>> GetUserRooms(Guid userId)
         {
-            return await _context.ChatRooms.Include(R => R.TargetUser).Where(r => r.CurrentUserId == userId || r.TargetUserId == userId).OrderByDescending(r => r.LastMessageAt).ToListAsync();
+            return await _context.ChatRooms.Include(R => R.CurrentUser).Include(R => R.TargetUser).Where(r => r.CurrentUserId == userId || r.TargetUserId == userId).OrderByDescending(r => r.LastMessageAt).ToListAsync();
         }
     }
 }

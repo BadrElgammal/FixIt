@@ -12,9 +12,9 @@ namespace FixIt.Core.Features.Chat.Queries.Models
     public class GetMyRoomsQuery : IRequest<Response<List<MyRoomQueryDTO>>>
     {
         public Guid CurrentUserId { get; set; }
-        public GetMyRoomsQuery(Guid CurrentUserId)
+        public GetMyRoomsQuery(Guid currentUserId)
         {
-            CurrentUserId = CurrentUserId;
+            CurrentUserId = currentUserId;
         }
     }
 }

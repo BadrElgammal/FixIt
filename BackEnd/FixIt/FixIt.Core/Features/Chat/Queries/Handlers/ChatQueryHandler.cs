@@ -35,7 +35,7 @@ namespace FixIt.Core.Features.Chat.Queries.Handlers
             var rooms = await _chatService.GetUserRooms(request.CurrentUserId);
             if(!rooms.Any()) 
                 return NotFound<List<MyRoomQueryDTO>>("لا توجد دردشات بعد");
-            var roomsMapper = _mapper.Map<List<MyRoomQueryDTO>>(rooms);
+            var roomsMapper = _mapper.Map<List<MyRoomQueryDTO>>(rooms , opt => opt.Items["UserId"] = request.CurrentUserId);
             return Success(roomsMapper);
         }
 

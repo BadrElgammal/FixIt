@@ -12,6 +12,7 @@ namespace FixIt.Core.Mapping.Chat
         public ChatMapping()
         {
             GetMyRoomsQueryMapping();
+            GetRoomMessagesQueryMapping();
         }
     }
 }
