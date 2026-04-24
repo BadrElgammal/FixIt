@@ -1,9 +1,12 @@
-﻿using FixIt.Domain.Entities;
+﻿using FixIt.Core.Features.Payment.Queries.Models;
+using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Context;
 using FixIt.Service.Abstracts;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -17,12 +20,14 @@ namespace FixIt.API.Controllers
         private readonly IPaymobService _paymobService;
         private readonly IConfiguration _configuration;
         private readonly FIXITDbContext _db;
+        private readonly IMediator _mediator;
 
-        public PaymentController(IPaymobService paymobService, FIXITDbContext db, IConfiguration configuration)
+        public PaymentController(IPaymobService paymobService, FIXITDbContext db, IConfiguration configuration , IMediator mediator)
         {
             _paymobService = paymobService;
             _configuration = configuration;
             _db = db;
+            _mediator = mediator;
         }
 
 
@@ -259,20 +264,48 @@ namespace FixIt.API.Controllers
             return BadRequest("الطلب غير موجود أو تمت معالجته مسبقاً.");
         }
 
+        [HttpGet("myWallet")]
+        [Authorize]
+        public async Task<IActionResult> GetMyWalletDetails()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new GetMyWalletDetailsQuery(Id));
+            return Ok(result);
+        }
+
         /// <summary>
         /// عرض كل طلبات السحب للأدمن لمراجعتها
         /// </summary>
         [Authorize(Roles = "admin")]
-        [HttpGet("admin/withdraw-requests")]
-        public async Task<IActionResult> GetAllWithdrawRequests()
+        [HttpGet("/api/Admin/payment/withdraw-requests")]
+        public async Task<IActionResult> GetAllWithdrawRequests([FromQuery] int pageNum , [FromQuery] int pageSize , [FromQuery] string? status)
         {
-            var requests = await _db.WithdrawRequests
-                .Include(r => r.Wallet.User)
-                .OrderByDescending(r => r.CreatedAt)
-                .ToListAsync();
-            return Ok(requests);
+            GetAllWithdrawRequestsQuery query = new GetAllWithdrawRequestsQuery()
+            {
+                pageNum = pageNum,
+                pageSize = pageSize,
+                status = status
+            };
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
+        [HttpGet("/api/Admin/payment/AllDeposit")]
+        public async Task<IActionResult> GetAllDeposit([FromQuery] int pageNum, [FromQuery] int pageSize)
+        {
+            var result = await _mediator.Send(new GetAllDepositQuery(pageNum, pageSize));
+            return Ok(result);
+        }
+        [Authorize(Roles = "admin")]
+        [HttpGet("/api/Admin/payment/AllTransactions")]
+        public async Task<IActionResult> GetAllTransactions([FromQuery] int pageNum, [FromQuery] int pageSize)
+        {
+            var result = await _mediator.Send(new GetAllTransactionsQuery(pageNum,pageSize));
+            return Ok(result);
+        }
         // -----------------------------------------------------------------------------------------------------------------------------
 
     }
