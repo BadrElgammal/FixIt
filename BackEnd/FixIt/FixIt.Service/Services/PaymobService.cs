@@ -246,6 +246,27 @@ namespace FixIt.Service.Services
             return true;
         }
 
+        public IQueryable<WithdrawRequest> GetAllWithDrawRequestsPaginated(string? statuse)
+        {
+            var WithdrawRequest = _context.WithdrawRequests.AsNoTracking().Include(w => w.Wallet).ThenInclude(w => w.User).AsQueryable();
+            if (statuse != null)
+                WithdrawRequest.Where(w => w.Status == statuse);
+            return WithdrawRequest;
+        }
 
+        public async Task<Wallet> GetWalletAsync(Guid userId)
+        {
+            return await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
+        }
+
+        public IQueryable<Transaction> GetAllTransactionsPaginated()
+        {
+            return _context.Transactions.AsNoTracking().Include(t => t.FromWallet).ThenInclude(w => w.User).Include(t => t.ToWallet).ThenInclude(w => w.User).AsQueryable();
+        }
+
+        public IQueryable<Payment> GetAllDepositPaginated()
+        {
+            return _context.Payments.AsNoTracking().Include(t => t.Wallet).ThenInclude(w => w.User).AsQueryable();
+        }
     }
 }

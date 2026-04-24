@@ -14,7 +14,10 @@ namespace FixIt.Service.Abstracts
         //withdraw =>
         Task<bool> RequestWithdrawalAsync(Guid userId, decimal amount, string method);
         Task<bool> ProcessWithdrawalRequestAsync(Guid requestId, bool approve);
-
+        IQueryable<WithdrawRequest> GetAllWithDrawRequestsPaginated( string? statuse);
+        Task<Wallet> GetWalletAsync(Guid userId);
+        IQueryable<Transaction> GetAllTransactionsPaginated();
+        IQueryable<Payment> GetAllDepositPaginated();
 
     }
 }
