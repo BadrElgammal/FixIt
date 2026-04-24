@@ -34,7 +34,7 @@ namespace FixIt.API.Controllers
 
             var result = await _mediator.Send(new GetMyRoomsQuery(Id));
             return NewResult(result);
-        }/*am1303*/
+        }
         [HttpGet("/api/Admin/AllChats")]
         [Authorize]
         [Authorize(Roles ="admin")]
@@ -67,7 +67,7 @@ namespace FixIt.API.Controllers
 
         [HttpGet("room/{roomId}")]
         [Authorize]
-        public async Task<IActionResult> GetRoomMessages([FromBody] int roomId)
+        public async Task<IActionResult> GetRoomMessages([FromRoute] int roomId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var Role = User.FindFirst(ClaimTypes.Role).Value;

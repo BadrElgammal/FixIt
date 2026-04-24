@@ -15,9 +15,9 @@ namespace FixIt.Core.Features.Chat.Queries.Models
         public string Role {  get; set; }
         public int RoomId { get; set; }
 
-        public GetRoomMessagesQuery(Guid CurrentUserId , string role , int roomId)
+        public GetRoomMessagesQuery(Guid currentUserId , string role , int roomId)
         {
-            CurrentUserId = CurrentUserId;
+            CurrentUserId = currentUserId;
             Role = role;
             RoomId = roomId;
         }
