@@ -20,6 +20,7 @@ namespace FixIt.Infrastructure
             services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
             services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
 
             return services;

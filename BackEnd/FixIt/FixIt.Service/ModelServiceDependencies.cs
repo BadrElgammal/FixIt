@@ -21,6 +21,7 @@ namespace FixIt.Service
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IPaymobService, PaymobService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IAdminService, AdminService>();
 
 
             return services;
