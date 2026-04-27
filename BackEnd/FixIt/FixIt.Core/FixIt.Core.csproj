@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Admin\Command\Validatiors\" />
     <Folder Include="Features\Categories\Command\Validatiors\" />
     <Folder Include="Features\Categories\Query\DTOs\" />
     <Folder Include="Features\Chat\Commands\DTOs\" />
