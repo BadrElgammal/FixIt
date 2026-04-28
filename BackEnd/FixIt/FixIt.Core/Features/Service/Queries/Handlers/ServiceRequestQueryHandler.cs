@@ -37,7 +37,7 @@ namespace FixIt.Core.Features.Service.Queries.Handlers
 
         public async Task<PaginatedResult<GetAllServiceRequistDTO>> Handle(GetSentsServiceRequistQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId, e.RequestedImgUrl, e.SubmitedImgUrl);
+            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId,e.Worker.UserId, e.RequestedImgUrl, e.SubmitedImgUrl);
             var query = _serviceRequestService.GetAllServiceRequestWithAllDataByClientIdPaginated(request.Id);
             var paginatedList = await query.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return paginatedList;
@@ -45,14 +45,14 @@ namespace FixIt.Core.Features.Service.Queries.Handlers
 
         public async Task<PaginatedResult<GetAllServiceRequistDTO>> Handle(GetRecivedServiceRequestsQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId, e.RequestedImgUrl, e.SubmitedImgUrl);
+            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId, e.Worker.UserId, e.RequestedImgUrl, e.SubmitedImgUrl);
             var query = _serviceRequestService.GetAllServiceRequestWithAllDataByWorkerIdPaginated(request.Id);
             var PaginatedList = await query.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return PaginatedList;
         }
         public async Task<PaginatedResult<GetAllServiceRequistDTO>> Handle(GetAllServiceRequestsQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId, e.RequestedImgUrl, e.SubmitedImgUrl);
+            Expression<Func<ServiceRequest, GetAllServiceRequistDTO>> expression = e => new GetAllServiceRequistDTO(e.RequestId, e.ServiceTitle, e.ServiceDescription, e.TotalPrice, e.State.ToString(), e.RequestDate, e.Client.FullName, e.Worker.User.FullName, e.ClientId, e.WorkerId, e.Worker.UserId, e.RequestedImgUrl, e.SubmitedImgUrl);
             var query = _serviceRequestService.GetAllServiceRequestForAdminFiltration(request.state);
             var paginatedList = await query.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return paginatedList;
