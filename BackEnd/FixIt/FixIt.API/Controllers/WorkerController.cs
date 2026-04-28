@@ -123,14 +123,6 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
-        //Put : worker/block
-        [HttpPut("Block")]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Block(Guid id)
-        {
-            var result = await _mediator.Send(new BlockByAdminCommand(id));
-            return NewResult(result);
-        }
 
     }
 

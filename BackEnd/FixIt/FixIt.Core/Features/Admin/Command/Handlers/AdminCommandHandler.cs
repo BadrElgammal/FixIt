@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Admin.Command.Models;
+using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
 
@@ -10,17 +11,20 @@ namespace FixIt.Core.Features.Admin.Command.Handlers
         IRequestHandler<EditeAdminCommand, Response<string>>,
         IRequestHandler<DeleteAdminCommand, Response<string>>,
         IRequestHandler<ChangeAdminPasswordCommand, Response<string>>,
-        IRequestHandler<ChangeAdminImgURLCommand, Response<string>>
+        IRequestHandler<ChangeAdminImgURLCommand, Response<string>>,
+        IRequestHandler<BlockByAdminCommand, Response<string>>
 
     {
 
         private readonly IAdminService _AdminService;
+        private readonly IService<User> _UserService;
         private readonly IMapper _mapper;
 
 
-        public AdminCommandHandler(IAdminService AdminService, IMapper mapper)
+        public AdminCommandHandler(IAdminService AdminService, IService<User> UserService, IMapper mapper)
         {
             _AdminService = AdminService;
+            _UserService = UserService;
             _mapper = mapper;
         }
 
@@ -90,5 +94,24 @@ namespace FixIt.Core.Features.Admin.Command.Handlers
             return Success("تم تغير الصورة بنجاح");
 
         }
+
+        public async Task<Response<string>> Handle(BlockByAdminCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _UserService.GetByIdAsync(request.id);
+            if (user == null) return BadRequest<string>("المستخدم غير موجود");
+
+            user.isBlocked = !user.isBlocked;
+            await _UserService.UpdateAsync(user);
+
+            string message;
+
+            if (user.isBlocked)
+                message = "هذاالحساب تم حظره ... يرجى التواصل معنا";
+            else
+                message = "تم الغاء حظر المستخدم";
+
+            return Success(message);
+        }
+
     }
 }
