@@ -1,7 +1,7 @@
 ﻿using FixIt.Core.Bases;
 using MediatR;
 
-namespace FixIt.Core.Features.Workers.Commands.Models
+namespace FixIt.Core.Features.Admin.Command.Models
 {
     public class BlockByAdminCommand : IRequest<Response<string>>
     {

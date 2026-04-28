@@ -14,8 +14,7 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
                      IRequestHandler<DeleteWorkerCommand, Response<string>>,
                      IRequestHandler<ChangeWorkerPasswordCommand, Response<string>>,
                      IRequestHandler<ChangeWorkerImgURL, Response<string>>,
-                     IRequestHandler<AddWorkerByAdminCommand, Response<string>>,
-                     IRequestHandler<BlockByAdminCommand, Response<string>>
+                     IRequestHandler<AddWorkerByAdminCommand, Response<string>>
     {
 
         #region Feilds
@@ -171,22 +170,6 @@ namespace FixIt.Core.Features.Workers.Commands.Handler
 
         }
 
-        public async Task<Response<string>> Handle(BlockByAdminCommand request, CancellationToken cancellationToken)
-        {
-            var user = await _UserService.GetByIdAsync(request.id);
-            if (user == null) return BadRequest<string>("المستخدم غير موجود");
-
-            user.isBlocked = !user.isBlocked;
-
-            string message;
-
-            if (user.isBlocked)
-                message = "هذاالحساب تم حظره ... يرجى التواصل معنا";
-            else
-                message = "تم الغاء حظر المستخدم";
-
-            return Success(message);
-        }
 
         #endregion
     }
