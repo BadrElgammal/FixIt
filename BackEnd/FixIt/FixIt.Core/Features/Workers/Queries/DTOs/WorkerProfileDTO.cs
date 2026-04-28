@@ -17,6 +17,9 @@
 
         //"User"
         public string FullName { get; set; }
+        public Guid UserId { get; set; } //
+
+
 
         //Img 
         public string? ImgUrl { get; set; }
