@@ -2,13 +2,15 @@
 using FixIt.Core.Bases;
 using FixIt.Core.Features.Reports.Command.Models;
 using FixIt.Domain.Entities;
+using FixIt.Domain.Enum;
 using FixIt.Service.Abstracts;
 using MediatR;
 
 namespace FixIt.Core.Features.Reports.Command.Handlers
 {
     public class ReportCommandHandler : ResponseHandler,
-                             IRequestHandler<SubmitReportCommand, Response<string>>
+                             IRequestHandler<SubmitReportCommand, Response<string>>,
+                             IRequestHandler<ResolveReportByAdminCommand, Response<string>>
     {
 
         private readonly IReportService _reportService;
@@ -66,6 +68,36 @@ namespace FixIt.Core.Features.Reports.Command.Handlers
             return BadRequest<string>("حدث خطا ما");
         }
 
+        public async Task<Response<string>> Handle(ResolveReportByAdminCommand request, CancellationToken cancellationToken)
+        {
+            //get report
+            var report = await _reportService.GetByIdAsync(request.ReportId);
+            if (report == null) return BadRequest<string>("البلاغ غير موجود");
 
+            //check => تم الحل || مرفوض || كيدي
+            if (report.Status == ReportStatus.Resolved || report.Status == ReportStatus.Dismissed
+               || report.Status == ReportStatus.Escalated)
+                return BadRequest<string>("هذا البلاغ تم إغلاقه أو التعامل معه مسبقاً ولا يمكن تعديله.");
+
+
+            //solve 
+            if (request.Status == ReportStatus.Pending || request.Status == ReportStatus.UnderInvestigation)
+            {
+                return BadRequest<string>("يجب اختيار حالة نهائية مثل (تم الحل، مرفوض، أو تم التصعيد).");
+            }
+
+            //full data
+            report.Status = request.Status;
+            report.AdminNotes = request.AdminNotes;
+            report.ResolvedAt = DateTime.Now;
+
+            //update
+            var result = await _reportService.UpdateReportAsync(report);
+
+            //success?
+            if (result == "success") return Success("تم التعامل مع البلاغ وتحديث حالته بنجاح");
+            return BadRequest<string>("حدث خطأ أثناء تحديث البلاغ");
+
+        }
     }
 }

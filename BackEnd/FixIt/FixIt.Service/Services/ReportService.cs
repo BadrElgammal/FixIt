@@ -20,6 +20,12 @@ namespace FixIt.Service.Services
             return "success";
         }
 
+        public async Task<string> UpdateReportAsync(Report report)
+        {
+            await _reportRepo.UpdateAsync(report);
+            return "success";
+        }
+
         public async Task<List<Report>> GetAllReportsAsync()
         {
             return await _reportRepo.GetAllReportsAsync();
@@ -29,5 +35,6 @@ namespace FixIt.Service.Services
         {
             return await _reportRepo.GetReportByReportIdAsync(id);
         }
+
     }
 }
