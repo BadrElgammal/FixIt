@@ -6,6 +6,7 @@ namespace FixIt.Service.Abstracts
     {
 
         Task<string> AddReportAsync(Report report);
+        Task<string> UpdateReportAsync(Report report);
         Task<List<Report>> GetAllReportsAsync();
         Task<Report> GetReportByReportIdAsync(int reportId);
 

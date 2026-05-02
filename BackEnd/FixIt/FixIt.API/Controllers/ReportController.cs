@@ -58,14 +58,19 @@ namespace FixIt.API.Controllers
 
 
         // Put : Report/{reportId}/resolve
-        [HttpPut("GetReport/{ReportId}/Resolve")]
+        [HttpPut("Resolve/{ReportId}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> ResolveReport(int ReportId, string state)
+        public async Task<IActionResult> ResolveReport(int ReportId, [FromBody] ResolveReportByAdminCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            var result = await _mediator.Send(new GetReportByReportIdQuery(ReportId));
+            command.ReportId = ReportId;
+
+            var result = await _mediator.Send(command);
             return NewResult(result);
-
 
         }
 
