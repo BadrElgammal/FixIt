@@ -1,4 +1,6 @@
 ﻿using FixIt.Core.Behaviors;
+using FixIt.Service.Abstracts;
+using FixIt.Service.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,8 @@ namespace FixIt.Core
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             // 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            // مثال في Program.cs
+            services.AddTransient<IEmailService, EmailService>();
             return services;
         }
     }

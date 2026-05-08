@@ -86,11 +86,11 @@ namespace FixIt.API.Controllers
         }
 
         //Put : User/block
-        [HttpPut("Block")]
+        [HttpPut("BlockUser/{userId}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Block(Guid id)
+        public async Task<IActionResult> Block([FromRoute]Guid userId)
         {
-            var result = await _mediator.Send(new BlockByAdminCommand(id));
+            var result = await _mediator.Send(new BlockByAdminCommand(userId));
             return NewResult(result);
         }
 
