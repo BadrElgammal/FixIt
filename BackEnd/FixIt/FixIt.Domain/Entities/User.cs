@@ -28,6 +28,8 @@ namespace FixIt.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
 
+        public bool IsEmailConfirmed { get; set; } = false;
+        public string? ConfirmationToken { get; set; }
 
         //[ForeignKey("Wallet")]
         //public int WalletId { get; set; }

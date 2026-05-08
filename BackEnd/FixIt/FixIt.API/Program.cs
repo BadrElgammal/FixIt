@@ -2,14 +2,18 @@ using DotNetEnv;
 using FixIt.API.SignalR;
 using FixIt.Core;
 using FixIt.Core.MiddleWare;
+using FixIt.Core.Settings;
+using FixIt.Domain.Entities;
 using FixIt.Infrastructure;
 using FixIt.Infrastructure.Context;
 using FixIt.Service;
 using FixIt.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 
 namespace FixIt.API
 {
@@ -87,6 +91,7 @@ namespace FixIt.API
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddDbContext<FIXITDbContext>();
 
+            builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
             #endregion
 
