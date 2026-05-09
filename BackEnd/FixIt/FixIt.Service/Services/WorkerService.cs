@@ -163,6 +163,40 @@ namespace FixIt.Service.Services
         }
 
 
+        public async Task<Guid> GetWorkerIdByUserId(Guid id)
+        {
+            return await _WorkerRepo.GetWorkerIdByUserIdAsync(id);
+        }
+
+        //Get Last=>
+        public async Task<List<ServiceRequest>> GetLastServicesForWorkerAsync(Guid workerId, int? NumberofServices)
+        {
+            return await _WorkerRepo.GetLastServicesRequestForWorkerAsync(workerId, NumberofServices);
+
+        }
+
+        public async Task<List<ChatRoom>> GetLastMessagessForWorkerAsync(Guid userId, int? SelectedNumber)
+        {
+            return await _WorkerRepo.GetLastMessagesRForWorkerAsync(userId, SelectedNumber);
+        }
+
+        public Task<List<Review>> GetLastReviewsForWorkerAsync(Guid workerId, int? SelectedNumber)
+        {
+            return _WorkerRepo.GetLastReviewsForWorkerAsync(workerId, SelectedNumber);
+
+        }
+
+        public async Task<int> GetTotalNumberOfPortfoliosForWorkerAsync(Guid workerId)
+        {
+            return await _WorkerRepo.GetNumberOfPortfoliosForWorkerAsync(workerId);
+        }
+
+        public async Task<int> GetTotalNumberOfReportsForWorkerAsync(Guid userID)
+        {
+            return await _WorkerRepo.GetTotalNumberOfReportsForWorkerAsync(userID);
+        }
+
+
 
 
 

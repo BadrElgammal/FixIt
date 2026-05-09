@@ -123,6 +123,87 @@ namespace FixIt.API.Controllers
             return NewResult(result);
         }
 
+        //1.1.get Last Services for this worker
+        [HttpGet("GetLast/{SelectedNumber?}/Services")]
+        [Authorize]
+        public async Task<IActionResult> GetLastServicesForWorker([FromRoute] int? SelectedNumber = null)
+        {
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+
+            var command = new GetLastServicesRequestByUserIdQuery(Id)
+            {
+                userId = Id,
+                SelectedNumber = SelectedNumber
+            };
+
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+
+        }
+
+        //2.get recent 3 massage
+        [HttpGet("GetLast/{SelectedNumber?}/Messasges")]
+        [Authorize]
+        public async Task<IActionResult> GetLastMessasgesForWorker([FromRoute] int? SelectedNumber = null)
+        {
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+
+            var command = new GetLastMassagesQuery(Id)
+            {
+                UserId = Id,
+                SelectedNumber = SelectedNumber
+            };
+
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+
+        }
+
+        //3.get recent 3 reviews
+        [HttpGet("GetLast/{SelectedNumber?}/Reviews")]
+        [Authorize]
+        public async Task<IActionResult> GetLastReviewsForWorker([FromRoute] int? SelectedNumber = null)
+        {
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+
+            var command = new GetLastReviewsQuery(Id)
+            {
+                userId = Id,
+                SelectedNumber = SelectedNumber
+            };
+
+            var result = await _mediator.Send(command);
+            return NewResult(result);
+
+        }
+
+        //4.get total incom for month
+        //5.TOoooooooooooooooootal
+        //.total services
+        //.total reviews
+        //.total prtofolioes
+        //.total services
+        [HttpGet("GetLast/TotalNumbersDetailsForWorker")]
+        [Authorize]
+        public async Task<IActionResult> GetDetailsForWorker()
+        {
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var result = await _mediator.Send(new GetTotalDetailsForWorker(Id));
+            return NewResult(result);
+
+        }
 
     }
 

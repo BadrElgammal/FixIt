@@ -13,7 +13,12 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
     public class WorkerQueryHandler : ResponseHandler,
                  IRequestHandler<GetWorkerByUserIdQuery, Bases.Response<GetSingleWorkerResponce>>,
                  IRequestHandler<GetWorkerProfileByWorkerIdQuery, Bases.Response<WorkerProfileDTO>>,
-                 IRequestHandler<GetWorkersPaginatedListQuery, PaginatedResult<GetWorkersPaginatedResponce>>
+                 IRequestHandler<GetWorkersPaginatedListQuery, PaginatedResult<GetWorkersPaginatedResponce>>,
+                 IRequestHandler<GetLastServicesRequestByUserIdQuery, Bases.Response<List<ServiceDTO>>>,
+                 IRequestHandler<GetLastReviewsQuery, Bases.Response<List<LastReviewDTO>>>,
+                 IRequestHandler<GetLastMassagesQuery, Bases.Response<List<MessageDTO>>>,
+                 IRequestHandler<GetTotalDetailsForWorker, Bases.Response<TotalDTO>>
+
     {
 
         #region Fields
@@ -72,7 +77,94 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
             return paginatedList;
         }
 
+        public async Task<Response<List<ServiceDTO>>> Handle(GetLastServicesRequestByUserIdQuery request, CancellationToken cancellationToken)
+        {
+            //get 
+            var user = await _WorkerService.GetUserByUserId(request.userId);
+            if (user == null) return NotFound<List<ServiceDTO>>("المستخدم غير موجود");
 
+            var WorkerId = await _WorkerService.GetWorkerIdByUserId(request.userId);
+
+            var servicesList = await _WorkerService.GetLastServicesForWorkerAsync(WorkerId, request.SelectedNumber);
+
+            //check
+            if (servicesList == null || !servicesList.Any())
+                return Success(new List<ServiceDTO>());
+
+            //mapper
+            var MappedList = _mapper.Map<List<ServiceDTO>>(servicesList);
+
+            //return mapped
+            return Success(MappedList);
+
+        }
+
+        public async Task<Response<List<LastReviewDTO>>> Handle(GetLastReviewsQuery request, CancellationToken cancellationToken)
+        {
+            //get..check
+            var user = await _WorkerService.GetUserByUserId(request.userId);
+            if (user == null) return NotFound<List<LastReviewDTO>>("المستخدم غير موجود");
+
+            var WorkerId = await _WorkerService.GetWorkerIdByUserId(request.userId);
+
+            //get list -- check
+            var ReviewsList = await _WorkerService.GetLastReviewsForWorkerAsync(WorkerId, request.SelectedNumber);
+            if (ReviewsList == null || !ReviewsList.Any())
+                return Success(new List<LastReviewDTO>());
+
+            //mapped
+            var MappedList = _mapper.Map<List<LastReviewDTO>>(ReviewsList);
+
+            //return maspped
+            return Success(MappedList);
+        }
+
+        public async Task<Response<List<MessageDTO>>> Handle(GetLastMassagesQuery request, CancellationToken cancellationToken)
+        {
+            //get .. check
+            var user = await _WorkerService.GetUserByUserId(request.UserId);
+            if (user == null) return NotFound<List<MessageDTO>>("المستخدم غير موجود");
+
+            //get..check
+            var MassagesList = await _WorkerService.GetLastMessagessForWorkerAsync(request.UserId, request.SelectedNumber);
+            if (MassagesList == null || !MassagesList.Any())
+                return Success(new List<MessageDTO>());
+
+            //mapp
+            var MappedList = _mapper.Map<List<MessageDTO>>(MassagesList);
+
+            //return mapped
+            return Success(MappedList);
+        }
+
+        public async Task<Response<TotalDTO>> Handle(GetTotalDetailsForWorker request, CancellationToken cancellationToken)
+        {
+            //get .. check
+            var user = await _WorkerService.GetUserByUserId(request.userId);
+            if (user == null) return NotFound<TotalDTO>("المستخدم غير موجود");
+
+            var WorkerId = await _WorkerService.GetWorkerIdByUserId(request.userId);
+
+            var _totalReviews = await _WorkerService.GetLastReviewsForWorkerAsync(WorkerId, null);
+            var numOfReviews = _totalReviews.Count;
+
+            var _totalServices = await _WorkerService.GetLastServicesForWorkerAsync(WorkerId, null);
+            var numOfServices = _totalServices.Count;
+
+            var numOfPortfolios = await _WorkerService.GetTotalNumberOfPortfoliosForWorkerAsync(WorkerId);
+
+            var numOfReports = await _WorkerService.GetTotalNumberOfReportsForWorkerAsync(request.userId);
+
+            var total = new TotalDTO()
+            {
+                TotalNumberOfPortfolioes = numOfPortfolios,
+                TotalNumberOfReviews = numOfReviews,
+                TotalNumberOfServicesRequests = numOfServices,
+                TotalNumberOfReportes = numOfReports,
+            };
+
+            return Success(total);
+        }
 
         #endregion
 

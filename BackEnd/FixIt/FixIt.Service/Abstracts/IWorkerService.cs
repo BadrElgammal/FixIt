@@ -8,6 +8,7 @@ namespace FixIt.Service.Abstracts
         public Task<List<WorkerProfile>> GetAllWorkersAsync();
         public Task<WorkerProfile> GetWorkerById(Guid id);
         public Task<WorkerProfile> GetWorkerByWorkerId(Guid id);
+        public Task<Guid> GetWorkerIdByUserId(Guid id);
 
         public Task<string> DeleteWorkerAsync(Guid id);
         public Task<string> EditeWorkerAsync(WorkerProfile worker, User user);
@@ -18,5 +19,16 @@ namespace FixIt.Service.Abstracts
 
         public IQueryable<WorkerProfile> GetAllWorkersPaginated();
         public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable);
+
+
+        //last 5 => 
+        public Task<List<ServiceRequest>> GetLastServicesForWorkerAsync(Guid workerId, int? NumberofServices);
+        public Task<List<ChatRoom>> GetLastMessagessForWorkerAsync(Guid userId, int? SelectedNumber);
+        public Task<List<Review>> GetLastReviewsForWorkerAsync(Guid workerId, int? SelectedNumber);
+        public Task<int> GetTotalNumberOfPortfoliosForWorkerAsync(Guid workerId);
+        public Task<int> GetTotalNumberOfReportsForWorkerAsync(Guid userID);
+
+
+
     }
 }

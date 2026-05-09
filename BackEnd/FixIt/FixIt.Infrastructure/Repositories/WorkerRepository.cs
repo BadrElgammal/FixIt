@@ -38,6 +38,7 @@ namespace FixIt.Infrastructure.Repositories
                         .ToListAsync();
         }
 
+
         public async Task<WorkerProfile> GetWorkerByIdAsync(object id)
         {
             return await _dbContext.WorkerProfiles.Include(w => w.User)
@@ -60,11 +61,73 @@ namespace FixIt.Infrastructure.Repositories
 
         public async Task<Guid> GetWorkerIdByUserIdAsync(Guid UserId)
         {
-            return _context.WorkerProfiles.Where(w => w.User.UserId == UserId).Select(s => s.WorkerId).FirstOrDefault();
+            return await _context.WorkerProfiles.Where(w => w.User.UserId == UserId)
+                .Select(s => s.WorkerId)
+                .FirstOrDefaultAsync();
 
         }
 
 
+        //get LAst => 
+        public async Task<List<ServiceRequest>> GetLastServicesRequestForWorkerAsync(Guid WorkerId, int? NumberOfServices = null)
+        {
+            var allServices = _context.ServiceRequests.Where(s => s.WorkerId == WorkerId)
+                                           .Include(s => s.Client)
+                                           .Include(s => s.Worker)
+                                           .OrderByDescending(s => s.RequestDate);
+
+
+            if (NumberOfServices == null)
+                return await allServices.ToListAsync();
+            else
+                return await allServices.Take(NumberOfServices.Value).ToListAsync();
+
+        }
+
+
+        public async Task<List<ChatRoom>> GetLastMessagesRForWorkerAsync(Guid UserId, int? SelectedNumber = null)
+        {
+
+            var allLastMessages = _context.ChatRooms.Where(s => s.TargetUserId == UserId || s.CurrentUserId == UserId)
+                                       .Include(s => s.TargetUser)
+                                       .Include(s => s.CurrentUser)
+                                       .OrderByDescending(s => s.LastMessageAt);
+
+
+            if (SelectedNumber == null)
+                return await allLastMessages.ToListAsync();
+            else
+                return await allLastMessages.Take(SelectedNumber.Value).ToListAsync();
+
+        }
+
+        public async Task<List<Review>> GetLastReviewsForWorkerAsync(Guid WorkerId, int? SelectedNumber = null)
+        {
+
+            var allReviews = _context.Reviews.Where(s => s.ReviewedWorkerId == WorkerId)
+                                      .Include(s => s.Reviewer)
+                                      .Include(s => s.ReviewedWorker)
+                                      .OrderByDescending(s => s.CreatedAt);
+
+
+            if (SelectedNumber == null)
+                return await allReviews.ToListAsync();
+            else
+                return await allReviews.Take(SelectedNumber.Value).ToListAsync();
+
+        }
+
+        public async Task<int> GetNumberOfPortfoliosForWorkerAsync(Guid WorkerId)
+        {
+            return await _context.Portfolios.Where(p => p.WorkerProfileId == WorkerId)
+                 .CountAsync();
+        }
+
+        public async Task<int> GetTotalNumberOfReportsForWorkerAsync(Guid userId)
+        {
+            return await _context.Reports.Where(p => p.ReportedUserId == userId)
+                .CountAsync();
+        }
 
 
         #endregion
