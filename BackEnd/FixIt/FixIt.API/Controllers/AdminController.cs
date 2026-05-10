@@ -1,6 +1,7 @@
 ﻿using FixIt.API.Base;
 using FixIt.Core.Features.Admin.Command.Models;
 using FixIt.Core.Features.Admin.Query.Models;
+using FixIt.Core.Features.Users.Commands.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -53,6 +54,14 @@ namespace FixIt.API.Controllers
             return NewResult(respose);
         }
 
+        // New: Delete any user (Admin-only)
+        [HttpDelete("DeleteUser/{userId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
+        {
+            var response = await _mediator.Send(new DeleteUserCommand(userId));
+            return NewResult(response);
+        }
 
         //Put : Admin/changepassword
         [HttpPut("ChangePassword")]
@@ -66,11 +75,9 @@ namespace FixIt.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-
             var result = await _mediator.Send(command);
             return NewResult(result);
         }
-
 
         //Put : Admin/Changeimg
         [HttpPut("ChangeImage")]
@@ -88,7 +95,7 @@ namespace FixIt.API.Controllers
         //Put : User/block
         [HttpPut("BlockUser/{userId}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Block([FromRoute]Guid userId)
+        public async Task<IActionResult> Block([FromRoute] Guid userId)
         {
             var result = await _mediator.Send(new BlockByAdminCommand(userId));
             return NewResult(result);
