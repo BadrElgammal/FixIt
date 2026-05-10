@@ -9,8 +9,9 @@ namespace FixIt.Core.Mapping.Workers
             GetWorkerByIdMapping();
             EditeWorkerCommandMapping();
             GetWorkerProfileByWorkerIdMapping();
-
-
+            GetLastServicesMapping();
+            GetLastReviewsMapping();
+            GetLastMassegesMapping();
         }
 
 
