@@ -156,10 +156,11 @@ namespace FixIt.Service.Services
         {
             var query = _WorkerRepo.GetTableNoTracking().Include(w => w.User)
                         .Include(w => w.Category).AsQueryable();
-            if (search != null) query = query.Where(w => w.User.FullName.Contains(search));
+            if (search != null) query = query.Where(w => w.User.FullName.ToLower().Contains(search.ToLower()));
             if (address != null) query = query.Where(w => w.Area.Contains(address) || w.User.City.Contains(address));
             if (isAvilable != null) query = query.Where(w => w.AvailabilityStatus == isAvilable);
-            return query;
+            return query.OrderByDescending(w => w.RatingAverage)
+                .ThenBy(w => w.User.FullName);
         }
 
 
