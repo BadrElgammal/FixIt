@@ -3,6 +3,7 @@ using FixIt.Infrastructure.Abstracts;
 using FixIt.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FixIt.Service.Services
 {
@@ -152,13 +153,18 @@ namespace FixIt.Service.Services
                         .Include(w => w.Category).AsQueryable();
         }
 
-        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable)
+        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable , List<int>? categoryIds,double? minRate)
         {
             var query = _WorkerRepo.GetTableNoTracking().Include(w => w.User)
                         .Include(w => w.Category).AsQueryable();
             if (search != null) query = query.Where(w => w.User.FullName.ToLower().Contains(search.ToLower()));
             if (address != null) query = query.Where(w => w.Area.Contains(address) || w.User.City.Contains(address));
             if (isAvilable != null) query = query.Where(w => w.AvailabilityStatus == isAvilable);
+            if (categoryIds != null && categoryIds.Any())
+                query = query.Where(w => categoryIds.Contains((int)w.CategoryId));
+
+            if (minRate != null)
+                query = query.Where(w => w.RatingAverage >= minRate);
             return query.OrderByDescending(w => w.RatingAverage)
                 .ThenBy(w => w.User.FullName);
         }
