@@ -17,6 +17,8 @@ namespace FixIt.Core.Features.Workers.Queries.Models
         public string? search {  get; set; }
         public string? address { get; set; }
         public bool? IsAvilable { get; set; }
+        public List<int>? categoryIds { get; set; }
+        public double? minRate { get; set; }
         //public GetWorkersPaginatedListQuery(int pageNum, int pageSize, string? search, string? address, string? isAvilable)
         //{
         //    this.pageNum = pageNum;

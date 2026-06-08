@@ -18,7 +18,7 @@ namespace FixIt.Service.Abstracts
         public Task<User> GetUserByUserId(Guid userId);
 
         public IQueryable<WorkerProfile> GetAllWorkersPaginated();
-        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable);
+        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable, List<int>? categoryIds, double? minRate);
 
 
         //last 5 => 
