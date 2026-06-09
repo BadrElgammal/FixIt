@@ -17,6 +17,9 @@ namespace FixIt.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] GetWorkersPaginatedListQuery query)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+            query.userId = Id;
             var WorksList = await _mediator.Send(query);
             return Ok(WorksList);
 

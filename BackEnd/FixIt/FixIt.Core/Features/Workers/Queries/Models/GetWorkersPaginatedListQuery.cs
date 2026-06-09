@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Workers.Queries.Models
 {
     public class GetWorkersPaginatedListQuery : IRequest<PaginatedResult<GetWorkersPaginatedResponce>>
     {
+        [JsonIgnore]
+        public Guid? userId { get; set; }
         public int pageNum { get; set; }
         public int pageSize { get; set; }
         public string? search {  get; set; }
