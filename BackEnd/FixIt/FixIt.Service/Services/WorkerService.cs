@@ -153,10 +153,14 @@ namespace FixIt.Service.Services
                         .Include(w => w.Category).AsQueryable();
         }
 
-        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable , List<int>? categoryIds,double? minRate)
+        public IQueryable<WorkerProfile> GetAllWorkersPaginatedWithFiltaration(string search, string address, bool? isAvilable , List<int>? categoryIds,double? minRate, Guid? userId)
         {
-            var query = _WorkerRepo.GetTableNoTracking().Include(w => w.User)
+            var query = _WorkerRepo.GetTableNoTracking().Include(w => w.User )
                         .Include(w => w.Category).AsQueryable();
+            if (userId != null)
+            {
+                query = query.Where(w => w.UserId != userId);
+            }
             if (search != null) query = query.Where(w => w.User.FullName.ToLower().Contains(search.ToLower()));
             if (address != null) query = query.Where(w => w.Area.Contains(address) || w.User.City.Contains(address));
             if (isAvilable != null) query = query.Where(w => w.AvailabilityStatus == isAvilable);

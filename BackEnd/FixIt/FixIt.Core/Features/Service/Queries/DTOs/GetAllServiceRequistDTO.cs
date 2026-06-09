@@ -13,7 +13,9 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         public DateTime RequestDate { get; set; }
         //public DateTime? CompleteDate { get; set; }
         public string ClientName { get; set; }
+        public string? ClientImgUrl { get; set; }
         public string WorkerName { get; set; }
+        public string? WorkerImgUrl { get; set; }
         public Guid ClientId { get; set; }
         //public User Client { get; set; }
         public Guid WorkerId { get; set; }
@@ -26,7 +28,7 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
         public string? RequestedImgUrl { get; set; }
         public string? SubmitedImgUrl { get; set; }
 
-        public GetAllServiceRequistDTO(Guid serviceId, string serviceTitle, string serviceDescription, decimal totalPrice, string state, DateTime requestDate, string clientName, string workerName, Guid clientId, Guid workerId, Guid workerUserId, string? requestedImgUrl, string? submitedImgUrl)
+        public GetAllServiceRequistDTO(Guid serviceId, string serviceTitle, string serviceDescription, decimal totalPrice, string state, DateTime requestDate,  string clientName, string? clientImgUrl, string workerName, string? workerImgUrl, Guid clientId, Guid workerId, Guid workerUserId, string? requestedImgUrl, string? submitedImgUrl)
         {
             ServiceId = serviceId;
             ServiceTitle = serviceTitle;
@@ -35,7 +37,9 @@ namespace FixIt.Core.Features.Service.Queries.DTOs
             State = state;
             RequestDate = requestDate;
             ClientName = clientName;
+            ClientImgUrl = clientImgUrl;
             WorkerName = workerName;
+            WorkerImgUrl = workerImgUrl;
             ClientId = clientId;
             WorkerId = workerId;
             WorkerUserId = workerUserId;
