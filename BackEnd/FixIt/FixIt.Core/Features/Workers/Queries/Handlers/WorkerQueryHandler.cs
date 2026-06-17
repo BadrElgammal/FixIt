@@ -72,7 +72,7 @@ namespace FixIt.Core.Features.Workers.Queries.Handlers
         public Task<PaginatedResult<GetWorkersPaginatedResponce>> Handle(GetWorkersPaginatedListQuery request, CancellationToken cancellationToken)
         {
             Expression<Func<WorkerProfile, GetWorkersPaginatedResponce>> expression = e => new GetWorkersPaginatedResponce(e.WorkerId, e.JobTitle, e.Description, e.AvailabilityStatus, e.RatingAverage, e.Area, e.Category.CategoryName, e.User.FullName, e.User.ImgUrl, e.User.Role, e.User.City);
-            var FilterQuery = _WorkerService.GetAllWorkersPaginatedWithFiltaration(request.search, request.address, request.IsAvilable, request.categoryIds , request.minRate);
+            var FilterQuery = _WorkerService.GetAllWorkersPaginatedWithFiltaration(request.search, request.address, request.IsAvilable, request.categoryIds , request.minRate ,request.userId);
             var paginatedList = FilterQuery.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return paginatedList;
         }
