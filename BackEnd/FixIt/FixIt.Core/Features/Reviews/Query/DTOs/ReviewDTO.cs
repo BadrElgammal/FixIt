@@ -7,7 +7,7 @@
         public decimal Rate { get; set; }
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }
-
+        public double? RatingAverage { get; set; }
         //"Reviewer"
         public string ReviewerName { get; set; }
         public string? ReviewerImgUrl { get; set; }
@@ -21,12 +21,13 @@
         //[JsonIgnore]
         //public Guid RequestId { get; set; }
 
-        public ReviewDTO(int reviewId , decimal rate , string comment , DateTime createdAt , string reviewerName , string? reviewerImgUrl , string reviewerRole)
+        public ReviewDTO(int reviewId , decimal rate , string comment , DateTime createdAt , double? ratingAverage , string reviewerName , string? reviewerImgUrl , string reviewerRole)
         {
             ReviewId = reviewId;
             Rate = rate;
             Comment = comment;
             CreatedAt = createdAt;
+            RatingAverage = ratingAverage;
             ReviewerName = reviewerName;
             ReviewerImgUrl = reviewerImgUrl;
             ReviewerRole = reviewerRole;
