@@ -27,7 +27,7 @@ namespace FixIt.Core.Features.Reviews.Query.Handlers
         //for Admin
         public async Task<PaginatedResult<ReviewDTO>> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<Review, ReviewDTO>> expression = e => new ReviewDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.Reviewer.Role);
+            Expression<Func<Review, ReviewDTO>> expression = e => new ReviewDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt, e.ReviewedWorker.RatingAverage, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.Reviewer.Role);
             var reviews = _reviewsService.GetAllReviewsPaginated();
             var ReviewsPaginatedList = await reviews.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return ReviewsPaginatedList;
@@ -59,7 +59,7 @@ namespace FixIt.Core.Features.Reviews.Query.Handlers
         //for me 
         public async Task<PaginatedResult<ReviewDTO>> Handle(GetMyAllReviewsListQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<Review, ReviewDTO>> expression = e => new ReviewDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.Reviewer.Role);
+            Expression<Func<Review, ReviewDTO>> expression = e => new ReviewDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt,e.ReviewedWorker.RatingAverage, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.Reviewer.Role);
             var workerId = await _reviewsService.GetWorkerIdByUserId(request.userId);
             var reviews = _reviewsService.GetAllReviewsByWorkerIdpaginated(workerId);
             var ReviewsPaginatedList = await reviews.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
