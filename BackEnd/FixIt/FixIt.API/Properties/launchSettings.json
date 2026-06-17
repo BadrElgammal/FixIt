@@ -5,7 +5,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SECRETKEY": "egy_sk_test_22a638ab7aae2f0d2cf4261310f5bf695ebc2d1a0408b993d7c5dc2b2fc6d861",
+        "PUBLICKEY": "egy_pk_test_RIQYqNCgNG9Cx6I6fd6dHgq3oZq3DYRv",
+        "HMAC": "E5DBE6C90DBFBF8EAAE74FEAA05612CB",
+        "CARDINTEGRATIONID": "5616086"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5168"
@@ -14,7 +18,11 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SECRETKEY": "egy_sk_test_22a638ab7aae2f0d2cf4261310f5bf695ebc2d1a0408b993d7c5dc2b2fc6d861",
+        "PUBLICKEY": "egy_pk_test_RIQYqNCgNG9Cx6I6fd6dHgq3oZq3DYRv",
+        "HMAC": "E5DBE6C90DBFBF8EAAE74FEAA05612CB",
+        "CARDINTEGRATIONID": "5616086"
       }
     }
   },
