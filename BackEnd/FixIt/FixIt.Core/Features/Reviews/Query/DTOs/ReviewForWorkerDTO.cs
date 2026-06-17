@@ -14,11 +14,12 @@ namespace FixIt.Core.Features.Reviews.Query.DTOs
         public string ReviewerName { get; set; }
         public string ReviewerImgUrl { get; set;}
         public Guid ReviewedWorkerId { get; set; }
+        public double? RatingAverage { get; set; }
         public string WorkerName { get; set; }
         public string? WorkerImgUrl { get; set; }
         public Guid RequestId { get; set; }
 
-        public ReviewForWorkerDTO(int reviewId, decimal rate, string comment, DateTime createdAt, Guid reviewerId, string reviewerName, string reviewerImgUrl, Guid reviewedWorkerId, string workerName, string? workerImgUrl, Guid requestId)
+        public ReviewForWorkerDTO(int reviewId, decimal rate, string comment, DateTime createdAt, Guid reviewerId, string reviewerName, string reviewerImgUrl, Guid reviewedWorkerId, double? ratingAverage , string workerName, string? workerImgUrl, Guid requestId)
         {
             ReviewId = reviewId;
             Rate = rate;
@@ -28,6 +29,7 @@ namespace FixIt.Core.Features.Reviews.Query.DTOs
             ReviewerName = reviewerName;
             ReviewerImgUrl = reviewerImgUrl;
             ReviewedWorkerId = reviewedWorkerId;
+            RatingAverage = ratingAverage;
             WorkerName = workerName;
             WorkerImgUrl = workerImgUrl;
             RequestId = requestId;

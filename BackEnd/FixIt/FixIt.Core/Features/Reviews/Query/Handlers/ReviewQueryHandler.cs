@@ -50,7 +50,7 @@ namespace FixIt.Core.Features.Reviews.Query.Handlers
         ///for another worker
         public async Task<PaginatedResult<ReviewForWorkerDTO>> Handle(GetReviewsListByWorkerIdQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<Review, ReviewForWorkerDTO>> expression = e => new ReviewForWorkerDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt, e.ReviewerId, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.ReviewedWorkerId, e.ReviewedWorker.User.FullName, e.ReviewedWorker.User.ImgUrl, e.RequestId);
+            Expression<Func<Review, ReviewForWorkerDTO>> expression = e => new ReviewForWorkerDTO(e.ReviewId, e.Rate, e.Comment, e.CreatedAt, e.ReviewerId, e.Reviewer.FullName, e.Reviewer.ImgUrl, e.ReviewedWorkerId,e.ReviewedWorker.RatingAverage, e.ReviewedWorker.User.FullName, e.ReviewedWorker.User.ImgUrl, e.RequestId);
             var reviews = _reviewsService.GetAllReviewsByWorkerIdpaginated(request.workerId);
             var paginatedList = await reviews.Select(expression).ToPaginatedListAsync(request.pageNum, request.pageSize);
             return paginatedList;
