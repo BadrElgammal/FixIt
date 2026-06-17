@@ -46,12 +46,16 @@ namespace FixIt.Service.Services
             //string publicKey = _configuration["Paymob:PublicKey"] ?? throw new ArgumentException("Paymob public key not configured");
             //string secretKey = Environment.GetEnvironmentVariable("SECRETKEY")!;
             //string publicKey = Environment.GetEnvironmentVariable("PUBLICKEY")!;
-            string secretKey = Environment.GetEnvironmentVariable("SECRETKEY")
+            //string secretKey = Environment.GetEnvironmentVariable("SECRETKEY")
+            //       ?? throw new ArgumentException("Secret Key missing from Environment Variables.");
+
+            //string publicKey = Environment.GetEnvironmentVariable("PUBLICKEY")
+            //                   ?? throw new ArgumentException("Public Key missing from Environment Variables.");
+            string secretKey = _configuration["Paymob:SecretKey"]
                    ?? throw new ArgumentException("Secret Key missing from Environment Variables.");
 
-            string publicKey = Environment.GetEnvironmentVariable("PUBLICKEY")
+            string publicKey = _configuration["Paymob:PublicKey"]
                                ?? throw new ArgumentException("Public Key missing from Environment Variables.");
-
 
             // 2. تحويل المبلغ لقروش
             var amountCents = (int)(payment.Amount * 100);
@@ -141,7 +145,13 @@ namespace FixIt.Service.Services
                 //"card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")!,
                 //"wallet" => _configuration["Paymob:MobileIntegrationId"] ?? throw new ArgumentException("Wallet ID missing"),
                 //_ => throw new ArgumentException($"Invalid payment method: {paymentMethod}")
-                "card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")
+                //"card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")
+                //  ?? throw new ArgumentException("Card Integration ID missing from Environment Variables."),
+
+                //"wallet" => _configuration["Paymob:MobileIntegrationId"]
+                //          ?? throw new ArgumentException("Wallet ID missing from configuration."),
+
+                "card" => _configuration["Paymob:CardIntegrationId"]
                   ?? throw new ArgumentException("Card Integration ID missing from Environment Variables."),
 
                 "wallet" => _configuration["Paymob:MobileIntegrationId"]
