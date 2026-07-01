@@ -86,23 +86,25 @@ namespace FixIt.API
                         // 2. 👈 الجزء الجديد: التأكد إن اليوزر مش معموله حظر مع كل Request
                         OnTokenValidated = async context =>
                         {
-                            // جلب الـ ID بتاع اليوزر من التوكن
-                            var userId = context.Principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                            // جلب الـ ID بتاع اليوزر من التوكن كـ String
+                            var userIdString = context.Principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-                            if (!string.IsNullOrEmpty(userId))
+                            if (!string.IsNullOrEmpty(userIdString))
                             {
-                                // جلب الـ DbContext بتاعك
-                                var dbContext = context.HttpContext.RequestServices.GetRequiredService<FIXITDbContext>();
-
-                                // البحث عن اليوزر في الداتابيز
-                                // ملاحظة: لو الـ ID عندك في الداتابيز int مش string، هتحتاج تعمل int.Parse(userId)
-                                var user = await dbContext.Users.FindAsync(userId);
-
-                                // لو اليوزر مش موجود أو الإدمن عمله حظر (IsBlock = true)
-                                // ملحوظة: تأكد إن اسم الخاصية IsBlock مكتوب زي ما هو في الـ Entity بتاعك
-                                if (user == null || user.isBlocked)
+                                // 👈 التحويل من String إلى Guid بأمان
+                                if (Guid.TryParse(userIdString, out Guid userIdGuid))
                                 {
-                                    context.Fail("This account has been blocked by the administrator.");
+                                    // جلب الـ DbContext بتاعك
+                                    var dbContext = context.HttpContext.RequestServices.GetRequiredService<FIXITDbContext>();
+
+                                    // 👈 البحث عن اليوزر في الداتابيز باستخدام الـ Guid
+                                    var user = await dbContext.Users.FindAsync(userIdGuid);
+
+                                    // لو اليوزر مش موجود أو الإدمن عمله حظر (isBlocked = true)
+                                    if (user == null || user.isBlocked)
+                                    {
+                                        context.Fail("This account has been blocked by the administrator.");
+                                    }
                                 }
                             }
                         }
