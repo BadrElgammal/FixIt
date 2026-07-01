@@ -1,4 +1,5 @@
-﻿using FixIt.Core.Features.Payment.Queries.Models;
+﻿using FixIt.API.Base;
+using FixIt.Core.Features.Payment.Queries.Models;
 using FixIt.Domain.Entities;
 using FixIt.Infrastructure.Context;
 using FixIt.Service.Abstracts;
@@ -6,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -15,14 +15,14 @@ namespace FixIt.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentController : AppController
     {
         private readonly IPaymobService _paymobService;
         private readonly IConfiguration _configuration;
         private readonly FIXITDbContext _db;
         private readonly IMediator _mediator;
 
-        public PaymentController(IPaymobService paymobService, FIXITDbContext db, IConfiguration configuration , IMediator mediator)
+        public PaymentController(IPaymobService paymobService, FIXITDbContext db, IConfiguration configuration, IMediator mediator)
         {
             _paymobService = paymobService;
             _configuration = configuration;
@@ -69,7 +69,7 @@ namespace FixIt.API.Controllers
                     Status = "Initiated",
                     WalletId = wallet.Id,
                     CreatedAt = DateTime.Now,
-
+                    PaymentType = "Deposit",
                     Gateway = "Paymob",
                     GatewayRef = "Pending"
                 };
@@ -254,14 +254,23 @@ namespace FixIt.API.Controllers
         /// <summary>
         /// للأدمن فقط: الموافقة أو الرفض على طلب السحب
         /// </summary>
+
         [Authorize(Roles = "admin")]
         [HttpPost("admin/process-withdraw/{requestId}")]
         public async Task<IActionResult> ProcessWithdraw(Guid requestId, [FromQuery] bool approve)
         {
+            // السيرفس هنا هتروح تنفذ اللوجيك الجديد تلقائياً (سواء كاش أوت أو محاكاة نجاح)
             var result = await _paymobService.ProcessWithdrawalRequestAsync(requestId, approve);
 
-            if (result) return Ok($"تمت معالجة الطلب بـ {(approve ? "الموافقة والدفع" : "الرفض وإعادة الرصيد")}.");
-            return BadRequest("الطلب غير موجود أو تمت معالجته مسبقاً.");
+            if (result)
+            {
+                return Ok(new
+                {
+                    message = $"تمت معالجة الطلب بـ {(approve ? "الموافقة والدفع التلقائي" : "الرفض وإعادة الرصيد")}."
+                });
+            }
+
+            return BadRequest(new { message = "الطلب غير موجود أو تمت معالجته مسبقاً." });
         }
 
         [HttpGet("myWallet")]
@@ -280,7 +289,7 @@ namespace FixIt.API.Controllers
         /// </summary>
         [Authorize(Roles = "admin")]
         [HttpGet("/api/Admin/payment/withdraw-requests")]
-        public async Task<IActionResult> GetAllWithdrawRequests([FromQuery] int pageNum , [FromQuery] int pageSize , [FromQuery] string? status)
+        public async Task<IActionResult> GetAllWithdrawRequests([FromQuery] int pageNum, [FromQuery] int pageSize, [FromQuery] string? status)
         {
             GetAllWithdrawRequestsQuery query = new GetAllWithdrawRequestsQuery()
             {
@@ -299,14 +308,34 @@ namespace FixIt.API.Controllers
             var result = await _mediator.Send(new GetAllDepositQuery(pageNum, pageSize));
             return Ok(result);
         }
+
         [Authorize(Roles = "admin")]
         [HttpGet("/api/Admin/payment/AllTransactions")]
         public async Task<IActionResult> GetAllTransactions([FromQuery] int pageNum, [FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new GetAllTransactionsQuery(pageNum,pageSize));
+            var result = await _mediator.Send(new GetAllTransactionsQuery(pageNum, pageSize));
             return Ok(result);
         }
         // -----------------------------------------------------------------------------------------------------------------------------
+        // For User Or Worker Get All Payments History 
+
+        //Show all transaction From Payment
+        //Get All Payments for User by UserId
+        // /api/payment/AllPaymentsForUser
+        [HttpGet("AllPaymentsForUser")]
+        [Authorize]
+        public async Task<IActionResult> ShowAllPayments()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid Id = Guid.Parse(userId);
+
+            var respose = await _mediator.Send(new GetAllPaymentsForUserQuery(Id));
+            return NewResult(respose);
+
+
+        }
+
+
 
     }
 }

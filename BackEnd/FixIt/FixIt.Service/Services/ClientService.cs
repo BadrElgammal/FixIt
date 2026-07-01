@@ -29,7 +29,7 @@ namespace FixIt.Service.Services
 
         public IQueryable<User> GetAllClientPaginated()
         {
-            return  _clientRepository.GetAllClientsPaginated();
+            return _clientRepository.GetAllClientsPaginated();
         }
 
         public async Task<string> DeleteClientAsync(User user)
@@ -73,5 +73,10 @@ namespace FixIt.Service.Services
 
 
         }
+
+        //public Task<List<Payment>> GetAllPAymentsForUser(Guid UserId)
+        //{
+        //    return _clientRepository.GetAllPaymentsForUserByUserId(UserId);
+        //}
     }
 }

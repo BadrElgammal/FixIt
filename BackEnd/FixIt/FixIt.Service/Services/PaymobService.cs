@@ -51,10 +51,10 @@ namespace FixIt.Service.Services
 
             //string publicKey = Environment.GetEnvironmentVariable("PUBLICKEY")
             //                   ?? throw new ArgumentException("Public Key missing from Environment Variables.");
-            string secretKey = _configuration["Paymob:SecretKey"]
+            string secretKey = _configuration["Paymob:SecretKey"] ?? Environment.GetEnvironmentVariable("SECRETKEY")
                    ?? throw new ArgumentException("Secret Key missing from Environment Variables.");
 
-            string publicKey = _configuration["Paymob:PublicKey"]
+            string publicKey = _configuration["Paymob:PublicKey"] ?? Environment.GetEnvironmentVariable("PUBLICKEY")
                                ?? throw new ArgumentException("Public Key missing from Environment Variables.");
 
             // 2. تحويل المبلغ لقروش
@@ -141,17 +141,9 @@ namespace FixIt.Service.Services
         {
             return paymentMethod?.ToLower() switch
             {
-                //"card" => _configuration["Paymob:CardIntegrationId"] ?? throw new ArgumentException("Card ID missing"),
-                //"card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")!,
-                //"wallet" => _configuration["Paymob:MobileIntegrationId"] ?? throw new ArgumentException("Wallet ID missing"),
-                //_ => throw new ArgumentException($"Invalid payment method: {paymentMethod}")
-                //"card" => Environment.GetEnvironmentVariable("CARDINTEGRATIONID")
-                //  ?? throw new ArgumentException("Card Integration ID missing from Environment Variables."),
+                //_configuration["Paymob:CardIntegrationId"] || Environment.GetEnvironmentVariable("CARDINTEGRATIONID")
 
-                //"wallet" => _configuration["Paymob:MobileIntegrationId"]
-                //          ?? throw new ArgumentException("Wallet ID missing from configuration."),
-
-                "card" => _configuration["Paymob:CardIntegrationId"]
+                "card" => _configuration["Paymob:CardIntegrationId"] ?? Environment.GetEnvironmentVariable("CARDINTEGRATIONID")
                   ?? throw new ArgumentException("Card Integration ID missing from Environment Variables."),
 
                 "wallet" => _configuration["Paymob:MobileIntegrationId"]
@@ -217,6 +209,60 @@ namespace FixIt.Service.Services
         //              ---------------------------------
 
 
+        #region befor
+        //public async Task<bool> RequestWithdrawalAsync(Guid userId, decimal amount, string method)
+        //{
+        //    var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
+
+        //    if (wallet == null || wallet.Balance < amount)
+        //        return false;
+
+        //    // 1. خصم المبلغ من الرصيد فوراً (حجز الرصيد)
+        //    wallet.Balance -= amount;
+        //    wallet.UpdatedAt = DateTime.Now;
+
+        //    // 2. إنشاء طلب السحب
+        //    var withdrawRequest = new WithdrawRequest
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Amount = amount,
+        //        Method = method,
+        //        Status = "Pending",
+        //        CreatedAt = DateTime.Now,
+        //        WalletId = wallet.Id
+        //    };
+
+        //    await _context.WithdrawRequests.AddAsync(withdrawRequest);
+        //    await _context.SaveChangesAsync();
+        //    return true;
+        //}
+
+        //public async Task<bool> ProcessWithdrawalRequestAsync(Guid requestId, bool approve)
+        //{
+        //    var request = await _context.WithdrawRequests
+        //        .Include(r => r.Wallet)
+        //        .FirstOrDefaultAsync(r => r.Id == requestId);
+
+        //    if (request == null || request.Status != "Pending") return false;
+
+        //    if (approve)
+        //    {
+        //        request.Status = "Paid";
+        //        request.PaidAt = DateTime.Now;
+        //    }
+        //    else
+        //    {
+        //        // في حالة الرفض: نرجع الفلوس للمحفظة
+        //        request.Status = "Rejected";
+        //        request.Wallet.Balance += request.Amount;
+        //        request.Wallet.UpdatedAt = DateTime.Now;
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return true;
+        //} 
+        #endregion
+
         public async Task<bool> RequestWithdrawalAsync(Guid userId, decimal amount, string method)
         {
             var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
@@ -224,7 +270,7 @@ namespace FixIt.Service.Services
             if (wallet == null || wallet.Balance < amount)
                 return false;
 
-            // 1. خصم المبلغ من الرصيد فوراً (حجز الرصيد)
+            // 1. خصم المبلغ من الرصيد فوراً لحجزه
             wallet.Balance -= amount;
             wallet.UpdatedAt = DateTime.Now;
 
@@ -233,7 +279,7 @@ namespace FixIt.Service.Services
             {
                 Id = Guid.NewGuid(),
                 Amount = amount,
-                Method = method,
+                Method = method, // رقم المحفظة (فودافون كاش مثلا)
                 Status = "Pending",
                 CreatedAt = DateTime.Now,
                 WalletId = wallet.Id
@@ -244,22 +290,83 @@ namespace FixIt.Service.Services
             return true;
         }
 
+        // ميثود مساعدة لجلب توكن الـ Cash Out (Disbursements) من بيموب
+        private async Task<string> GetDisbursementTokenAsync()
+        {
+            using var httpClient = new HttpClient();
+            var apiKey = _configuration["Paymob:DisbursementApiKey"]
+                         ?? throw new ArgumentException("Disbursement Api Key missing from configuration.");
+
+            var payload = new { api_key = apiKey };
+
+            var response = await httpClient.PostAsJsonAsync("https://accept.paymob.com/api/disbursement/v1/auth/tokens", payload);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Failed to authenticate with Paymob Cashout: {responseContent}");
+
+            var json = JsonDocument.Parse(responseContent);
+            return json.RootElement.GetProperty("token").GetString();
+        }
+
         public async Task<bool> ProcessWithdrawalRequestAsync(Guid requestId, bool approve)
         {
             var request = await _context.WithdrawRequests
                 .Include(r => r.Wallet)
+                .ThenInclude(w => w.User)
                 .FirstOrDefaultAsync(r => r.Id == requestId);
 
             if (request == null || request.Status != "Pending") return false;
 
             if (approve)
             {
-                request.Status = "Paid";
-                request.PaidAt = DateTime.Now;
+                bool isTestingMode = _configuration.GetValue<bool>("Paymob:IsTestingMode");
+
+                if (isTestingMode)
+                {
+                    // [وضع المحاكاة]: الموافقة الفورية والتحويل لـ Paid لزوم مناقشة مشروع التخرج بسلاسة
+                    request.Status = "Paid";
+                    request.PaidAt = DateTime.Now;
+                }
+                else
+                {
+                    // [الربط الفعلي]: يرسل الطلب فوراً إلى بيموب ليحول الفلوس للمحفظة حقيقي
+                    try
+                    {
+                        string cashoutToken = await GetDisbursementTokenAsync();
+
+                        using var httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", cashoutToken);
+
+                        var amountCents = (int)(request.Amount * 100);
+
+                        var payload = new
+                        {
+                            amount = amountCents,
+                            currency = "EGP",
+                            receiver_type = "WALLET",
+                            identifier = request.Method, // رقم التليفون المستلم للمال
+                            merchant_order_id = request.Id.ToString()
+                        };
+
+                        var response = await httpClient.PostAsJsonAsync("https://accept.paymob.com/api/disbursement/v1/disbursements/transfer", payload);
+                        var responseContent = await response.Content.ReadAsStringAsync();
+
+                        if (!response.IsSuccessStatusCode)
+                            throw new Exception($"Paymob Cashout API Error: {responseContent}");
+
+                        request.Status = "Paid";
+                        request.PaidAt = DateTime.Now;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"فشل السحب الآلي عبر Paymob: {ex.Message}");
+                    }
+                }
             }
             else
             {
-                // في حالة الرفض: نرجع الفلوس للمحفظة
+                // في حالة الرفض: إعادة الرصيد للمحفظة
                 request.Status = "Rejected";
                 request.Wallet.Balance += request.Amount;
                 request.Wallet.UpdatedAt = DateTime.Now;
@@ -268,6 +375,12 @@ namespace FixIt.Service.Services
             await _context.SaveChangesAsync();
             return true;
         }
+        #region after
+
+
+
+
+        #endregion
 
         public IQueryable<WithdrawRequest> GetAllWithDrawRequestsPaginated(string? statuse)
         {
@@ -290,6 +403,13 @@ namespace FixIt.Service.Services
         public IQueryable<Payment> GetAllDepositPaginated()
         {
             return _context.Payments.AsNoTracking().Include(t => t.Wallet).ThenInclude(w => w.User).AsQueryable();
+        }
+
+        public IQueryable<Payment> GetAllPaymentsForUserByUserId(Guid userId)
+        {
+            return _context.Payments
+         .Where(p => p.Wallet.UserId == userId)
+         .OrderByDescending(p => p.CreatedAt);
         }
     }
 }

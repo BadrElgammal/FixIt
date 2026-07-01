@@ -1,11 +1,5 @@
 ﻿using FixIt.Core.Features.Payment.Queries.DTOs;
-using FixIt.Core.Features.Payment.Queries.Models;
 using FixIt.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Mapping.Payment
 {
@@ -14,6 +8,7 @@ namespace FixIt.Core.Mapping.Payment
         public void GetMyWalletMapping()
         {
             CreateMap<Wallet, WalletQueryDTO>();
+            CreateMap<FixIt.Domain.Entities.Payment, PaymentDTO>();
         }
     }
 }
