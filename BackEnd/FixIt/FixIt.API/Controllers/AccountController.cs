@@ -89,7 +89,7 @@ namespace FixIt.API.Controllers
 
             // 👇 إرسال إيميل التأكيد
             //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.UserId, token = user.ConfirmationToken }, Request.Scheme);
-            var confirmationLink = $"https://prismatic-zabaione-e8b5ee.netlify.app/confirm-email?userId={user.UserId}&token={user.ConfirmationToken}";
+            var confirmationLink = $"https://fix-it-bay.vercel.app/confirm-email?userId={user.UserId}&token={user.ConfirmationToken}";
             var emailBody = $@"
     <div dir='rtl' style='text-align: right; font-family: Arial;'>
         <h3>مرحباً بك يا {user.FullName} في منصتنا!</h3>
@@ -150,7 +150,8 @@ namespace FixIt.API.Controllers
             {
                 return BadRequest(new { message = "برجاء تأكيد بريدك الإلكتروني أولاً لتتمكن من تسجيل الدخول." });
             }
-
+            if (userFromDb.isBlocked)
+                return BadRequest(new { message = "هذا الحساب تم حظره" });
             string StringToken = _JwtService.GenerateToken(userFromDb);
 
             return Ok(new { token = StringToken });
@@ -202,7 +203,7 @@ namespace FixIt.API.Controllers
 
             // بناء اللينك (هنا بنفترض إن عندك صفحة في الفرونت اسمها reset-password)
             //var resetLink = $"https://fixitapi.runasp.net/reset-password?email={user.Email}&token={user.ConfirmationToken}";
-            var resetLink = $"https://prismatic-zabaione-e8b5ee.netlify.app/reset-password?email={user.Email}&token={user.ConfirmationToken}";
+            var resetLink = $"https://fix-it-bay.vercel.app/reset-password?email={user.Email}&token={user.ConfirmationToken}";
 
             var body = $@"<h3>إعادة تعيين كلمة المرور</h3>
                   <p>لقد طلبت إعادة تعيين كلمة المرور لحسابك في FixIt.</p>
@@ -250,7 +251,7 @@ namespace FixIt.API.Controllers
             await _UserService.UpdateAsync(user);
 
             // بناء الرابط الجديد للفرونت إند بتاعك على Netlify
-            var confirmationLink = $"https://prismatic-zabaione-e8b5ee.netlify.app/confirm-email?userId={user.UserId}&token={user.ConfirmationToken}";
+            var confirmationLink = $"https://fix-it-bay.vercel.app/confirm-email?userId={user.UserId}&token={user.ConfirmationToken}";
 
             var emailBody = $@"
     <div dir='rtl' style='text-align: right; font-family: Arial;'>
