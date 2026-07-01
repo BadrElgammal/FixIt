@@ -25,9 +25,10 @@ namespace FixIt.API.Controllers
 
         }
 
-        [HttpGet("/api/Admin/AllClients")]
+        [HttpGet("/api/Admin/AllUsers")] // Client + Workers
         [Authorize]
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
+        //GetClients
         public async Task<IActionResult> GetClients([FromQuery] int PageNum, [FromQuery] int PageSize)
         {
             GetClientsListQuery query = new GetClientsListQuery
@@ -110,6 +111,7 @@ namespace FixIt.API.Controllers
             var result = await _mediator.Send(command);
             return NewResult(result);
         }
+
 
 
 

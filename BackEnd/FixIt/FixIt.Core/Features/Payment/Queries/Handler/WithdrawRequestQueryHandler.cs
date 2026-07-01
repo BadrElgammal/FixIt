@@ -1,37 +1,33 @@
 ﻿using AutoMapper;
 using FixIt.Core.Bases;
-using FixIt.Core.Features.Favorites.Queries.DTOs;
-using FixIt.Core.Features.Favorites.Queries.Models;
 using FixIt.Core.Features.Payment.Queries.DTOs;
 using FixIt.Core.Features.Payment.Queries.Models;
 using FixIt.Core.Wrapper;
 using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Payment.Queries.Handler
 {
     public class WithdrawRequestQueryHandler : ResponseHandler,
         IRequestHandler<GetAllWithdrawRequestsQuery, PaginatedResult<WithdrawRequestsQueryDTO>>,
-        IRequestHandler<GetMyWalletDetailsQuery , Response<WalletQueryDTO>>,
-        IRequestHandler<GetAllDepositQuery , PaginatedResult<GetAllDepositQueryDTO>>,
-        IRequestHandler<GetAllTransactionsQuery , PaginatedResult<GetAllTransactionsQueryDTO>>
+        IRequestHandler<GetMyWalletDetailsQuery, Response<WalletQueryDTO>>,
+        IRequestHandler<GetAllDepositQuery, PaginatedResult<GetAllDepositQueryDTO>>,
+        IRequestHandler<GetAllTransactionsQuery, PaginatedResult<GetAllTransactionsQueryDTO>>,
+        IRequestHandler<GetAllPaymentsForUserQuery, Response<List<PaymentDTO>>>
     {
 
         private readonly IMapper _mapper;
         private readonly IPaymobService _paymobService;
+        private readonly IClientService _userService;
 
-        public WithdrawRequestQueryHandler(IMapper mapper, IPaymobService paymobService)
+        public WithdrawRequestQueryHandler(IMapper mapper, IPaymobService paymobService, IClientService userService)
         {
             _mapper = mapper;
             _paymobService = paymobService;
+            _userService = userService;
         }
 
         public async Task<PaginatedResult<WithdrawRequestsQueryDTO>> Handle(GetAllWithdrawRequestsQuery request, CancellationToken cancellationToken)
@@ -55,7 +51,7 @@ namespace FixIt.Core.Features.Payment.Queries.Handler
         {
             Expression<Func<Domain.Entities.Payment, GetAllDepositQueryDTO>> expression = e => new GetAllDepositQueryDTO(e.PaymentId, e.Amount, e.Status, e.Gateway, e.GatewayRef, e.CreatedAt, e.ReleasedAt, e.WalletId, e.Wallet.UserId, e.Wallet.User.FullName, e.Wallet.User.ImgUrl, e.Wallet.User.Email);
             var query = _paymobService.GetAllDepositPaginated();
-            var paginatedList = await query.Select(expression).ToPaginatedListAsync(request.PageNum , request.PageSize);
+            var paginatedList = await query.Select(expression).ToPaginatedListAsync(request.PageNum, request.PageSize);
             return paginatedList;
         }
 
@@ -65,6 +61,31 @@ namespace FixIt.Core.Features.Payment.Queries.Handler
             var query = _paymobService.GetAllTransactionsPaginated();
             var paginatedList = await query.Select(expression).ToPaginatedListAsync(request.PageNum, request.PageSize);
             return paginatedList;
+        }
+
+
+        //-----------
+        //-----------
+
+        // All Payment history for clients || workers
+        public async Task<Response<List<PaymentDTO>>> Handle(GetAllPaymentsForUserQuery request, CancellationToken cancellationToken)
+        {
+            var user = await _userService.GetClientById(request.UserId);
+            if (user == null)
+                return BadRequest<List<PaymentDTO>>("المستخدم غير موجود");
+
+            //var paymentsForUser = await _userService.GetAllPAymentsForUser(request.UserId);
+
+            var paymentQuery = _paymobService.GetAllPaymentsForUserByUserId(request.UserId);
+            var paymentListForUser = await paymentQuery.ToListAsync(cancellationToken);
+
+
+            if (paymentListForUser == null || !paymentListForUser.Any())
+                return NotFound<List<PaymentDTO>>("المستخدم لم يقم بأى معاملات مالية");
+
+            var mappedList = _mapper.Map<List<PaymentDTO>>(paymentListForUser);
+
+            return Success(mappedList);
         }
     }
 }

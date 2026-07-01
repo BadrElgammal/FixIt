@@ -6,11 +6,6 @@ using FixIt.Core.Wrapper;
 using FixIt.Domain.Entities;
 using FixIt.Service.Abstracts;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Features.Clients.Queries.Handlers
 {
@@ -45,5 +40,7 @@ namespace FixIt.Core.Features.Clients.Queries.Handlers
             var clientsPaginatedList = await clients.ToPaginatedListAsync(request.pageNum, request.pageSize);
             return clientsPaginatedList;
         }
+
+
     }
 }

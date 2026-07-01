@@ -11,7 +11,7 @@ namespace FixIt.Service.Abstracts
         Task<String> DeleteClientAsync(User user);
         Task<String> ChangeClinetPasswordAsync(User user, string passward);
         public Task<string> ChangeClientImage(User user, IFormFile file);
-
+        // public Task<List<Payment>> GetAllPAymentsForUser(Guid UserId);
 
     }
 }

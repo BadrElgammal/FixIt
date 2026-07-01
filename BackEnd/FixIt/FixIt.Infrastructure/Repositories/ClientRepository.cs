@@ -2,11 +2,6 @@
 using FixIt.Infrastructure.Abstracts;
 using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Infrastructure.Repositories
 {
@@ -21,7 +16,18 @@ namespace FixIt.Infrastructure.Repositories
 
         public IQueryable<User> GetAllClientsPaginated()
         {
-            return _context.Users.AsNoTracking().Where(u => u.Role.ToLower() == "client").AsQueryable();
+            //return _context.Users.AsNoTracking().Where(u => u.Role.ToLower() == "client").AsQueryable();
+            //get all Users (Clients + Workers)
+            return _context.Users.AsNoTracking().Where(u => u.Role.ToLower() == "client" || u.Role.ToLower() == "worker").AsQueryable();
         }
+
+        //public async Task<List<Payment>> GetAllPaymentsForUserByUserId(Guid userId)
+        //{
+        //    return await _context.Payments
+        // .Where(p => p.Wallet.UserId == userId)
+        // .OrderByDescending(p => p.CreatedAt).ToListAsync();
+        //}
+
+
     }
 }
