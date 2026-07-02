@@ -1,5 +1,4 @@
 ﻿using FixIt.Core.Bases;
-using FixIt.Domain.Enum;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -18,8 +17,19 @@ namespace FixIt.Core.Features.Reports.Command.Models
         [Length(5, 2000)]
         public string Description { get; set; }
 
+        /// <summary>
+        /// فئة البلاغ:
+        /// - DelayInSchedule (تأخير عن الموعد)
+        /// - UnprofessionalBehavior (سلوك غير لائق)
+        /// - PriceManipulation (احتيال ومبالغ إضافية)
+        /// - PoorQualityOrIncomplete (جودة ضعيفة)
+        /// - PaymentIssue (مشاكل الدفع)
+        /// - IdentityFraud (هوية مزيفة)
+        /// - PropertyDamage (أضرار مادية)
+        /// - Other (أخرى)
+        /// </summary>
         [Required]
-        public ReportCategory ReportType { get; set; } = ReportCategory.Other;
+        public string ReportType { get; set; } = "Other";// ReportCategory.Other;
 
 
         // ["ReporterUser"]

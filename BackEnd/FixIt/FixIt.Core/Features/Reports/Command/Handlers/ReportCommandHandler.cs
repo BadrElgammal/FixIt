@@ -52,6 +52,8 @@ namespace FixIt.Core.Features.Reports.Command.Handlers
             if (request.ReporterUserId == request.ReportedUserId)
                 return BadRequest<string>("لا يمكنك عمل ابلاغ عن نفسك ");
 
+
+
             //mapp
             var MappedReport = _mapper.Map<Report>(request);
 
@@ -88,13 +90,22 @@ namespace FixIt.Core.Features.Reports.Command.Handlers
                 return BadRequest<string>("هذا البلاغ تم إغلاقه أو التعامل معه مسبقاً ولا يمكن تعديله.");
 
             //solve 
-            if (request.Status == ReportStatus.Pending || request.Status == ReportStatus.UnderInvestigation)
+            if (request.Status.ToLower() == ReportStatus.Pending.ToString().ToLower() ||
+                request.Status.ToLower() == ReportStatus.UnderInvestigation.ToString().ToLower())
             {
                 return BadRequest<string>("يجب اختيار حالة نهائية مثل (تم الحل، مرفوض، أو تم التصعيد).");
             }
 
             //full data
-            report.Status = request.Status;
+            if (Enum.TryParse<ReportStatus>(request.Status, true, out var parsedStatus))
+            {
+                report.Status = parsedStatus;
+            }
+            else
+            {
+                return BadRequest<string>("حالة البلاغ المرسلة غير صحيحة.");
+            }
+
             report.AdminNotes = request.AdminNotes;
             report.ResolvedAt = DateTime.Now;
 
@@ -105,8 +116,8 @@ namespace FixIt.Core.Features.Reports.Command.Handlers
             if (result == "success")
             {
                 // 🔥 4. إشعار للمُبلغ بنتيجة البلاغ 🔥
-                string statusMessage = request.Status == ReportStatus.Resolved ? "تم حل المشكلة" :
-                                       request.Status == ReportStatus.Dismissed ? "تم رفض البلاغ" : "تم تصعيد البلاغ";
+                string statusMessage = request.Status.ToLower() == ReportStatus.Resolved.ToString().ToLower() ? "تم حل المشكلة" :
+                                       request.Status.ToLower() == ReportStatus.Dismissed.ToString().ToLower() ? "تم رفض البلاغ" : "تم تصعيد البلاغ";
 
                 await _mediator.Send(new AddNotificationCommand(
                     UserId: report.ReporterUserId,

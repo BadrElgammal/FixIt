@@ -154,6 +154,12 @@ namespace FixIt.Infrastructure.Context
                       .HasForeignKey(r => r.ReporterUserId)
                       .OnDelete(DeleteBehavior.Restrict);
 
+                entity.Property(r => r.Status)
+                      .HasConversion<string>();
+
+                entity.Property(r => r.ReportType)
+                      .HasConversion<string>();
+
                 // Reported User
                 entity.HasOne(r => r.ReportedUser)
                       .WithMany(u => u.ReceivedReports)
