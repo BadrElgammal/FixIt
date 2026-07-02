@@ -1,24 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FixIt.Domain.Enum
+﻿namespace FixIt.Domain.Enum
 {
     public enum ReportStatus
     {
 
-        [Display(Name = "قيد الانتظار")]
-        Pending = 1,
+        // [Display(Name = "قيد الانتظار")]
+        Pending,
 
-        [Display(Name = "تحت المراجعة")]
-        UnderInvestigation = 2,
+        // [Display(Name = "تحت المراجعة")]
+        UnderInvestigation,
 
-        [Display(Name = " تم الحل")]
-        Resolved = 3,
+        //[Display(Name = " تم الحل")]
+        Resolved,
 
-        [Display(Name = "مرفوض (بلاغ كيدي/غير صحيح)")]
-        Dismissed = 4,
+        // [Display(Name = "مرفوض (بلاغ كيدي/غير صحيح)")]
+        Dismissed,
 
-        [Display(Name = "تم التصعيد")]
-        Escalated = 5       // محتاج تدخل قانوني
+        // [Display(Name = "تم التصعيد")]
+        Escalated
 
     }
 }

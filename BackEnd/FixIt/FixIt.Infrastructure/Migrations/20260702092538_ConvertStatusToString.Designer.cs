@@ -4,6 +4,7 @@ using FixIt.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(FIXITDbContext))]
-    partial class FIXITDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702092538_ConvertStatusToString")]
+    partial class ConvertStatusToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,9 +278,8 @@ namespace FixIt.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReportType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReportType")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("ReportedUserId")
                         .HasColumnType("uniqueidentifier");
